@@ -1,0 +1,36 @@
+---
+import ExperienceItem from "./ExperienceItem.astro";
+const EXPERIENCIE = [
+  {
+    date: "Actualmente...",
+    title: "Visual Merchandising",
+    company: "Addiction Tu Moda",
+    description:
+      "Me encargo del merchandising visual de las pantallas en modo mosaico en el escaparate de la tienda, así como del mantenimiento informático. En este trabajo combino el diseño gráfico con el desarrollo web.",
+  },
+  {
+    date: "Abril 2022 - Junio 2022",
+    title: "Técnico en impresión",
+    company: "Cdec Group",
+    description:
+      "A lo largo de estos 3 meses en prácticas estuve trabajando con diferentes máquinas de impresión, corte convencional y corte láser. También en diseño, realizando proyectos como campañas publicitarias para eventos a gran escala o tiendas de alto nivel.",
+  },
+  {
+    date: "Eventualmente (desde 2021)",
+    title: "Montaje y gestión de eventos",
+    company: "Solimusic Events S.L.",
+    description:
+      "Compaginando con mis estudios trabajo en eventos, normalmente en el montaje de festivales como ‘Costa Feira’, conciertos de múltiples artistas como “Guns N Roses” o “Carlos Rivera”, cabalgatas, el propio ‘O Marisquiño’... Otras veces ayudando en la realización y/o gestión del propio evento.",
+  },
+];
+---
+
+<ol class="relative mt-16">
+  {
+    EXPERIENCIE.map((experiencie) => (
+      <li class="">
+        <ExperienceItem {...experiencie} />
+      </li>
+    ))
+  }
+</ol>
