@@ -1,5 +1,5 @@
 ---
-import ExperienceItem from "./ExperienceItem.astro";
+import SkillsItem from "./SkillsItem.astro";
 const EXPERIENCIE = [
   {
     date: "Septiembre - Noviembre 2024",
@@ -27,9 +27,9 @@ const EXPERIENCIE = [
 
 <ol class="relative mt-16">
   {
-    EXPERIENCIE.map((experiencie) => (
+    EXPERIENCIE.map((skills) => (
       <li class="">
-        <ExperienceItem {...experiencie} />
+        <Skillsitem {...skills} />
       </li>
     ))
   }
