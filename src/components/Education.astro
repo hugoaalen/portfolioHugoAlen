@@ -1,0 +1,40 @@
+---
+import EducationItem from "./EducationItem.astro";
+const EDUCATION = [
+  {
+    date: "Febrero 2025 - Actualmente",
+    title: "Ingeniería Informática",
+    company: "Universitat Oberta de Catalunya"
+  },
+  {
+    date: "Febrero 2025 (50h)",
+    title: "Desarrollo de aplicaciones Tizen para Smart TV",
+    company: "Samsung Dev Spain"
+  },
+  {
+    date: "Enero 2025 (2h)",
+    title: "Inteligenica Artifical y productividad",
+    company: "Google"
+  },
+  {
+    date: "Septiembre 2023 - Diciembre 2024",
+    title: "CS Desarrollo de Aplicaciones Web",
+    company: "IES Pazo da Mercé"
+  },
+  {
+    date: "Septiembre 2021 - Junio 2023",
+    title: "CM Preimpresión Digital",
+    company: "Colegio Hogar Afundación"
+  }
+];
+---
+
+<ol class="relative mt-16">
+  {
+    EDUCATION.map((education) => (
+      <li class="">
+        <EducationItem {...education} />
+      </li> 
+    ))
+  }
+</ol>
