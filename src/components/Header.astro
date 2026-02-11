@@ -83,7 +83,7 @@ const navItems = navItems_ES;
     const sections = document.querySelectorAll("section");
     const navItems = document.querySelectorAll("header nav a.nav-link");
 
-    const callback = (entries: any[]) => {
+    const callback = (entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
           navItems.forEach((item) => {

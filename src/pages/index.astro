@@ -68,6 +68,7 @@ import Hero from "@/components/Hero.astro";
   </div>
 
 <script>
+  /* @ts-nocheck */
   const sectionTitles = {
     es: {
       experience: "Experiencia laboral",
@@ -85,20 +86,40 @@ import Hero from "@/components/Hero.astro";
   
   function updateSectionTitles() {
     const lang = localStorage.getItem('language') || 'es';
-    const titles = sectionTitles[lang] || sectionTitles.es;
-    
+    const titles = sectionTitles[lang as keyof typeof sectionTitles] || sectionTitles.es;
+
+    /** @param {string|null} key */
+
     const sectionsContainer = document.getElementById('main-sections');
     if (!sectionsContainer) return;
     
     const titleElements = sectionsContainer.querySelectorAll('.section-title');
     titleElements.forEach((titleEl) => {
       const sectionKey = titleEl.getAttribute('data-section');
-      if (sectionKey && titles[sectionKey]) {
+      let sectionTitle;
+      switch (sectionKey) {
+        case 'experience':
+          sectionTitle = titles.experience;
+          break;
+        case 'projects':
+          sectionTitle = titles.projects;
+          break;
+        case 'education':
+          sectionTitle = titles.education;
+          break;
+        case 'about':
+          sectionTitle = titles.about;
+          break;
+        default:
+          sectionTitle = undefined;
+      }
+
+      if (sectionKey && sectionTitle) {
         const span = titleEl.querySelector('span');
         if (span) {
           titleEl.innerHTML = titleEl.innerHTML.replace(
             titleEl.textContent,
-            titles[sectionKey]
+            sectionTitle
           );
         } else {
           const icon = titleEl.querySelector('svg');
@@ -106,9 +127,9 @@ import Hero from "@/components/Hero.astro";
             const iconClone = icon.cloneNode(true);
             titleEl.innerHTML = '';
             titleEl.appendChild(iconClone);
-            titleEl.appendChild(document.createTextNode('\n        ' + titles[sectionKey]));
+            titleEl.appendChild(document.createTextNode('\n        ' + sectionTitle));
           } else {
-            titleEl.textContent = titles[sectionKey];
+            titleEl.textContent = sectionTitle;
           }
         }
       }

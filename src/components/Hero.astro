@@ -88,7 +88,7 @@ const personalImageAlt = "Hugo Alén";
   
   function updateLanguage() {
     const lang = localStorage.getItem('language') || 'es';
-    const t = translations[lang] || translations.es;
+    const t = translations[lang as keyof typeof translations] || translations.es;
     
     // Actualizar badge
     const badge = document.getElementById('badge-available');

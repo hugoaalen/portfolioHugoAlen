@@ -41,7 +41,7 @@ const personalImageAlt = "Hugo Alén";
   
   function updateAboutLanguage() {
     const lang = localStorage.getItem('language') || 'es';
-    const t = translations[lang] || translations.es;
+    const t = translations[lang as keyof typeof translations] || translations.es;
     
     const p1 = document.getElementById('about-p1');
     if (p1) p1.innerHTML = t.p1;

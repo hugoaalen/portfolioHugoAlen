@@ -46,7 +46,7 @@ const currentYear = new Date().getFullYear();
   
   function updateFooterLanguage() {
     const lang = localStorage.getItem('language') || 'es';
-    const t = translations[lang] || translations.es;
+    const t = translations[lang as keyof typeof translations] || translations.es;
     
     const creditEl = document.getElementById('footer-credit');
     if (creditEl) creditEl.textContent = t.credit;
