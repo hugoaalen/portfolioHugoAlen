@@ -1,6 +1,7 @@
 ---
 import EducationItem from "./EducationItem.astro";
-const EDUCATION = [
+
+const EDUCATION_ES = [
   {
     date: "Febrero 2025 - Actualmente",
     title: "Ingeniería Informática",
@@ -13,7 +14,7 @@ const EDUCATION = [
   },
   {
     date: "Enero 2025 (2h)",
-    title: "Inteligenica Artifical y productividad",
+    title: "Inteligencia Artificial y productividad",
     company: "Google"
   },
   {
@@ -27,9 +28,39 @@ const EDUCATION = [
     company: "Colegio Hogar Afundación"
   }
 ];
+
+const EDUCATION_EN = [
+  {
+    date: "February 2025 - Currently",
+    title: "Computer Engineering",
+    company: "Universitat Oberta de Catalunya"
+  },
+  {
+    date: "February 2025 (50h)",
+    title: "Development of Tizen applications for Smart TV",
+    company: "Samsung Dev Spain"
+  },
+  {
+    date: "January 2025 (2h)",
+    title: "Artificial Intelligence and productivity",
+    company: "Google"
+  },
+  {
+    date: "September 2023 - December 2024",
+    title: "Higher Technician in Web Application Development",
+    company: "IES Pazo da Mercé"
+  },
+  {
+    date: "September 2021 - June 2023",
+    title: "Technician in Digital Prepress",
+    company: "Colegio Hogar Afundación"
+  }
+];
+
+const EDUCATION = EDUCATION_ES;
 ---
 
-<ol class="relative mt-16">
+<ol class="relative mt-16" id="education-container">
   {
     EDUCATION.map((education) => (
       <li class="">
@@ -38,3 +69,34 @@ const EDUCATION = [
     ))
   }
 </ol>
+
+<script define:vars={{ EDUCATION_ES: JSON.stringify(EDUCATION_ES), EDUCATION_EN: JSON.stringify(EDUCATION_EN) }}>
+  function updateEducationLanguage() {
+    const lang = localStorage.getItem('language') || 'es';
+    const educations = lang === 'en' ? JSON.parse(EDUCATION_EN) : JSON.parse(EDUCATION_ES);
+    const container = document.getElementById('education-container');
+    
+    if (!container) return;
+    
+    const items = container.querySelectorAll('li');
+    items.forEach((item, index) => {
+      const edu = educations[index];
+      if (!edu) return;
+      
+      // Actualizar date
+      const dateEl = item.querySelector('time');
+      if (dateEl) dateEl.textContent = edu.date;
+      
+      // Actualizar title
+      const titleEl = item.querySelector('h3');
+      if (titleEl) titleEl.textContent = edu.title;
+      
+      // Actualizar company
+      const companyEl = item.querySelector('h4');
+      if (companyEl) companyEl.textContent = edu.company;
+    });
+  }
+  
+  updateEducationLanguage();
+  window.addEventListener('languageChanged', updateEducationLanguage);
+</script>

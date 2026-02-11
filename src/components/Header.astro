@@ -1,7 +1,8 @@
 ---
 import ThemeToggle from "./ThemeToggle.astro";
+import LanguageToggle from "./LanguageToggle.astro";
 
-const navItems = [
+const navItems_ES = [
   {
     title: "Experiencia",
     label: "experiencia",
@@ -23,10 +24,36 @@ const navItems = [
     url: "/#sobre-mi",
   },
 ];
+
+const navItems_EN = [
+  {
+    title: "Experience",
+    label: "experiencia",
+    url: "/#experiencia",
+  },
+  {
+    title: "Projects",
+    label: "proyectos",
+    url: "/#proyectos",
+  },
+  {
+    title: "Education",
+    label: "formacion",
+    url: "/#formacion",
+  },
+  {
+    title: "About",
+    label: "sobre-mi",
+    url: "/#sobre-mi",
+  },
+];
+
+const navItems = navItems_ES;
 ---
 
 <header
   class="fixed top-0 z-10 flex items-center justify-center w-full mx-auto mt-2"
+  id="header-container"
 >
   <nav
     class="flex px-3 text-sm font-medium rounded-full text-gray-600 dark:text-gray-200 justify-center items-center"
@@ -34,22 +61,27 @@ const navItems = [
     {
       navItems.map((link) => (
         <a
-          class="relative block px-2 py-2 transition hover:text-yellow-500 dark:hover:text-yellow-400"
+          class="relative block px-2 py-2 transition hover:text-yellow-500 dark:hover:text-yellow-400 nav-link"
           aria-label={link.label}
           href={link.url}
+          data-label={link.label}
         >
           {link.title}
         </a>
       ))
     }
     <ThemeToggle />
+    <LanguageToggle />
   </nav>
 </header>
 
-<script>
+<script is:inline define:vars={{ navItems_ES, navItems_EN }}>
+  // El Header es actualizado directamente por LanguageToggle
+  // Este script solo maneja el IntersectionObserver para el highlight
+  
   document.addEventListener("astro:page-load", () => {
     const sections = document.querySelectorAll("section");
-    const navItems = document.querySelectorAll("header nav a");
+    const navItems = document.querySelectorAll("header nav a.nav-link");
 
     const callback = (entries: any[]) => {
       entries.forEach((entry) => {

@@ -1,0 +1,66 @@
+---
+---
+
+<button
+  id="language-toggle"
+  class="relative inline-flex items-center justify-center w-10 h-10 text-gray-600 rounded-full dark:text-gray-200 hover:text-yellow-500 dark:hover:text-yellow-400 transition-colors"
+  aria-label="Change language"
+>
+  <span class="text-lg font-semibold">ES</span>
+</button>
+
+<script is:inline>
+  const toggle = document.getElementById("language-toggle");
+  
+  function updateLanguageButton() {
+    const currentLang = localStorage.getItem('language') || 'es';
+    if (toggle) toggle.textContent = currentLang.toUpperCase();
+  }
+
+  function updateHeaderDirectly() {
+    const lang = localStorage.getItem('language') || 'es';
+    const navLinks = document.querySelectorAll('header nav a.nav-link');
+    
+    const translations = {
+      es: [
+        { title: "Experiencia" },
+        { title: "Proyectos" },
+        { title: "Formación" },
+        { title: "Sobre mí" }
+      ],
+      en: [
+        { title: "Experience" },
+        { title: "Projects" },
+        { title: "Education" },
+        { title: "About" }
+      ]
+    };
+
+    const navItems = translations[lang];
+    navLinks.forEach((link, index) => {
+      if (navItems[index]) {
+        link.textContent = navItems[index].title;
+      }
+    });
+  }
+  
+  toggle?.addEventListener("click", () => {
+    const currentLang = localStorage.getItem('language') || 'es';
+    const nextLang = currentLang === 'es' ? 'en' : 'es';
+    localStorage.setItem('language', nextLang);
+    console.log('Nuevo idioma:', nextLang);
+    
+    // Actualizar header directamente
+    updateHeaderDirectly();
+    
+    // Emitir evento para otros componentes
+    window.dispatchEvent(new Event('languageChanged'));
+    
+    // Actualizar el botón
+    updateLanguageButton();
+  });
+  
+  updateLanguageButton();
+</script>
+
+

@@ -4,27 +4,60 @@ const currentYear = new Date().getFullYear();
 
 <footer
   class="opacity-80 m-4 min-[375px]:pl-4 md:pl-0 mt-16 w-full mx-auto container lg:max-w-4xl md:max-w-2xl mb-10 flex justify-center"
+  id="footer-container"
 >
   <div
     class="rounded-lg w-full max-w-screen-xl mx-auto md:flex md:items-center md:justify-between py-4"
   >
     <span class="text-sm sm:text-center text-zinc-800/90 dark:text-zinc-200/90"
       >© {currentYear}
-      <a href="" class="hover:underline">Hugo Alén</a>.&nbsp;Inspirado por <a href="https://midu.dev" target="_blank" class="hover:underline text-yellow-500">midudev</a>.
+      <a href="" class="hover:underline">Hugo Alén</a>.&nbsp;<span id="footer-credit">Inspirado por</span> <a href="https://midu.dev" target="_blank" class="hover:underline text-yellow-500">midudev</a>.
     </span>
     <ul
       class="flex flex-wrap items-center mt-3 text-sm font-medium dark:text-white/90 sm:mt-0"
     >
       <li>
         <a
-          id="contacto"
+          id="footer-contact"
           href="mailto:hugoaalen@gmail.com"
           class="hover:underline me-4 md:me-6">Contacto</a
         >
       </li>
       <li>
-        <a href="/#hero" class="hover:underline">Volver arriba &uarr;</a>
+        <a href="/#hero" class="hover:underline" id="footer-top">Volver arriba &uarr;</a>
       </li>
     </ul>
   </div>
 </footer>
+
+<script>
+  const translations = {
+    es: {
+      credit: "Inspirado por",
+      contact: "Contacto",
+      top: "Volver arriba &uarr;"
+    },
+    en: {
+      credit: "Inspired by",
+      contact: "Contact",
+      top: "Back to top &uarr;"
+    }
+  };
+  
+  function updateFooterLanguage() {
+    const lang = localStorage.getItem('language') || 'es';
+    const t = translations[lang] || translations.es;
+    
+    const creditEl = document.getElementById('footer-credit');
+    if (creditEl) creditEl.textContent = t.credit;
+    
+    const contactEl = document.getElementById('footer-contact');
+    if (contactEl) contactEl.textContent = t.contact;
+    
+    const topEl = document.getElementById('footer-top');
+    if (topEl) topEl.innerHTML = t.top;
+  }
+  
+  updateFooterLanguage();
+  window.addEventListener('languageChanged', updateFooterLanguage);
+</script>

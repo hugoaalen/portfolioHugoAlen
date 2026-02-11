@@ -4,22 +4,55 @@ const personalImageAlt = "Hugo Alén";
 
 <article
   class="flex flex-col items-center justify-center gap-8 text-gray-700 dark:text-gray-300 md:flex-row"
+  id="about-container"
 >
   <div
     class="[&>p]:mb-4 [&>p>strong]:text-yellow-500 dark:[&>p>strong]:text-yellow-100 [&>p>strong]:font-normal [&>p>strong]:font-mono text-pretty order-2 md:order-1"
   >
-  <p>
+  <p id="about-p1">
     Me llamo <em class="font-bold not-italic">Hugo Alén</em>, soy un desarrollador web y técnico en soporte de sistemas y redes nacido en Vigo. <br>
     Trabajo dando soporte técnico, administrando redes e infraestructura tecnológica. Esta experiencia me ha permitido fortalecer mi perfil técnico y ampliar mi visión de cómo la tecnología puede mejorar procesos en distintos entornos. <br>
     Mi enfoque combina habilidades técnicas sólidas con un ojo creativo gracias a mi formación en diseño gráfico, lo que me permite crear soluciones web que no solo funcionan de manera eficiente, sino que también son visualmente atractivas.
   </p>
-  <p>
+  <p id="about-p2">
     Actualmente curso <em class="text-yellow-100 not-italic">Ingeniería Informática</em>, lo que complementa mi experiencia laboral con una base sólida en desarrollo de software, estructuras de datos, redes y sistemas operativos. <br>
   </p>
-  <p>
+  <p id="about-p3">
     <em class="text-yellow-100 not-italic">En el ámbito personal</em>, disfruto practicar deportes, especialmente el fútbol, pasar tiempo con mis amigos y explorar las últimas novedades en tecnología. <br>
     Si buscas un desarrollador y técnico comprometido, apasionado y con ganas de aportar valor, ¡me encantaría colaborar contigo!
   </p>
   
   </div>
 </article>
+
+<script>
+  const translations = {
+    es: {
+      p1: "Me llamo Hugo Alén, soy un desarrollador web y técnico en soporte de sistemas y redes nacido en Vigo. <br>Trabajo dando soporte técnico, administrando redes e infraestructura tecnológica. Esta experiencia me ha permitido fortalecer mi perfil técnico y ampliar mi visión de cómo la tecnología puede mejorar procesos en distintos entornos. <br>Mi enfoque combina habilidades técnicas sólidas con un ojo creativo gracias a mi formación en diseño gráfico, lo que me permite crear soluciones web que no solo funcionan de manera eficiente, sino que también son visualmente atractivas.",
+      p2: "Actualmente curso <em class=\"text-yellow-100 not-italic\">Ingeniería Informática</em>, lo que complementa mi experiencia laboral con una base sólida en desarrollo de software, estructuras de datos, redes y sistemas operativos. <br>",
+      p3: "<em class=\"text-yellow-100 not-italic\">En el ámbito personal</em>, disfruto practicar deportes, especialmente el fútbol, pasar tiempo con mis amigos y explorar las últimas novedades en tecnología. <br>Si buscas un desarrollador y técnico comprometido, apasionado y con ganas de aportar valor, ¡me encantaría colaborar contigo!"
+    },
+    en: {
+      p1: "My name is Hugo Alén, I'm a web developer and support technician for systems and networks born in Vigo. <br>I work providing technical support, managing networks and technological infrastructure. This experience has allowed me to strengthen my technical profile and broaden my vision of how technology can improve processes in different environments. <br>My approach combines solid technical skills with a creative eye thanks to my background in graphic design, which allows me to create web solutions that not only work efficiently, but are also visually appealing.",
+      p2: "I am currently studying <em class=\"text-yellow-100 not-italic\">Computer Engineering</em>, which complements my work experience with a solid foundation in software development, data structures, networks and operating systems. <br>",
+      p3: "<em class=\"text-yellow-100 not-italic\">On a personal level</em>, I enjoy practicing sports, especially football, spending time with my friends and exploring the latest developments in technology. <br>If you're looking for a committed, passionate developer and technician who wants to add value, I'd love to collaborate with you!"
+    }
+  };
+  
+  function updateAboutLanguage() {
+    const lang = localStorage.getItem('language') || 'es';
+    const t = translations[lang] || translations.es;
+    
+    const p1 = document.getElementById('about-p1');
+    if (p1) p1.innerHTML = t.p1;
+    
+    const p2 = document.getElementById('about-p2');
+    if (p2) p2.innerHTML = t.p2;
+    
+    const p3 = document.getElementById('about-p3');
+    if (p3) p3.innerHTML = t.p3;
+  }
+  
+  updateAboutLanguage();
+  window.addEventListener('languageChanged', updateAboutLanguage);
+</script>

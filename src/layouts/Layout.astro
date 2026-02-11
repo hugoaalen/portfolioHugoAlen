@@ -17,11 +17,11 @@ const { description, title } = Astro.props;
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
-    <meta name="description" content={description} />
+    <meta name="description" content={description} id="meta-description" />
     <meta name="viewport" content="width=device-width" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
-    <title>{title}</title>
+    <title id="page-title">{title}</title>
     <ViewTransitions />
   </head>
 
@@ -111,5 +111,32 @@ const { description, title } = Astro.props;
         }
       }
     </style>
+    
+    <script>
+      const metaTitles = {
+        es: "Hugo Alén | Desarrollador web y diseñador gráfico",
+        en: "Hugo Alén | Web Developer and Graphic Designer"
+      };
+      
+      const metaDescriptions = {
+        es: "Contrata a Hugo para crear tu aplicación web o móvil. Desarrollador Web y Diseñador Gráfico. Especializado en llevar a cabo proyectos únicos.",
+        en: "Hire Hugo to create your web or mobile application. Web Developer and Graphic Designer. Specialized in carrying out unique projects."
+      };
+      
+      function updateMetaTags() {
+        const lang = localStorage.getItem('language') || 'es';
+        
+        // Actualizar title
+        const titleEl = document.getElementById('page-title');
+        if (titleEl) titleEl.textContent = metaTitles[lang] || metaTitles.es;
+        
+        // Actualizar description
+        const descriptionEl = document.getElementById('meta-description');
+        if (descriptionEl) descriptionEl.setAttribute('content', metaDescriptions[lang] || metaDescriptions.es);
+      }
+      
+      updateMetaTags();
+      window.addEventListener('languageChanged', updateMetaTags);
+    </script>
   </body>
 </html>

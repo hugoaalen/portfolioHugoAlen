@@ -1,7 +1,8 @@
 ---
 import ExperienceItem from "./ExperienceItem.astro";
-const EXPERIENCIE = [
-{
+
+const EXPERIENCE_ES = [
+  {
     date: "Actualmente",
     title: "Soporte de Sistemas y Redes",
     company: "Grupo Marsan",
@@ -20,7 +21,7 @@ const EXPERIENCIE = [
     title: "Visual Merchandising",
     company: "Addiction Tu Moda",
     description:
-      "Encargado del merchandising visual de las pantallas en modo mosaico en el escaparate de la tienda, así como del mantenimiento informático.En este trabajo combino el diseño gráfico con el desarrollo web.",
+      "Encargado del merchandising visual de las pantallas en modo mosaico en el escaparate de la tienda, así como del mantenimiento informático. En este trabajo combino el diseño gráfico con el desarrollo web.",
   },
   {
     date: "Abril - Junio 2022",
@@ -30,9 +31,42 @@ const EXPERIENCIE = [
       "A lo largo de estos 3 meses en prácticas estuve trabajando con diferentes máquinas de impresión, corte convencional y corte láser. También en diseño, realizando proyectos como campañas publicitarias para eventos a gran escala o tiendas de alto nivel. Tuve la opción de quedarme en la empresa pero quería seguir formándome.",
   }
 ];
+
+const EXPERIENCE_EN = [
+  {
+    date: "Currently",
+    title: "Systems and Networks Support",
+    company: "Grupo Marsan",
+    description:
+      "I handle systems and networks support, as well as the administration and maintenance of technological infrastructure. I have led and participated in projects focused on the internal organization of technological assets, implementation of innovative solutions and optimization of IT processes, contributing to greater operational efficiency and cost reduction. My approach combines daily technical support with a strategic vision of continuous improvement and technological modernization."
+  },
+  {
+    date: "September - November 2024",
+    title: "Web Developer",
+    company: "Siscom Software Factory",
+    description:
+      "During my internship at Siscom, I developed custom software for clients using C# with .NET Framework and .NET Core MVC for the backend. On the frontend, I worked with HTML, CSS, JavaScript and Bootstrap. Integrating NuGets such as Entity Framework or EPPlus. I used tools such as Visual Studio for development, Microsoft SQL Server Management Studio and MySQL Workbench for database administration, and Beyond Compare for version control."
+  },
+  {
+    date: "January 2023 - December 2024",
+    title: "Visual Merchandising",
+    company: "Addiction Tu Moda",
+    description:
+      "Responsible for visual merchandising of displays in mosaic mode in the store window, as well as computer maintenance. In this job I combine graphic design with web development.",
+  },
+  {
+    date: "April - June 2022",
+    title: "Printing Technician",
+    company: "Cdec Group",
+    description:
+      "During these 3 months of internship I worked with different printing machines, conventional cutting and laser cutting. Also in design, carrying out projects such as advertising campaigns for large-scale events or high-end stores. I had the option to stay in the company but wanted to continue training.",
+  }
+];
+
+const EXPERIENCIE = EXPERIENCE_ES;
 ---
 
-<ol class="relative mt-16">
+<ol class="relative mt-16" id="experience-container">
   {
     EXPERIENCIE.map((experiencie) => (
       <li class="">
@@ -41,3 +75,46 @@ const EXPERIENCIE = [
     ))
   }
 </ol>
+
+<script define:vars={{ EXPERIENCE_ES: JSON.stringify(EXPERIENCE_ES), EXPERIENCE_EN: JSON.stringify(EXPERIENCE_EN) }}>
+  function updateExperienceLanguage() {
+    const lang = localStorage.getItem('language') || 'es';
+    const experiences = lang === 'en' ? JSON.parse(EXPERIENCE_EN) : JSON.parse(EXPERIENCE_ES);
+    const container = document.getElementById('experience-container');
+    
+    if (!container) return;
+    
+    const items = container.querySelectorAll('li');
+    items.forEach((item, index) => {
+      const exp = experiences[index];
+      if (!exp) return;
+      
+      // Actualizar date (time elemento)
+      const timeEl = item.querySelector('time');
+      if (timeEl) timeEl.textContent = exp.date;
+      
+      // Actualizar title (h3)
+      const titleEl = item.querySelector('h3');
+      if (titleEl) titleEl.textContent = exp.title;
+      
+      // Actualizar company (h4)
+      const companyEl = item.querySelector('h4');
+      if (companyEl) companyEl.textContent = exp.company;
+      
+      // Actualizar description (div que contiene el texto)
+      const descDiv = item.querySelector('.relative.flex.flex-col.gap-2');
+      if (descDiv) {
+        // Limpiar el contenido pero mantener los hijos (como LinkInline si existe)
+        const linkChild = descDiv.querySelector('a[href*="saber"], a[href*="read"]');
+        descDiv.innerHTML = exp.description;
+        // Si había un link, mantenerlo
+        if (linkChild) {
+          descDiv.appendChild(linkChild.cloneNode(true));
+        }
+      }
+    });
+  }
+  
+  updateExperienceLanguage();
+  window.addEventListener('languageChanged', updateExperienceLanguage);
+</script>

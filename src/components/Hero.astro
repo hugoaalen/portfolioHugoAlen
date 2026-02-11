@@ -1,18 +1,19 @@
 ---
-const personalImageAlt = "Hugo Alén";
 import Badge from "@/components/Badge.astro";
 import LinkedInIcon from "@/components/icons/LinkedIn.astro";
 import DownloadIcon from "@/components/icons/Download.astro";
 import MailIcon from "@/components/icons/Mail.astro";
 import GitHub from "@/components/icons/GitHub.astro";
 import SocialPill from "@/components/SocialPill.astro";
+
+const personalImageAlt = "Hugo Alén";
 ---
 
-<div class="max-w-5xl">
+<div class="max-w-5xl" id="hero-content">
   <div class="flex gap-4 mb-4">
     <img
       class="rounded-full shadow-lg size-16"
-      src="/alacdev.webp"
+      src="/yo.jpg"
       alt={personalImageAlt}
     />
     <a
@@ -21,34 +22,36 @@ import SocialPill from "@/components/SocialPill.astro";
       rel="noopener"
       class="flex items-center transition md:justify-center md:hover:scale-105"
     >
-      <Badge>Disponible para trabajar</Badge>
+      <Badge><span id="badge-available">Disponible para trabajar</span></Badge>
     </a>
   </div>
   <h1
     class="text-4xl font-bold tracking-tight text-gray-800 sm:text-5xl dark:text-white"
+    id="hero-title"
   >
     Hola, soy Hugo Alén
   </h1>
   <p
     class="mt-6 text-xl text-gray-800 dark:[&>strong]:text-yellow-200 [&>strong]:text-yellow-500 [&>strong]:font-semibold dark:text-gray-300"
+    id="hero-desc1"
   >
   Soy un <strong>desarrollador web y técnico de sistemas</strong> en constante evolución.
-
   </p>
   <p
     class="mt-2 text-xl text-gray-800 dark:[&>strong]:text-yellow-200 [&>strong]:text-yellow-500 [&>strong]:font-semibold dark:text-gray-300"
+    id="hero-desc2"
   >
   Actualmente trabajo en <em class="italic">Grupo Marsan</em>, dentro del área de <strong>Organización y Sistemas</strong>, donde colaboro en la mejora y gestión de procesos tecnológicos. <br>
-  Compagino este trabajo con mis proyectos personales y mis estudios de grado en <strong>Ingeniería Informática</strong> en la <em class="italic">Universitat Oberta de Catalunya </em> .
+  Compagino este trabajo con mis proyectos personales y mis estudios de grado en <strong>Ingeniería Informática</strong> en la <em class="italic">Universitat Oberta de Catalunya</em>.
   </p>
   <nav class="flex flex-wrap gap-4 mt-8">
     <SocialPill href="/CV-Hugo-Alen.pdf" download="CV-Hugo-Alen.pdf">
       <DownloadIcon class="size-4" />
-      Descargar CV
+      <span id="btn-cv">Descargar CV</span>
     </SocialPill>
     <SocialPill href="mailto:hugoaalen@gmail.com">
       <MailIcon class="size-4" />
-      Contáctame
+      <span id="btn-contact">Contáctame</span>
     </SocialPill>
     <SocialPill
       href="https://www.linkedin.com/in/hugo-al%C3%A9n-acu%C3%B1a-aaa7772a3/"
@@ -62,3 +65,55 @@ import SocialPill from "@/components/SocialPill.astro";
     </SocialPill>
   </nav>
 </div>
+
+<script>
+  const translations = {
+    es: {
+      badge: "Disponible para trabajar",
+      title: "Hola, soy Hugo Alén",
+      desc1: "Soy un <strong>desarrollador web y técnico de sistemas</strong> en constante evolución.",
+      desc2: "Actualmente trabajo en <em class=\"italic\">Grupo Marsan</em>, dentro del área de <strong>Organización y Sistemas</strong>, donde colaboro en la mejora y gestión de procesos tecnológicos. <br>\n  Compagino este trabajo con mis proyectos personales y mis estudios de grado en <strong>Ingeniería Informática</strong> en la <em class=\"italic\">Universitat Oberta de Catalunya</em>.",
+      cv: "Descargar CV",
+      contact: "Contáctame"
+    },
+    en: {
+      badge: "Available to work",
+      title: "Hi, I'm Hugo Alén",
+      desc1: "I'm a <strong>web developer and systems technician</strong> in constant evolution.",
+      desc2: "I currently work at <em class=\"italic\">Grupo Marsan</em>, within the <strong>Organization and Systems</strong> area, where I collaborate on the improvement and management of technological processes. <br>\n  I combine this work with my personal projects and my <strong>Computer Engineering</strong> degree at <em class=\"italic\">Universitat Oberta de Catalunya</em>.",
+      cv: "Download CV",
+      contact: "Contact me"
+    }
+  };
+  
+  function updateLanguage() {
+    const lang = localStorage.getItem('language') || 'es';
+    const t = translations[lang] || translations.es;
+    
+    // Actualizar badge
+    const badge = document.getElementById('badge-available');
+    if (badge) badge.textContent = t.badge;
+    
+    // Actualizar título
+    const title = document.getElementById('hero-title');
+    if (title) title.textContent = t.title;
+    
+    // Actualizar descripción 1
+    const desc1 = document.getElementById('hero-desc1');
+    if (desc1) desc1.innerHTML = t.desc1;
+    
+    // Actualizar descripción 2
+    const desc2 = document.getElementById('hero-desc2');
+    if (desc2) desc2.innerHTML = t.desc2;
+    
+    // Actualizar botones
+    const btnCv = document.getElementById('btn-cv');
+    if (btnCv) btnCv.textContent = t.cv;
+    
+    const btnContact = document.getElementById('btn-contact');
+    if (btnContact) btnContact.textContent = t.contact;
+  }
+  
+  updateLanguage();
+  window.addEventListener('languageChanged', updateLanguage);
+</script>
