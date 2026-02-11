@@ -76,10 +76,13 @@ const EXPERIENCIE = EXPERIENCE_ES;
   }
 </ol>
 
-<script define:vars={{ EXPERIENCE_ES: JSON.stringify(EXPERIENCE_ES), EXPERIENCE_EN: JSON.stringify(EXPERIENCE_EN) }}>
+<script define:vars={{ EXPERIENCE_ES, EXPERIENCE_EN }}>
   function updateExperienceLanguage() {
     const lang = localStorage.getItem('language') || 'es';
-    const experiences = lang === 'en' ? JSON.parse(EXPERIENCE_EN) : JSON.parse(EXPERIENCE_ES);
+    
+    // @ts-ignore
+    const experiences = lang === 'en' ? EXPERIENCE_EN : EXPERIENCE_ES;
+    
     const container = document.getElementById('experience-container');
     
     if (!container) return;

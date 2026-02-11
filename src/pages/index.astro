@@ -118,7 +118,7 @@ import Hero from "@/components/Hero.astro";
         const span = titleEl.querySelector('span');
         if (span) {
           titleEl.innerHTML = titleEl.innerHTML.replace(
-            titleEl.textContent,
+            titleEl.textContent ?? "",
             sectionTitle
           );
         } else {

@@ -144,10 +144,13 @@ const PROJECTS = PROJECTS_ES;
   }
 </div>
 
-<script define:vars={{ PROJECTS_ES: JSON.stringify(PROJECTS_ES), PROJECTS_EN: JSON.stringify(PROJECTS_EN) }}>
+<script define:vars={{ PROJECTS_ES, PROJECTS_EN }}>
   function updateProjectsLanguage() {
     const lang = localStorage.getItem('language') || 'es';
-    const projects = lang === 'en' ? JSON.parse(PROJECTS_EN) : JSON.parse(PROJECTS_ES);
+    
+    // @ts-ignore
+    const projects = lang === 'en' ? PROJECTS_EN : PROJECTS_ES;
+    
     const container = document.getElementById('projects-container');
     
     if (!container) return;

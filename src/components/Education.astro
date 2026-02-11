@@ -70,10 +70,13 @@ const EDUCATION = EDUCATION_ES;
   }
 </ol>
 
-<script define:vars={{ EDUCATION_ES: JSON.stringify(EDUCATION_ES), EDUCATION_EN: JSON.stringify(EDUCATION_EN) }}>
+<script define:vars={{ EDUCATION_ES, EDUCATION_EN }}>
   function updateEducationLanguage() {
     const lang = localStorage.getItem('language') || 'es';
-    const educations = lang === 'en' ? JSON.parse(EDUCATION_EN) : JSON.parse(EDUCATION_ES);
+    
+    // @ts-ignore
+    const educations = lang === 'en' ? EDUCATION_EN : EDUCATION_ES;
+    
     const container = document.getElementById('education-container');
     
     if (!container) return;
