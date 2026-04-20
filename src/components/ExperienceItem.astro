@@ -1,12 +1,18 @@
 ---
 import LinkInline from "./LinkInline.astro";
 
+// 1. Actualizamos la interfaz para que TypeScript sepa que ahora recibimos objetos con idiomas
+interface I18nText {
+  es: string;
+  en: string;
+}
+
 interface Props {
-  title: string;
+  title: I18nText;
   company: string;
-  description: string;
+  description: I18nText;
   link?: string;
-  date: string;
+  date: I18nText;
 }
 
 const { title, company, description, link, date } = Astro.props;
@@ -21,23 +27,43 @@ const { title, company, description, link, date } = Astro.props;
         >&bull;</span
       >
 
-      <h3 class="text-xl font-bold text-yellow-400">{title}</h3>
+      <h3 
+        class="text-xl font-bold text-yellow-400 i18n"
+        data-es={title.es}
+        data-en={title.en}
+      >
+        {title.es}
+      </h3>
+      
       <h4 class="font-semibold text-xl text-gray-600 dark:text-white">
         {company}
       </h4>
-      <time class="p-0 m-0 text-sm text-gray-600/80 dark:text-white/80"
-        >{date}</time
+      
+      <time 
+        class="p-0 m-0 text-sm text-gray-600/80 dark:text-white/80 i18n"
+        data-es={date.es}
+        data-en={date.en}
       >
+        {date.es}
+      </time>
     </div>
   </div>
+  
   <div
     class="relative flex flex-col gap-2 pb-4 text-gray-600 dark:text-gray-300 md:col-span-3"
   >
-    {description}
+    <div 
+      class="text-pretty i18n"
+      data-es={description.es}
+      data-en={description.en}
+    >
+      {description.es}
+    </div>
+    
     {
       link && (
         <LinkInline href={link}>
-          Saber más{" "}
+          <span class="i18n" data-es="Saber más" data-en="Learn more">Saber más</span>{" "}
           <svg
             xmlns="http://www.w3.org/2000/svg"
             class="w-5 icon icon-tabler icon-tabler-chevron-right"

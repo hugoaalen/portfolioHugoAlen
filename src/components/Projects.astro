@@ -8,83 +8,50 @@ import VanillaJS from "./icons/VanillaJS.astro";
 import Bootstrap from "./icons/Bootstrap.astro";
 import Link from "./icons/Link.astro";
 import LinkButton from "./LinkButton.astro";
+import React from "./icons/React.astro";
+import Supabase from "./icons/Supabase.astro";
 
 const TAGS = {
-  NEXT: {
-    name: "Next.js",
-    class: "bg-black text-white",
-    icon: NextJS,
-  },
-  TAILWIND: {
-    name: "Tailwind CSS",
-    class: "bg-[#003159] text-white",
-    icon: Tailwind,
-  },
-  HTML: {
-    name: "HTML",
-    class: "bg-[#E34F2680] text-white",
-    icon: HTML,
-  },
-  CSS: {
-    name: "CSS",
-    class: "bg-[#264DE480] text-white",
-    icon: CSS,
-  },
-  VANILLAJS: {
-    name: "VanillaJS",
-    class: "bg-[#F7DF1E80] text-white",
-    icon: VanillaJS,
-  },
-  BOOTSTRAP: {
-    name: "Bootstrap",
-    class: "bg-[#7952B380] text-white",
-    icon: Bootstrap,
-  },
+  NEXT: { name: "Next.js", class: "bg-black text-white", icon: NextJS },
+  TAILWIND: { name: "Tailwind CSS", class: "bg-[#003159] text-white", icon: Tailwind },
+  HTML: { name: "HTML", class: "bg-[#E34F2680] text-white", icon: HTML },
+  CSS: { name: "CSS", class: "bg-[#264DE480] text-white", icon: CSS },
+  VANILLAJS: { name: "VanillaJS", class: "bg-[#F7DF1E80] text-white", icon: VanillaJS },
+  BOOTSTRAP: { name: "Bootstrap", class: "bg-[#7952B380] text-white", icon: Bootstrap },
+  REACT: { name: "React", class: "bg-[#003159] text-white", icon: React },
+  SUPABASE: { name: "Supabase", class: "bg-[#1C3F2E] text-white", icon: Supabase },
 };
 
-const PROJECTS_ES = [
+// Centralizamos los proyectos: un solo lugar para URLs e imágenes
+const PROJECTS = [
   {
-    title: "BPKeepers - Mentoría y entrenamientos de porteros",
-    description:
-      "Web de la escuela de porteros de Brais Pereiro, BPKeepers. Entrenamientos para porteros de todas las edades y niveles.",
-    link: "https://bpkeepers.com",
-    github: "https://github.com/alacdev/bpkeepers",
+    title: {
+      es: "ZaiZen - Control de gastos y finanzas personales",
+      en: "ZaiZen - Expense Tracking and Personal Finance Management"
+    },
+    description: {
+      es: "Aplicación web para el control de gastos y finanzas personales. Permite a los usuarios registrar sus ingresos y gastos, categorizar sus transacciones y visualizar gráficos de su situación financiera.",
+      en: "Web application for expense tracking and personal finance management. It allows users to record their income and expenses, categorize their transactions, and visualize charts of their financial situation."
+    },
+    link: "https://zaizen.vercel.app",
+    github: "https://github.com/hugoaalen/zaizen",
+    image: "/projects/zaizen.png",
+    tags: [TAGS.REACT, TAGS.SUPABASE],
+  },
+  {
+    title: {
+      es: "BPKeepers - Entrenamientos y mentoría para porteros",
+      en: "BPKeepers - Coaching and goalkeeper training"
+    },
+    description: {
+      es: "Sitio web de la escuela de porteros de Brais Pereiro, BPKeepers. Entrenamientos para porteros de todas las edades y niveles.",
+      en: "Website of Brais Pereiro's goalkeeper school, BPKeepers. Training for goalkeepers of all ages and levels."
+    },
+    github: "https://github.com/hugoaalen/bpkeepers",
     image: "/projects/bpkeepers.webp",
     tags: [TAGS.HTML, TAGS.CSS],
-  },
-  {
-    title: "TothallyLearning - Cursos en línea y presenciales",
-    description:
-      "Plataforma de cursos de todo tipo, con cursos presenciales y online. Cursos de tecnología, acondicionamiento físico, nutrición, diseño... y mucho más",
-    link: "",
-    github: "",
-    image: "/projects/tothallylearning.webp",
-    tags: [TAGS.HTML, TAGS.CSS, TAGS.VANILLAJS, TAGS.BOOTSTRAP],
-  },
+  }
 ];
-
-const PROJECTS_EN = [
-  {
-    title: "BPKeepers - Coaching and goalkeeper training",
-    description:
-      "Website of Brais Pereiro's goalkeeper school, BPKeepers. Training for goalkeepers of all ages and levels.",
-    link: "https://bpkeepers.com",
-    github: "https://github.com/alacdev/bpkeepers",
-    image: "/projects/bpkeepers.webp",
-    tags: [TAGS.HTML, TAGS.CSS],
-  },
-  {
-    title: "TothallyLearning - Online and in-person courses",
-    description:
-      "Courses platform of all kinds, with in-person and online courses. Technology, fitness, nutrition, design courses... and much more",
-    link: "",
-    github: "",
-    image: "/projects/tothallylearning.webp",
-    tags: [TAGS.HTML, TAGS.CSS, TAGS.VANILLAJS, TAGS.BOOTSTRAP],
-  },
-];
-
-const PROJECTS = PROJECTS_ES;
 ---
 
 <div class="flex flex-col gap-y-16" id="projects-container">
@@ -94,7 +61,7 @@ const PROJECTS = PROJECTS_ES;
         <div class="w-full md:w-1/2">
           <div class="relative flex flex-col items-center col-span-6 row-span-5 gap-8 transition duration-500 ease-in-out transform shadow-xl overflow-clip rounded-xl sm:rounded-xl md:group-hover:-translate-y-1 md:group-hover:shadow-2xl lg:border lg:border-gray-800 lg:hover:border-gray-700 lg:hover:bg-gray-800/50">
             <img
-              alt="Imagen no disponible"
+              alt={`Thumbnail de ${title.es}`}
               class="object-cover object-top w-full h-56 transition duration-500 sm:h-full md:scale-110 md:group-hover:scale-105"
               loading="lazy"
               src={image}
@@ -103,16 +70,19 @@ const PROJECTS = PROJECTS_ES;
         </div>
 
         <div class="w-full md:w-1/2 md:max-w-lg">
-          <h3 class="text-2xl font-bold text-gray-800 dark:text-gray-100 project-title">
-            {title}
+          <h3 
+            class="text-2xl font-bold text-gray-800 dark:text-gray-100 i18n"
+            data-es={title.es}
+            data-en={title.en}
+          >
+            {title.es}
           </h3>
+          
           <div class="flex flex-wrap mt-2">
             <ul class="flex flex-row mb-2 gap-x-2">
               {tags.map((tag) => (
                 <li>
-                  <span
-                    class={`flex gap-x-2 rounded-full text-xs ${tag.class} py-1 px-2 `}
-                  >
+                  <span class={`flex gap-x-2 rounded-full text-xs ${tag.class} py-1 px-2`}>
                     <tag.icon class="size-4" />
                     {tag.name}
                   </span>
@@ -120,20 +90,25 @@ const PROJECTS = PROJECTS_ES;
               ))}
             </ul>
 
-            <div class="mt-2 text-gray-700 dark:text-gray-400 project-desc">
-              {description}
+            <div 
+              class="mt-2 text-gray-700 dark:text-gray-400 i18n"
+              data-es={description.es}
+              data-en={description.en}
+            >
+              {description.es}
             </div>
+
             <footer class="flex items-end justify-start mt-4 gap-x-4">
               {github && (
-                <LinkButton href={github} class="code-btn">
+                <LinkButton href={github}>
                   <GitHub class="size-6" />
-                  <span class="code-text">Code</span>
+                  <span class="i18n" data-es="Código" data-en="Code">Código</span>
                 </LinkButton>
               )}
               {link && (
-                <LinkButton href={link} class="preview-btn">
+                <LinkButton href={link}>
                   <Link class="size-4" />
-                  <span class="preview-text">Preview</span>
+                  <span class="i18n" data-es="Enlace" data-en="Link">Enlace</span>
                 </LinkButton>
               )}
             </footer>
@@ -144,40 +119,21 @@ const PROJECTS = PROJECTS_ES;
   }
 </div>
 
-<script define:vars={{ PROJECTS_ES, PROJECTS_EN }}>
+<script>
+  // Script genérico: no necesita conocer los datos de los proyectos
   function updateProjectsLanguage() {
     const lang = localStorage.getItem('language') || 'es';
+    const elements = document.querySelectorAll('.i18n');
     
-    // @ts-ignore
-    const projects = lang === 'en' ? PROJECTS_EN : PROJECTS_ES;
-    
-    const container = document.getElementById('projects-container');
-    
-    if (!container) return;
-    
-    const articles = container.querySelectorAll('article');
-    articles.forEach((article, index) => {
-      const project = projects[index];
-      if (!project) return;
-      
-      // Actualizar título
-      const titleEl = article.querySelector('.project-title');
-      if (titleEl) titleEl.textContent = project.title;
-      
-      // Actualizar descripción
-      const descEl = article.querySelector('.project-desc');
-      if (descEl) descEl.textContent = project.description;
-      
-      // Actualizar botón Code
-      const codeText = article.querySelector('.code-text');
-      if (codeText) codeText.textContent = lang === 'en' ? 'Code' : 'Código';
-      
-      // Actualizar botón Preview
-      const previewText = article.querySelector('.preview-text');
-      if (previewText) previewText.textContent = lang === 'en' ? 'Preview' : 'Vista previa';
+    elements.forEach(el => {
+      const translation = el.getAttribute(`data-${lang}`);
+      if (translation) {
+        el.textContent = translation;
+      }
     });
   }
   
+  // Ejecución inicial y escucha de eventos
   updateProjectsLanguage();
   window.addEventListener('languageChanged', updateProjectsLanguage);
 </script>

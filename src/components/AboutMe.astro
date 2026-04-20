@@ -1,5 +1,21 @@
 ---
 const personalImageAlt = "Hugo Alén";
+
+// Centralizamos los textos aquí para mantener el HTML limpio
+const ABOUT_TEXT = {
+  p1: {
+    es: "Me llamo <strong>Hugo Alén</strong>, soy desarrollador web y administrador de sistemas nacido en Vigo. <br>Mi día a día gestionando redes e infraestructuras IT me ha dado una visión integral de cómo la tecnología optimiza los procesos empresariales. Además, mi formación en diseño gráfico aporta un enfoque creativo a mi perfil, permitiéndome construir soluciones web que no solo son robustas y eficientes, sino también visualmente atractivas.",
+    en: "My name is <strong>Hugo Alén</strong>, a web developer and systems administrator based in Vigo. <br>My day-to-day experience managing networks and IT infrastructure has given me a comprehensive view of how technology optimizes business processes. Furthermore, my background in graphic design brings a creative edge to my profile, allowing me to build web solutions that are not only robust and efficient, but also visually appealing."
+  },
+  p2: {
+    es: "Actualmente curso el grado en <strong>Ingeniería Informática</strong>, una etapa que está consolidando mi experiencia práctica con bases teóricas sólidas en ingeniería de software, estructuras de datos, redes y sistemas operativos. <br>",
+    en: "I am currently pursuing a degree in <strong>Computer Engineering</strong>, a stage that is bridging my practical experience with strong theoretical foundations in software engineering, data structures, networks, and operating systems. <br>"
+  },
+  p3: {
+    es: "<strong>Fuera de la pantalla</strong>, soy un apasionado del deporte —especialmente el fútbol—, disfruto del tiempo con mis amigos y me encanta explorar las últimas tendencias tecnológicas. <br>Si buscas a un profesional comprometido, versátil y con ganas de aportar valor real a tu equipo, ¡me encantaría que hablásemos!",
+    en: "<strong>Beyond the screen</strong>, I'm passionate about sports—especially football—enjoying time with friends, and exploring the latest tech trends. <br>If you're looking for a committed, versatile professional eager to add real value to your team, I'd love to connect!"
+  }
+};
 ---
 
 <article
@@ -7,50 +23,43 @@ const personalImageAlt = "Hugo Alén";
   id="about-container"
 >
   <div
-    class="[&>p]:mb-4 [&>p>strong]:text-yellow-500 dark:[&>p>strong]:text-yellow-100 [&>p>strong]:font-normal [&>p>strong]:font-mono text-pretty order-2 md:order-1"
+    class="[&>p]:mb-4 [&>p>strong]:text-yellow-600 dark:[&>p>strong]:text-yellow-200 [&>p>strong]:font-normal [&>p>strong]:font-mono text-pretty order-2 md:order-1"
   >
-  <p id="about-p1">
-    Me llamo <em class="font-bold not-italic">Hugo Alén</em>, soy un desarrollador web y técnico en soporte de sistemas y redes nacido en Vigo. <br>
-    Trabajo dando soporte técnico, administrando redes e infraestructura tecnológica. Esta experiencia me ha permitido fortalecer mi perfil técnico y ampliar mi visión de cómo la tecnología puede mejorar procesos en distintos entornos. <br>
-    Mi enfoque combina habilidades técnicas sólidas con un ojo creativo gracias a mi formación en diseño gráfico, lo que me permite crear soluciones web que no solo funcionan de manera eficiente, sino que también son visualmente atractivas.
-  </p>
-  <p id="about-p2">
-    Actualmente curso <em class="text-yellow-100 not-italic">Ingeniería Informática</em>, lo que complementa mi experiencia laboral con una base sólida en desarrollo de software, estructuras de datos, redes y sistemas operativos. <br>
-  </p>
-  <p id="about-p3">
-    <em class="text-yellow-100 not-italic">En el ámbito personal</em>, disfruto practicar deportes, especialmente el fútbol, pasar tiempo con mis amigos y explorar las últimas novedades en tecnología. <br>
-    Si buscas un desarrollador y técnico comprometido, apasionado y con ganas de aportar valor, ¡me encantaría colaborar contigo!
-  </p>
-  
+    <p 
+      class="i18n-html" 
+      data-es={ABOUT_TEXT.p1.es} 
+      data-en={ABOUT_TEXT.p1.en} 
+      set:html={ABOUT_TEXT.p1.es}
+    ></p>
+    
+    <p 
+      class="i18n-html" 
+      data-es={ABOUT_TEXT.p2.es} 
+      data-en={ABOUT_TEXT.p2.en} 
+      set:html={ABOUT_TEXT.p2.es}
+    ></p>
+    
+    <p 
+      class="i18n-html" 
+      data-es={ABOUT_TEXT.p3.es} 
+      data-en={ABOUT_TEXT.p3.en} 
+      set:html={ABOUT_TEXT.p3.es}
+    ></p>
   </div>
 </article>
 
 <script>
-  const translations = {
-    es: {
-      p1: "Me llamo Hugo Alén, soy un desarrollador web y técnico en soporte de sistemas y redes nacido en Vigo. <br>Trabajo dando soporte técnico, administrando redes e infraestructura tecnológica. Esta experiencia me ha permitido fortalecer mi perfil técnico y ampliar mi visión de cómo la tecnología puede mejorar procesos en distintos entornos. <br>Mi enfoque combina habilidades técnicas sólidas con un ojo creativo gracias a mi formación en diseño gráfico, lo que me permite crear soluciones web que no solo funcionan de manera eficiente, sino que también son visualmente atractivas.",
-      p2: "Actualmente curso <em class=\"text-yellow-100 not-italic\">Ingeniería Informática</em>, lo que complementa mi experiencia laboral con una base sólida en desarrollo de software, estructuras de datos, redes y sistemas operativos. <br>",
-      p3: "<em class=\"text-yellow-100 not-italic\">En el ámbito personal</em>, disfruto practicar deportes, especialmente el fútbol, pasar tiempo con mis amigos y explorar las últimas novedades en tecnología. <br>Si buscas un desarrollador y técnico comprometido, apasionado y con ganas de aportar valor, ¡me encantaría colaborar contigo!"
-    },
-    en: {
-      p1: "My name is Hugo Alén, I'm a web developer and support technician for systems and networks born in Vigo. <br>I work providing technical support, managing networks and technological infrastructure. This experience has allowed me to strengthen my technical profile and broaden my vision of how technology can improve processes in different environments. <br>My approach combines solid technical skills with a creative eye thanks to my background in graphic design, which allows me to create web solutions that not only work efficiently, but are also visually appealing.",
-      p2: "I am currently studying <em class=\"text-yellow-100 not-italic\">Computer Engineering</em>, which complements my work experience with a solid foundation in software development, data structures, networks and operating systems. <br>",
-      p3: "<em class=\"text-yellow-100 not-italic\">On a personal level</em>, I enjoy practicing sports, especially football, spending time with my friends and exploring the latest developments in technology. <br>If you're looking for a committed, passionate developer and technician who wants to add value, I'd love to collaborate with you!"
-    }
-  };
-  
   function updateAboutLanguage() {
     const lang = localStorage.getItem('language') || 'es';
-    const t = translations[lang as keyof typeof translations] || translations.es;
+    const elements = document.querySelectorAll('.i18n-html');
     
-    const p1 = document.getElementById('about-p1');
-    if (p1) p1.innerHTML = t.p1;
-    
-    const p2 = document.getElementById('about-p2');
-    if (p2) p2.innerHTML = t.p2;
-    
-    const p3 = document.getElementById('about-p3');
-    if (p3) p3.innerHTML = t.p3;
+    elements.forEach(el => {
+      const translation = el.getAttribute(`data-${lang}`);
+      if (translation) {
+        // Usamos innerHTML en lugar de textContent porque tenemos etiquetas <br> y <strong>
+        el.innerHTML = translation; 
+      }
+    });
   }
   
   updateAboutLanguage();

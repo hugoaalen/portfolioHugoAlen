@@ -1,123 +1,99 @@
 ---
 import ExperienceItem from "./ExperienceItem.astro";
 
-const EXPERIENCE_ES = [
+const EXPERIENCE = [
   {
-    date: "Actualmente",
-    title: "Soporte de Sistemas y Redes",
+    date: {
+      es: "Actualmente",
+      en: "Currently"
+    },
+    title: {
+      es: "Soporte de Sistemas y Redes",
+      en: "Systems and Networks Support"
+    },
     company: "Grupo Marsan",
-    description:
-      "Me ocupo del soporte de sistemas y redes, así como de la administración y mantenimiento de infraestructura tecnológica. He liderado y participado en proyectos enfocados en la organización interna de activos tecnológicos, implementación de soluciones innovadoras y optimización de procesos IT, contribuyendo a una mayor eficiencia operativa y reducción de costes. Mi enfoque combina el soporte técnico diario con una visión estratégica de mejora continua y modernización tecnológica."
+    description: {
+      es: "Gestión y soporte de sistemas, redes e infraestructura tecnológica. Liderazgo en proyectos de organización de activos IT e implementación de soluciones para la optimización de procesos operativos, logrando una mayor eficiencia y reducción de costes. Mi enfoque combina el soporte técnico diario con una visión estratégica de modernización continua.",
+      en: "Management and support of systems, networks, and IT infrastructure. Leadership in IT asset organization projects and implementation of solutions to optimize operational processes, achieving greater efficiency and cost reduction. My approach combines daily technical support with a strategic vision of continuous modernization."
+    }
   },
   {
-    date: "Septiembre - Noviembre 2024",
-    title: "Desarrollador Web",
+    date: {
+      es: "Sept. 2024 - Nov. 2024",
+      en: "Sept. 2024 - Nov. 2024"
+    },
+    title: {
+      es: "Desarrollador Web Full Stack",
+      en: "Full Stack Web Developer"
+    },
     company: "Siscom Software Factory",
-    description:
-      "En mis prácticas en Siscom, desarrollé software a medida para clientes utilizando C# con .NET Framework y .NET Core MVC para el backend. En el frontend, trabajé con HTML, CSS, JavaScript y Bootstrap. Integrando NuGets como Entity Framework o EPPlus. Utilicé herramientas como Visual Studio para el desarrollo, Microsoft SQL Server Management Studio y MySQL Workbench para la administración de bases de datos, y Beyond Compare para el control de versiones."
+    description: {
+      es: "Desarrollo integral de software a medida. En el backend utilicé C# con .NET Framework y .NET Core MVC, integrando librerías como Entity Framework y EPPlus. Para el frontend implementé interfaces responsivas con HTML, CSS, JavaScript y Bootstrap. Gestión de bases de datos con SQL Server y MySQL, y control de versiones enfocado a la entrega de soluciones robustas para clientes.",
+      en: "End-to-end custom software development. On the backend, I used C# with .NET Framework and .NET Core MVC, integrating libraries like Entity Framework and EPPlus. For the frontend, I built responsive interfaces using HTML, CSS, JavaScript, and Bootstrap. Database management with SQL Server and MySQL, and version control focused on delivering robust client solutions."
+    }
   },
   {
-    date: "Enero 2023 - Diciembre 2024",
-    title: "Visual Merchandising",
+    date: {
+      es: "Ene. 2023 - Dic. 2024",
+      en: "Jan. 2023 - Dec. 2024"
+    },
+    title: {
+      es: "Visual Merchandising & IT Support",
+      en: "Visual Merchandising & IT Support"
+    },
     company: "Addiction Tu Moda",
-    description:
-      "Encargado del merchandising visual de las pantallas en modo mosaico en el escaparate de la tienda, así como del mantenimiento informático. En este trabajo combino el diseño gráfico con el desarrollo web.",
+    description: {
+      es: "Responsable del mantenimiento informático y del visual merchandising de la tienda. Diseño y gestión de contenidos para pantallas en formato mosaico, combinando mis habilidades en diseño gráfico y desarrollo web para potenciar la imagen de marca.",
+      en: "Responsible for IT maintenance and the store's visual merchandising. Design and content management for mosaic-format window displays, combining my skills in graphic design and web development to boost brand image."
+    }
   },
   {
-    date: "Abril - Junio 2022",
-    title: "Técnico de impresión",
+    date: {
+      es: "Abr. 2022 - Jun. 2022",
+      en: "Apr. 2022 - Jun. 2022"
+    },
+    title: {
+      es: "Técnico de Impresión y Diseño",
+      en: "Printing and Design Technician"
+    },
     company: "Cdec Group",
-    description:
-      "A lo largo de estos 3 meses en prácticas estuve trabajando con diferentes máquinas de impresión, corte convencional y corte láser. También en diseño, realizando proyectos como campañas publicitarias para eventos a gran escala o tiendas de alto nivel. Tuve la opción de quedarme en la empresa pero quería seguir formándome.",
+    description: {
+      es: "Operación de maquinaria de impresión y corte (convencional y láser). Participación activa en el diseño de campañas publicitarias para eventos de gran escala y retail de alto nivel, aportando soluciones visuales creativas y de alta precisión.",
+      en: "Operation of printing and cutting machinery (conventional and laser). Active participation in the design of advertising campaigns for large-scale events and high-end retail, providing creative and highly precise visual solutions."
+    }
   }
 ];
-
-const EXPERIENCE_EN = [
-  {
-    date: "Currently",
-    title: "Systems and Networks Support",
-    company: "Grupo Marsan",
-    description:
-      "I handle systems and networks support, as well as the administration and maintenance of technological infrastructure. I have led and participated in projects focused on the internal organization of technological assets, implementation of innovative solutions and optimization of IT processes, contributing to greater operational efficiency and cost reduction. My approach combines daily technical support with a strategic vision of continuous improvement and technological modernization."
-  },
-  {
-    date: "September - November 2024",
-    title: "Web Developer",
-    company: "Siscom Software Factory",
-    description:
-      "During my internship at Siscom, I developed custom software for clients using C# with .NET Framework and .NET Core MVC for the backend. On the frontend, I worked with HTML, CSS, JavaScript and Bootstrap. Integrating NuGets such as Entity Framework or EPPlus. I used tools such as Visual Studio for development, Microsoft SQL Server Management Studio and MySQL Workbench for database administration, and Beyond Compare for version control."
-  },
-  {
-    date: "January 2023 - December 2024",
-    title: "Visual Merchandising",
-    company: "Addiction Tu Moda",
-    description:
-      "Responsible for visual merchandising of displays in mosaic mode in the store window, as well as computer maintenance. In this job I combine graphic design with web development.",
-  },
-  {
-    date: "April - June 2022",
-    title: "Printing Technician",
-    company: "Cdec Group",
-    description:
-      "During these 3 months of internship I worked with different printing machines, conventional cutting and laser cutting. Also in design, carrying out projects such as advertising campaigns for large-scale events or high-end stores. I had the option to stay in the company but wanted to continue training.",
-  }
-];
-
-const EXPERIENCIE = EXPERIENCE_ES;
 ---
 
 <ol class="relative mt-16" id="experience-container">
   {
-    EXPERIENCIE.map((experiencie) => (
+    EXPERIENCE.map((experience) => (
       <li class="">
-        <ExperienceItem {...experiencie} />
+        <ExperienceItem {...experience} />
       </li> 
     ))
   }
 </ol>
 
-<script define:vars={{ EXPERIENCE_ES, EXPERIENCE_EN }}>
+<script>
   function updateExperienceLanguage() {
     const lang = localStorage.getItem('language') || 'es';
-    
-    // @ts-ignore
-    const experiences = lang === 'en' ? EXPERIENCE_EN : EXPERIENCE_ES;
-    
     const container = document.getElementById('experience-container');
     
     if (!container) return;
+
+    // Buscamos todos los elementos con la clase i18n dentro del contenedor
+    const elements = container.querySelectorAll('.i18n');
     
-    const items = container.querySelectorAll('li');
-    items.forEach((item, index) => {
-      const exp = experiences[index];
-      if (!exp) return;
-      
-      // Actualizar date (time elemento)
-      const timeEl = item.querySelector('time');
-      if (timeEl) timeEl.textContent = exp.date;
-      
-      // Actualizar title (h3)
-      const titleEl = item.querySelector('h3');
-      if (titleEl) titleEl.textContent = exp.title;
-      
-      // Actualizar company (h4)
-      const companyEl = item.querySelector('h4');
-      if (companyEl) companyEl.textContent = exp.company;
-      
-      // Actualizar description (div que contiene el texto)
-      const descDiv = item.querySelector('.relative.flex.flex-col.gap-2');
-      if (descDiv) {
-        // Limpiar el contenido pero mantener los hijos (como LinkInline si existe)
-        const linkChild = descDiv.querySelector('a[href*="saber"], a[href*="read"]');
-        descDiv.innerHTML = exp.description;
-        // Si había un link, mantenerlo
-        if (linkChild) {
-          descDiv.appendChild(linkChild.cloneNode(true));
-        }
+    elements.forEach(el => {
+      const translation = el.getAttribute(`data-${lang}`);
+      if (translation) {
+        el.innerHTML = translation; 
       }
     });
   }
   
+  // Ejecutar al cargar la página y cuando se dispare el evento de cambio de idioma
   updateExperienceLanguage();
   window.addEventListener('languageChanged', updateExperienceLanguage);
 </script>
