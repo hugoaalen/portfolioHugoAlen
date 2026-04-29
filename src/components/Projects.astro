@@ -10,6 +10,7 @@ import Link from "./icons/Link.astro";
 import LinkButton from "./LinkButton.astro";
 import React from "./icons/React.astro";
 import Supabase from "./icons/Supabase.astro";
+import AstroIcon from "./icons/LogoAstro.astro";
 
 const TAGS = {
   NEXT: { name: "Next.js", class: "bg-black text-white", icon: NextJS },
@@ -20,6 +21,7 @@ const TAGS = {
   BOOTSTRAP: { name: "Bootstrap", class: "bg-[#7952B380] text-white", icon: Bootstrap },
   REACT: { name: "React", class: "bg-[#003159] text-white", icon: React },
   SUPABASE: { name: "Supabase", class: "bg-[#1C3F2E] text-white", icon: Supabase },
+  ASTRO: { name: "Astro", class: "bg-[#E34F2680] text-white", icon: AstroIcon },
 };
 
 // Centralizamos los proyectos: un solo lugar para URLs e imágenes
@@ -36,7 +38,21 @@ const PROJECTS = [
     link: "https://zaizen.vercel.app",
     github: "https://github.com/hugoaalen/zaizen",
     image: "/projects/zaizen.png",
-    tags: [TAGS.REACT, TAGS.SUPABASE],
+    tags: [TAGS.REACT, TAGS.SUPABASE, TAGS.TAILWIND],
+  },
+  {
+    title: {
+      es: "oNoSoAlMaNaQuE - Organizador de calendario de eventos",
+      en: "oNoSoAlMaNaQuE - Event Calendar Organizer"
+    },
+    description: {
+      es: "Aplicación web para organizar calendarios de eventos. Permite a los usuarios crear un link desde el cuál los diferentes usuarios pueden marcar los días que les vienen bien para un evento, facilitando la coordinación de fechas entre grupos de personas.",
+      en: "Web application for organizing event calendars. It allows users to create a link from which different users can mark the days that work for them for an event, facilitating date coordination between groups of people."
+    },
+    link: "https://onosoalmanaque.vercel.app",
+    github: "https://github.com/hugoaalen/onosoalmanaque",
+    image: "/projects/onosoalmanaque.webp",
+    tags: [TAGS.ASTRO, TAGS.REACT, TAGS.SUPABASE, TAGS.TAILWIND],
   },
   {
     title: {
