@@ -52,24 +52,45 @@ const navItems = navItems_ES;
 ---
 
 <header
-  class="fixed top-0 z-20 flex items-center justify-center w-full px-2 mx-auto mt-3 md:justify-end md:pr-6"
+  class="fixed top-0 z-20 flex items-start justify-end w-full px-3 mx-auto mt-3 md:pr-6"
   id="header-container"
 >
   <nav
-    class="flex max-w-full px-1.5 text-xs font-bold uppercase tracking-wide border-2 border-black text-black justify-center items-center bg-[#c5ff4a] shadow-[5px_5px_0_#111] dark:border-white dark:shadow-[5px_5px_0_#fff] sm:px-2 sm:text-sm"
+    class="relative flex items-center max-w-full px-1.5 text-xs font-bold tracking-wide text-black uppercase border-2 border-black bg-[#c5ff4a] shadow-[5px_5px_0_#111] dark:border-white dark:shadow-[5px_5px_0_#fff] sm:text-sm md:px-2"
   >
-    {
-      navItems.map((link) => (
-        <a
-          class="relative block px-1.5 py-2.5 transition hover:bg-black hover:text-white nav-link sm:px-2.5"
-          aria-label={link.label}
-          href={link.url}
-          data-label={link.label}
-        >
-          {link.title}
-        </a>
-      ))
-    }
+    <button
+      id="mobile-menu-toggle"
+      class="flex items-center gap-2 px-3 py-2.5 transition hover:bg-black hover:text-white md:hidden"
+      aria-expanded="false"
+      aria-controls="header-links"
+    >
+      <span class="menu-icon grid gap-1" aria-hidden="true">
+        <span class="block w-4 h-0.5 bg-current"></span>
+        <span class="block w-4 h-0.5 bg-current"></span>
+        <span class="block w-4 h-0.5 bg-current"></span>
+      </span>
+      <span id="mobile-menu-label">Menú</span>
+    </button>
+
+    <div
+      id="header-links"
+      class="absolute right-0 hidden w-64 grid-cols-2 gap-1 p-2 top-[calc(100%+0.65rem)] border-2 border-black bg-[#c5ff4a] shadow-[5px_5px_0_#111] dark:border-white dark:shadow-[5px_5px_0_#fff] md:static md:flex md:w-auto md:p-0 md:border-0 md:shadow-none dark:md:shadow-none"
+    >
+      {
+        navItems.map((link) => (
+          <a
+            class="relative block px-3 py-3 transition hover:bg-black hover:text-white nav-link md:px-2.5 md:py-2.5"
+            aria-label={link.label}
+            href={link.url}
+            data-label={link.label}
+          >
+            {link.title}
+          </a>
+        ))
+      }
+    </div>
+
+    <div class="w-px h-6 mx-1 bg-black/25 md:hidden" aria-hidden="true"></div>
     <ThemeToggle />
     <LanguageToggle />
   </nav>
@@ -79,9 +100,37 @@ const navItems = navItems_ES;
   // El Header es actualizado directamente por LanguageToggle
   // Este script solo maneja el IntersectionObserver para el highlight
   
-  document.addEventListener("astro:page-load", () => {
+document.addEventListener("astro:page-load", () => {
+    const menuToggle = document.getElementById("mobile-menu-toggle");
+    const menu = document.getElementById("header-links");
+    const menuLabel = document.getElementById("mobile-menu-label");
     const sections = document.querySelectorAll("section");
     const navItems = document.querySelectorAll("header nav a.nav-link");
+
+    const closeMenu = () => {
+      menu?.classList.remove("mobile-menu-open");
+      menuToggle?.setAttribute("aria-expanded", "false");
+    };
+
+    menuToggle?.addEventListener("click", (event) => {
+      event.stopPropagation();
+      const isOpen = menu?.classList.toggle("mobile-menu-open");
+      menuToggle.setAttribute("aria-expanded", String(Boolean(isOpen)));
+    });
+
+    navItems.forEach((item) => item.addEventListener("click", closeMenu));
+    document.addEventListener("click", closeMenu);
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") closeMenu();
+    });
+
+    const updateMenuLabel = () => {
+      const lang = localStorage.getItem("language") || "es";
+      if (menuLabel) menuLabel.textContent = lang === "en" ? "Menu" : "Menú";
+    };
+
+    updateMenuLabel();
+    window.addEventListener("languageChanged", updateMenuLabel);
 
     const callback = (entries) => {
       entries.forEach((entry) => {
@@ -119,3 +168,9 @@ const navItems = navItems_ES;
     };
   });
 </script>
+
+<style>
+  #header-links.mobile-menu-open {
+    display: grid;
+  }
+</style>

@@ -23,24 +23,25 @@
     const navLinks = document.querySelectorAll('header nav a.nav-link');
     
     const translations = {
-      es: [
-        { title: "Experiencia" },
-        { title: "Proyectos" },
-        { title: "Formación" },
-        { title: "Sobre mí" }
-      ],
-      en: [
-        { title: "Experience" },
-        { title: "Projects" },
-        { title: "Education" },
-        { title: "About" }
-      ]
+      es: {
+        experiencia: "Experiencia",
+        proyectos: "Proyectos",
+        formacion: "Formación",
+        "sobre-mi": "Sobre mí"
+      },
+      en: {
+        experiencia: "Experience",
+        proyectos: "Projects",
+        formacion: "Education",
+        "sobre-mi": "About"
+      }
     };
 
     const navItems = translations[lang];
-    navLinks.forEach((link, index) => {
-      if (navItems[index]) {
-        link.textContent = navItems[index].title;
+    navLinks.forEach((link) => {
+      const label = link.getAttribute('data-label');
+      if (label && navItems[label]) {
+        link.textContent = navItems[label];
       }
     });
   }
