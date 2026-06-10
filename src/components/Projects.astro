@@ -70,24 +70,24 @@ const PROJECTS = [
 ];
 ---
 
-<div class="flex flex-col gap-y-16" id="projects-container">
+<div class="grid gap-7 md:grid-cols-2" id="projects-container">
   {
     PROJECTS.map(({ image, title, description, tags, link, github }) => (
-      <article class="flex flex-col space-x-0 space-y-8 group md:flex-row md:space-x-8 md:space-y-0">
-        <div class="w-full md:w-1/2">
-          <div class="relative flex flex-col items-center col-span-6 row-span-5 gap-8 transition duration-500 ease-in-out transform shadow-xl overflow-clip rounded-xl sm:rounded-xl md:group-hover:-translate-y-1 md:group-hover:shadow-2xl lg:border lg:border-gray-800 lg:hover:border-gray-700 lg:hover:bg-gray-800/50">
+      <article class="project-card flex flex-col overflow-hidden transition duration-200 border-2 border-black bg-white shadow-[8px_8px_0_#111] group hover:-translate-y-1 hover:shadow-[12px_12px_0_#111] dark:border-white dark:bg-[#111] dark:shadow-[8px_8px_0_#c5ff4a] dark:hover:shadow-[12px_12px_0_#c5ff4a]">
+        <div class="w-full">
+          <div class="relative flex flex-col items-center overflow-hidden">
             <img
               alt={`Thumbnail de ${title.es}`}
-              class="object-cover object-top w-full h-56 transition duration-500 sm:h-full md:scale-110 md:group-hover:scale-105"
+              class="object-cover object-top w-full h-56 transition duration-500 grayscale-[20%] group-hover:grayscale-0 group-hover:scale-[1.03]"
               loading="lazy"
               src={image}
             />
           </div>
         </div>
 
-        <div class="w-full md:w-1/2 md:max-w-lg">
+        <div class="flex flex-col flex-1 w-full p-6 border-t-2 border-black dark:border-white">
           <h3 
-            class="text-2xl font-bold text-gray-800 dark:text-gray-100 i18n"
+            class="text-xl font-black leading-tight tracking-tight text-black uppercase dark:text-white i18n"
             data-es={title.es}
             data-en={title.en}
           >
@@ -95,7 +95,7 @@ const PROJECTS = [
           </h3>
           
           <div class="flex flex-wrap mt-2">
-            <ul class="flex flex-row mb-2 gap-x-2">
+            <ul class="flex flex-wrap gap-2 mb-2">
               {tags.map((tag) => (
                 <li>
                   <span class={`flex gap-x-2 rounded-full text-xs ${tag.class} py-1 px-2`}>
@@ -107,14 +107,14 @@ const PROJECTS = [
             </ul>
 
             <div 
-              class="mt-2 text-gray-700 dark:text-gray-400 i18n"
+              class="mt-3 text-sm leading-relaxed text-gray-700 dark:text-gray-300 i18n"
               data-es={description.es}
               data-en={description.en}
             >
               {description.es}
             </div>
 
-            <footer class="flex items-end justify-start mt-4 gap-x-4">
+            <footer class="flex items-end justify-start mt-6 gap-x-3">
               {github && (
                 <LinkButton href={github}>
                   <GitHub class="size-6" />
@@ -153,3 +153,24 @@ const PROJECTS = [
   updateProjectsLanguage();
   window.addEventListener('languageChanged', updateProjectsLanguage);
 </script>
+
+<style>
+  @media (min-width: 768px) {
+    .project-card:first-child {
+      grid-column: span 2;
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+    }
+
+    .project-card:first-child > div:first-child img {
+      height: 100%;
+      min-height: 25rem;
+    }
+
+    .project-card:first-child > div:last-child {
+      border-top: 0;
+      border-left: 2px solid currentColor;
+      justify-content: center;
+    }
+  }
+</style>

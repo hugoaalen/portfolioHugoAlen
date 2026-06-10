@@ -19,28 +19,24 @@ const { title, company, description, link, date } = Astro.props;
 ---
 
 <div
-  class="relative mx-12 pb-12 grid before:absolute before:left-[-35px] before:block before:h-full before:border-l-2 before:border-black/20 dark:before:border-white/15 before:content-[''] md:grid-cols-5 md:gap-10 md:space-x-4]"
+  class="relative grid h-full gap-5 p-6 transition border-2 border-black bg-white shadow-[7px_7px_0_#111] hover:-translate-y-1 dark:border-white dark:bg-[#111] dark:shadow-[7px_7px_0_#c5ff4a]"
 >
-  <div class="relative pb-12 md:col-span-2">
-    <div class="sticky top-0">
-      <span class="text-yellow-400 -left-[42px] absolute rounded-full text-5xl"
-        >&bull;</span
-      >
-
+  <div class="relative">
+    <div>
       <h3 
-        class="text-xl font-bold text-yellow-400 i18n"
+        class="text-xl font-black leading-tight text-black uppercase dark:text-[#c5ff4a] i18n"
         data-es={title.es}
         data-en={title.en}
       >
         {title.es}
       </h3>
       
-      <h4 class="font-semibold text-xl text-gray-600 dark:text-white">
+      <h4 class="mt-2 text-lg font-bold text-gray-800 dark:text-white">
         {company}
       </h4>
       
       <time 
-        class="p-0 m-0 text-sm text-gray-600/80 dark:text-white/80 i18n"
+        class="inline-block p-1 mt-3 text-xs font-black tracking-wide text-black uppercase bg-[#c5ff4a] i18n"
         data-es={date.es}
         data-en={date.en}
       >
@@ -50,7 +46,7 @@ const { title, company, description, link, date } = Astro.props;
   </div>
   
   <div
-    class="relative flex flex-col gap-2 pb-4 text-gray-600 dark:text-gray-300 md:col-span-3"
+    class="relative flex flex-col gap-2 pt-5 leading-relaxed text-gray-700 border-t-2 border-black dark:border-white dark:text-gray-300"
   >
     <div 
       class="text-pretty i18n"

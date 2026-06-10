@@ -1,6 +1,4 @@
 ---
-const personalImageAlt = "Hugo Alén";
-
 // Centralizamos los textos aquí para mantener el HTML limpio
 const ABOUT_TEXT = {
   p1: {
@@ -19,11 +17,11 @@ const ABOUT_TEXT = {
 ---
 
 <article
-  class="flex flex-col items-center justify-center gap-8 text-gray-700 dark:text-gray-300 md:flex-row"
+  class="relative flex flex-col items-center justify-center gap-8 p-7 overflow-hidden text-gray-800 border-2 border-black bg-white shadow-[10px_10px_0_#111] dark:border-white dark:bg-[#111] dark:shadow-[10px_10px_0_#c5ff4a] dark:text-gray-200 md:flex-row md:p-12"
   id="about-container"
 >
   <div
-    class="[&>p]:mb-4 [&>p>strong]:text-yellow-600 dark:[&>p>strong]:text-yellow-200 [&>p>strong]:font-normal [&>p>strong]:font-mono text-pretty order-2 md:order-1"
+    class="relative z-10 columns-1 md:columns-2 md:gap-10 [&>p]:mb-5 [&>p:last-child]:mb-0 [&>p]:leading-relaxed [&>p]:break-inside-avoid [&>p>strong]:bg-[#c5ff4a] [&>p>strong]:px-1 [&>p>strong]:text-black [&>p>strong]:font-black text-pretty order-2 md:order-1"
   >
     <p 
       class="i18n-html" 

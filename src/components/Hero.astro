@@ -1,7 +1,6 @@
 ---
 import Badge from "@/components/Badge.astro";
 import LinkedInIcon from "@/components/icons/LinkedIn.astro";
-import DownloadIcon from "@/components/icons/Download.astro";
 import MailIcon from "@/components/icons/Mail.astro";
 import GitHub from "@/components/icons/GitHub.astro";
 import SocialPill from "@/components/SocialPill.astro";
@@ -9,42 +8,59 @@ import SocialPill from "@/components/SocialPill.astro";
 const personalImageAlt = "Hugo Alén";
 ---
 
-<div class="max-w-5xl" id="hero-content">
-  <div class="flex gap-4 mb-4">
-    <img
-      class="rounded-full shadow-lg size-16"
-      src="/yo.jpg"
-      alt={personalImageAlt}
-    />
-    <a
-      href="https://www.linkedin.com/in/hugo-al%C3%A9n-acu%C3%B1a-aaa7772a3/"
-      target="_blank"
-      rel="noopener"
-      class="flex items-center transition md:justify-center md:hover:scale-105"
+<div class="relative max-w-5xl" id="hero-content">
+  <div class="relative z-10 p-6 border-2 border-black bg-white/90 shadow-[10px_10px_0_#111] dark:border-white dark:bg-[#111] dark:shadow-[10px_10px_0_#c5ff4a] sm:p-9">
+    <header class="flex flex-col gap-5 pb-6 mb-7 border-b-2 border-black dark:border-white sm:flex-row sm:items-center sm:justify-between">
+      <div class="flex items-center gap-4">
+        <img
+          class="object-cover border-2 border-black rounded-full shadow-[4px_4px_0_#111] size-20 dark:border-white dark:shadow-[4px_4px_0_#c5ff4a]"
+          src="/yo.jpg"
+          alt={personalImageAlt}
+        />
+        <div>
+          <p class="text-[10px] font-black tracking-[0.18em] text-black uppercase dark:text-[#c5ff4a] sm:text-xs sm:tracking-[0.24em]">
+            Web development · Systems · Design
+          </p>
+          <p class="mt-2 text-xs font-black tracking-[0.2em] text-gray-600 uppercase dark:text-gray-400">
+            Vigo, ES
+          </p>
+        </div>
+      </div>
+
+      <a
+        href="https://www.linkedin.com/in/hugo-al%C3%A9n-acu%C3%B1a-aaa7772a3/"
+        target="_blank"
+        rel="noopener"
+        class="flex items-center transition hover:-translate-y-1 sm:justify-end"
+      >
+        <Badge><span id="badge-available">Disponible para trabajar</span></Badge>
+      </a>
+    </header>
+
+    <h1
+      class="max-w-4xl text-5xl font-black leading-[0.9] tracking-[-0.07em] text-black uppercase sm:text-7xl md:text-[5.8rem] dark:text-white"
+      id="hero-title"
     >
-      <Badge><span id="badge-available">Disponible para trabajar</span></Badge>
-    </a>
-  </div>
-  <h1
-    class="text-4xl font-bold tracking-tight text-gray-800 sm:text-5xl dark:text-white"
-    id="hero-title"
-  >
-    Hola, soy Hugo Alén
-  </h1>
-  <p
-    class="mt-6 text-xl text-gray-800 dark:[&>strong]:text-yellow-200 [&>strong]:text-yellow-500 [&>strong]:font-semibold dark:text-gray-300"
-    id="hero-desc1"
-  >
-  Soy un <strong>desarrollador web y técnico de sistemas</strong> en constante evolución.
-  </p>
-  <p
-    class="mt-2 text-xl text-gray-800 dark:[&>strong]:text-yellow-200 [&>strong]:text-yellow-500 [&>strong]:font-semibold dark:text-gray-300"
-    id="hero-desc2"
-  >
-  Actualmente trabajo en <em class="italic">Grupo Marsan</em>, dentro del área de <strong>Organización y Sistemas</strong>, donde colaboro en la mejora y gestión de procesos tecnológicos. <br>
-  Compagino este trabajo con mis proyectos personales y mis estudios de grado en <strong>Ingeniería Informática</strong> en la <em class="italic">Universitat Oberta de Catalunya</em>.
-  </p>
-  <nav class="flex flex-wrap gap-4 mt-8">  
+      Hola, soy Hugo Alén
+    </h1>
+
+    <div class="grid gap-5 mt-8 md:grid-cols-[0.8fr_1.2fr] md:gap-10">
+      <p
+        class="text-xl font-medium leading-relaxed text-gray-800 [&>strong]:bg-[#c5ff4a] [&>strong]:px-1 [&>strong]:text-black [&>strong]:font-bold dark:text-gray-200 md:text-2xl"
+        id="hero-desc1"
+      >
+      Soy un <strong>desarrollador web y técnico de sistemas</strong> en constante evolución.
+      </p>
+      <p
+        class="text-base leading-relaxed text-gray-600 dark:[&>strong]:text-[#c5ff4a] [&>strong]:font-bold dark:text-gray-400 sm:text-lg"
+        id="hero-desc2"
+      >
+      Actualmente trabajo en <em class="italic">Grupo Marsan</em>, dentro del área de <strong>Organización y Sistemas</strong>, donde colaboro en la mejora y gestión de procesos tecnológicos. <br>
+      Compagino este trabajo con mis proyectos personales y mis estudios de grado en <strong>Ingeniería Informática</strong> en la <em class="italic">Universitat Oberta de Catalunya</em>.
+      </p>
+    </div>
+
+    <nav class="flex flex-wrap gap-3 mt-9">
     <!--    
     <SocialPill href="/CV-Hugo-Alen.pdf" download="CV-Hugo-Alen.pdf">
       <DownloadIcon class="size-4" />
@@ -65,7 +81,8 @@ const personalImageAlt = "Hugo Alén";
       <GitHub class="size-4" />
       Github
     </SocialPill>
-  </nav>
+    </nav>
+  </div>
 </div>
 
 <script>

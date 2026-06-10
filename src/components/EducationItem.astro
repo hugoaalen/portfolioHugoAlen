@@ -12,26 +12,20 @@ const { title, company, link, date } = Astro.props;
 ---
 
 <div
-  class="relative mx-12 grid before:absolute before:left-[-35px] before:block before:h-full before:border-l-2 before:border-black/20 dark:before:border-white/15 before:content-[''] md:grid-cols-5 md:space-x-4]"
+  class="relative h-full p-6 transition border-2 border-black bg-[#c5ff4a] shadow-[7px_7px_0_#111] hover:-translate-y-1 dark:border-white"
 >
-  <div class="relative pb-12 col-span-12">
-    <div class="sticky top-0">
-      <span class="text-yellow-400 -left-[42px] absolute rounded-full text-5xl"
-        >&bull;</span
-      >
-
-      <h3 class="text-xl font-bold text-yellow-400">{title}</h3>
-      <h4 class="font-semibold text-xl text-gray-600 dark:text-white">
+  <div class="relative">
+    <div>
+      <h3 class="text-lg font-black leading-tight text-black uppercase">{title}</h3>
+      <h4 class="mt-2 font-bold text-gray-800">
         {company}
       </h4>
-      <time class="p-0 m-0 text-sm text-gray-600/80 dark:text-white/80"
+      <time class="inline-block p-1 mt-4 text-xs font-black tracking-wide text-white uppercase bg-black"
         >{date}</time
       >
     </div>
   </div>
-  <div
-    class="relative flex flex-col gap-2 pb-4 text-gray-600 dark:text-gray-300 md:col-span-3"
-  >
+  <div class="relative flex flex-col gap-2 text-gray-700">
     {
       link && (
         <LinkInline href={link}>

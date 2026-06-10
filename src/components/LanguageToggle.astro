@@ -3,7 +3,7 @@
 
 <button
   id="language-toggle"
-  class="relative inline-flex items-center justify-center w-10 h-10 text-gray-600 rounded-full dark:text-gray-200 hover:text-yellow-500 dark:hover:text-yellow-400 transition-colors"
+  class="relative inline-flex items-center justify-center w-10 h-10 text-black transition-colors hover:bg-black hover:text-white"
   aria-label="Change language"
 >
   <span class="text-lg font-semibold">ES</span>
@@ -14,6 +14,7 @@
   
   function updateLanguageButton() {
     const currentLang = localStorage.getItem('language') || 'es';
+    document.documentElement.lang = currentLang;
     if (toggle) toggle.textContent = currentLang.toUpperCase();
   }
 
@@ -61,6 +62,5 @@
   });
   
   updateLanguageButton();
+  updateHeaderDirectly();
 </script>
-
-

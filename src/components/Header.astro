@@ -52,16 +52,16 @@ const navItems = navItems_ES;
 ---
 
 <header
-  class="fixed top-0 z-10 flex items-center justify-center w-full mx-auto mt-2"
+  class="fixed top-0 z-20 flex items-center justify-center w-full px-2 mx-auto mt-3 md:justify-end md:pr-6"
   id="header-container"
 >
   <nav
-    class="flex px-3 text-sm font-medium rounded-full text-gray-600 dark:text-gray-200 justify-center items-center"
+    class="flex max-w-full px-1.5 text-xs font-bold uppercase tracking-wide border-2 border-black text-black justify-center items-center bg-[#c5ff4a] shadow-[5px_5px_0_#111] dark:border-white dark:shadow-[5px_5px_0_#fff] sm:px-2 sm:text-sm"
   >
     {
       navItems.map((link) => (
         <a
-          class="relative block px-2 py-2 transition hover:text-yellow-500 dark:hover:text-yellow-400 nav-link"
+          class="relative block px-1.5 py-2.5 transition hover:bg-black hover:text-white nav-link sm:px-2.5"
           aria-label={link.label}
           href={link.url}
           data-label={link.label}
@@ -119,17 +119,3 @@ const navItems = navItems_ES;
     };
   });
 </script>
-
-<style>
-  nav {
-    animation: nav-shadown 1s linear both;
-    animation-timeline: scroll();
-    animation-range: 0 100px;
-  }
-
-  @keyframes nav-shadown {
-    to {
-      @apply shadow-lg ring-1 backdrop-blur dark:bg-gray-800/90 bg-white/50 ring-white/10;
-    }
-  }
-</style>
