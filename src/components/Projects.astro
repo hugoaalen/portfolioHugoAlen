@@ -11,6 +11,9 @@ import LinkButton from "./LinkButton.astro";
 import React from "./icons/React.astro";
 import Supabase from "./icons/Supabase.astro";
 import AstroIcon from "./icons/LogoAstro.astro";
+import Vite from "./icons/Vite.astro";
+import TypeScript from "./icons/TypeScript.astro";
+import Firebase from "./icons/Firebase.astro";
 
 const TAGS = {
   NEXT: { name: "Next.js", class: "bg-black text-white", icon: NextJS },
@@ -22,6 +25,9 @@ const TAGS = {
   REACT: { name: "React", class: "bg-[#003159] text-white", icon: React },
   SUPABASE: { name: "Supabase", class: "bg-[#1C3F2E] text-white", icon: Supabase },
   ASTRO: { name: "Astro", class: "bg-[#E34F2680] text-white", icon: AstroIcon },
+  VITE: { name: "Vite", class: "bg-[#646CFF] text-white", icon: Vite },
+  TYPESCRIPT: { name: "TypeScript", class: "bg-[#3178C6] text-white", icon: TypeScript },
+  FIREBASE: { name: "Firebase", class: "bg-[#FFCA28] text-black", icon: Firebase },
 };
 
 // Centralizamos los proyectos: un solo lugar para URLs e imágenes
@@ -42,6 +48,19 @@ const PROJECTS = [
   },
   {
     title: {
+      es: "Senda - Planificador de progreso académico",
+      en: "Senda - Academic Progress Planner"
+    },
+    description: {
+      es: "Aplicación personal para seguir el avance de una carrera universitaria, gestionar asignaturas por estado, planificar escenarios de matrícula y guardar datos en local o sincronizarlos con Firebase Auth y Firestore.",
+      en: "Personal app for tracking university degree progress, managing subjects by status, planning enrollment scenarios, and storing data locally or syncing it with Firebase Auth and Firestore."
+    },
+    github: "https://github.com/hugoaalen/Senda",
+    image: "/projects/senda-window.png",
+    tags: [TAGS.REACT, TAGS.TYPESCRIPT, TAGS.FIREBASE, TAGS.VITE],
+  },
+  {
+    title: {
       es: "oNoSoAlMaNaQuE - Organizador de calendario de eventos",
       en: "oNoSoAlMaNaQuE - Event Calendar Organizer"
     },
@@ -53,6 +72,19 @@ const PROJECTS = [
     github: "https://github.com/hugoaalen/onosoalmanaque",
     image: "/projects/onosoalmanaque.webp",
     tags: [TAGS.ASTRO, TAGS.REACT, TAGS.SUPABASE, TAGS.TAILWIND],
+  },
+  {
+    title: {
+      es: "¿Quién finge? - Juego local del impostor",
+      en: "Who is Faking? - Local Impostor Game"
+    },
+    description: {
+      es: "Juego local para grupos pensado para jugar desde un solo móvil. Permite configurar jugadores e impostores, elegir categorías, revelar roles por turnos, usar pistas o palabra señuelo y evitar repeticiones entre rondas.",
+      en: "Local party game designed to be played from a single phone. It lets users configure players and impostors, choose categories, reveal roles turn by turn, use hints or decoy words, and avoid repeated words between rounds."
+    },
+    github: "https://github.com/hugoaalen/Impostor",
+    image: "/projects/impostor-window.png",
+    tags: [TAGS.REACT, TAGS.TYPESCRIPT, TAGS.VITE],
   },
   {
     title: {
