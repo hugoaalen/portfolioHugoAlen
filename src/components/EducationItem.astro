@@ -2,10 +2,15 @@
 import LinkInline from "./LinkInline.astro";
 
 interface Props {
-  title: string;
+  title: I18nText;
   company: string;
   link?: string;
-  date: string;
+  date: I18nText;
+}
+
+interface I18nText {
+  es: string;
+  en: string;
 }
 
 const { title, company, link, date } = Astro.props;
@@ -16,12 +21,21 @@ const { title, company, link, date } = Astro.props;
 >
   <div class="relative">
     <div>
-      <h3 class="text-lg font-black leading-tight text-black uppercase">{title}</h3>
+      <h3
+        class="text-lg font-black leading-tight text-black uppercase i18n"
+        data-es={title.es}
+        data-en={title.en}
+      >
+        {title.es}
+      </h3>
       <h4 class="mt-2 font-bold text-gray-800">
         {company}
       </h4>
-      <time class="inline-block p-1 mt-4 text-xs font-black tracking-wide text-white uppercase bg-black"
-        >{date}</time
+      <time
+        class="inline-block p-1 mt-4 text-xs font-black tracking-wide text-white uppercase bg-black i18n"
+        data-es={date.es}
+        data-en={date.en}
+        >{date.es}</time
       >
     </div>
   </div>

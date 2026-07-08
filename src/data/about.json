@@ -1,0 +1,23 @@
+[
+  {
+    "id": "intro",
+    "order": 10,
+    "visible": true,
+    "es": "Me llamo <strong>Hugo Alén</strong>, soy desarrollador web y administrador de sistemas nacido en Vigo. <br>Mi día a día gestionando redes e infraestructuras IT me ha dado una visión integral de cómo la tecnología optimiza los procesos empresariales. Además, mi formación en diseño gráfico aporta un enfoque creativo a mi perfil, permitiéndome construir soluciones web que no solo son robustas y eficientes, sino también visualmente atractivas.",
+    "en": "My name is <strong>Hugo Alén</strong>, a web developer and systems administrator based in Vigo. <br>My day-to-day experience managing networks and IT infrastructure has given me a comprehensive view of how technology optimizes business processes. Furthermore, my background in graphic design brings a creative edge to my profile, allowing me to build web solutions that are not only robust and efficient, but also visually appealing."
+  },
+  {
+    "id": "studies",
+    "order": 20,
+    "visible": true,
+    "es": "Actualmente curso el grado en <strong>Ingeniería Informática</strong>, una etapa que está consolidando mi experiencia práctica con bases teóricas sólidas en ingeniería de software, estructuras de datos, redes y sistemas operativos. <br>",
+    "en": "I am currently pursuing a degree in <strong>Computer Engineering</strong>, a stage that is bridging my practical experience with strong theoretical foundations in software engineering, data structures, networks, and operating systems. <br>"
+  },
+  {
+    "id": "personal",
+    "order": 30,
+    "visible": true,
+    "es": "<strong>Fuera de la pantalla</strong>, soy un apasionado del deporte —especialmente el fútbol—, disfruto del tiempo con mis amigos y me encanta explorar las últimas tendencias tecnológicas. <br>Si buscas a un profesional comprometido, versátil y con ganas de aportar valor real a tu equipo, ¡me encantaría que hablásemos!",
+    "en": "<strong>Beyond the screen</strong>, I'm passionate about sports—especially football—enjoying time with friends, and exploring the latest tech trends. <br>If you're looking for a committed, versatile professional eager to add real value to your team, I'd love to connect!"
+  }
+]

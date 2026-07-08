@@ -1,0 +1,74 @@
+[
+  {
+    "id": "grupo-marsan",
+    "order": 10,
+    "visible": true,
+    "date": {
+      "es": "Actualmente",
+      "en": "Currently"
+    },
+    "title": {
+      "es": "Soporte de Sistemas y Redes",
+      "en": "Systems and Networks Support"
+    },
+    "company": "Grupo Marsan",
+    "description": {
+      "es": "Gestión y soporte de sistemas, redes e infraestructura tecnológica. Liderazgo en proyectos de organización de activos IT e implementación de soluciones para la optimización de procesos operativos, logrando una mayor eficiencia y reducción de costes. Mi enfoque combina el soporte técnico diario con una visión estratégica de modernización continua.",
+      "en": "Management and support of systems, networks, and IT infrastructure. Leadership in IT asset organization projects and implementation of solutions to optimize operational processes, achieving greater efficiency and cost reduction. My approach combines daily technical support with a strategic vision of continuous modernization."
+    }
+  },
+  {
+    "id": "siscom-software-factory",
+    "order": 20,
+    "visible": true,
+    "date": {
+      "es": "Sept. 2024 - Nov. 2024",
+      "en": "Sept. 2024 - Nov. 2024"
+    },
+    "title": {
+      "es": "Desarrollador Web Full Stack",
+      "en": "Full Stack Web Developer"
+    },
+    "company": "Siscom Software Factory",
+    "description": {
+      "es": "Desarrollo integral de software a medida. En el backend utilicé C# con .NET Framework y .NET Core MVC, integrando librerías como Entity Framework y EPPlus. Para el frontend implementé interfaces responsivas con HTML, CSS, JavaScript y Bootstrap. Gestión de bases de datos con SQL Server y MySQL, y control de versiones enfocado a la entrega de soluciones robustas para clientes.",
+      "en": "End-to-end custom software development. On the backend, I used C# with .NET Framework and .NET Core MVC, integrating libraries like Entity Framework and EPPlus. For the frontend, I built responsive interfaces using HTML, CSS, JavaScript, and Bootstrap. Database management with SQL Server and MySQL, and version control focused on delivering robust client solutions."
+    }
+  },
+  {
+    "id": "addiction-tu-moda",
+    "order": 30,
+    "visible": true,
+    "date": {
+      "es": "Ene. 2023 - Dic. 2024",
+      "en": "Jan. 2023 - Dec. 2024"
+    },
+    "title": {
+      "es": "Visual Merchandising & IT Support",
+      "en": "Visual Merchandising & IT Support"
+    },
+    "company": "Addiction Tu Moda",
+    "description": {
+      "es": "Responsable del mantenimiento informático y del visual merchandising de la tienda. Diseño y gestión de contenidos para pantallas en formato mosaico, combinando mis habilidades en diseño gráfico y desarrollo web para potenciar la imagen de marca.",
+      "en": "Responsible for IT maintenance and the store's visual merchandising. Design and content management for mosaic-format window displays, combining my skills in graphic design and web development to boost brand image."
+    }
+  },
+  {
+    "id": "cdec-group",
+    "order": 40,
+    "visible": true,
+    "date": {
+      "es": "Abr. 2022 - Jun. 2022",
+      "en": "Apr. 2022 - Jun. 2022"
+    },
+    "title": {
+      "es": "Técnico de Impresión y Diseño",
+      "en": "Printing and Design Technician"
+    },
+    "company": "Cdec Group",
+    "description": {
+      "es": "Operación de maquinaria de impresión y corte (convencional y láser). Participación activa en el diseño de campañas publicitarias para eventos de gran escala y retail de alto nivel, aportando soluciones visuales creativas y de alta precisión.",
+      "en": "Operation of printing and cutting machinery (conventional and laser). Active participation in the design of advertising campaigns for large-scale events and high-end retail, providing creative and highly precise visual solutions."
+    }
+  }
+]

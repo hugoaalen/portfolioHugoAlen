@@ -1,0 +1,42 @@
+{
+  "name": "Hugo Alén",
+  "image": "/yo.jpg",
+  "imageAlt": "Hugo Alén",
+  "kicker": "Web development · Systems · Design",
+  "location": "Vigo, ES",
+  "email": "hugoaalen@gmail.com",
+  "social": {
+    "github": "https://github.com/hugoaalen",
+    "linkedin": "https://www.linkedin.com/in/hugo-al%C3%A9n-acu%C3%B1a-aaa7772a3/"
+  },
+  "hero": {
+    "badge": {
+      "es": "Disponible para trabajar",
+      "en": "Available to work"
+    },
+    "title": {
+      "es": "Hola, soy Hugo Alén",
+      "en": "Hi, I'm Hugo Alén"
+    },
+    "description": [
+      {
+        "es": "Soy un <strong>desarrollador web y técnico de sistemas</strong> en constante evolución.",
+        "en": "I'm a <strong>web developer and systems technician</strong> in constant evolution."
+      },
+      {
+        "es": "Actualmente trabajo en <em class=\"italic\">Grupo Marsan</em>, dentro del área de <strong>Organización y Sistemas</strong>, donde colaboro en la mejora y gestión de procesos tecnológicos. <br>\n  Compagino este trabajo con mis proyectos personales y mis estudios de grado en <strong>Ingeniería Informática</strong> en la <em class=\"italic\">Universitat Oberta de Catalunya</em>.",
+        "en": "I currently work at <em class=\"italic\">Grupo Marsan</em>, within the <strong>Organization and Systems</strong> area, where I collaborate on the improvement and management of technological processes. <br>\n  I combine this work with my personal projects and my <strong>Computer Engineering</strong> degree at <em class=\"italic\">Universitat Oberta de Catalunya</em>."
+      }
+    ],
+    "buttons": {
+      "cv": {
+        "es": "Descargar CV",
+        "en": "Download CV"
+      },
+      "contact": {
+        "es": "Contáctame",
+        "en": "Contact me"
+      }
+    }
+  }
+}

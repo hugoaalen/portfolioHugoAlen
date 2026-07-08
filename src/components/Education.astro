@@ -1,102 +1,32 @@
 ---
 import EducationItem from "./EducationItem.astro";
-
-const EDUCATION_ES = [
-  {
-    date: "Febrero 2025 - Actualmente",
-    title: "Ingeniería Informática",
-    company: "Universitat Oberta de Catalunya"
-  },
-  {
-    date: "Febrero 2025 (50h)",
-    title: "Desarrollo de aplicaciones Tizen para Smart TV",
-    company: "Samsung Dev Spain"
-  },
-  {
-    date: "Enero 2025 (2h)",
-    title: "Inteligencia Artificial y productividad",
-    company: "Google"
-  },
-  {
-    date: "Septiembre 2022 - Junio 2024",
-    title: "CS Desarrollo de Aplicaciones Web",
-    company: "IES Pazo da Mercé"
-  },
-  {
-    date: "Septiembre 2020 - Junio 2022",
-    title: "CM Preimpresión Digital",
-    company: "Colegio Hogar Afundación"
-  }
-];
-
-const EDUCATION_EN = [
-  {
-    date: "February 2025 - Currently",
-    title: "Computer Engineering",
-    company: "Universitat Oberta de Catalunya"
-  },
-  {
-    date: "February 2025 (50h)",
-    title: "Development of Tizen applications for Smart TV",
-    company: "Samsung Dev Spain"
-  },
-  {
-    date: "January 2025 (2h)",
-    title: "Artificial Intelligence and productivity",
-    company: "Google"
-  },
-  {
-    date: "September 2022 - June 2024",
-    title: "Higher Technician in Web Application Development",
-    company: "IES Pazo da Mercé"
-  },
-  {
-    date: "September 2020 - June 2022",
-    title: "Technician in Digital Prepress",
-    company: "Colegio Hogar Afundación"
-  }
-];
-
-const EDUCATION = EDUCATION_ES;
+import { education } from "@/data/content";
 ---
 
 <ol class="grid gap-4 md:grid-cols-2" id="education-container">
   {
-    EDUCATION.map((education) => (
+    education.map((item) => (
       <li class="">
-        <EducationItem {...education} />
+        <EducationItem {...item} />
       </li> 
     ))
   }
 </ol>
 
-<script define:vars={{ EDUCATION_ES, EDUCATION_EN }}>
+<script>
   function updateEducationLanguage() {
     const lang = localStorage.getItem('language') || 'es';
-    
-    // @ts-ignore
-    const educations = lang === 'en' ? EDUCATION_EN : EDUCATION_ES;
-    
     const container = document.getElementById('education-container');
     
     if (!container) return;
-    
-    const items = container.querySelectorAll('li');
-    items.forEach((item, index) => {
-      const edu = educations[index];
-      if (!edu) return;
-      
-      // Actualizar date
-      const dateEl = item.querySelector('time');
-      if (dateEl) dateEl.textContent = edu.date;
-      
-      // Actualizar title
-      const titleEl = item.querySelector('h3');
-      if (titleEl) titleEl.textContent = edu.title;
-      
-      // Actualizar company
-      const companyEl = item.querySelector('h4');
-      if (companyEl) companyEl.textContent = edu.company;
+
+    const elements = container.querySelectorAll('.i18n');
+
+    elements.forEach((el) => {
+      const translation = el.getAttribute(`data-${lang}`);
+      if (translation) {
+        el.textContent = translation;
+      }
     });
   }
   

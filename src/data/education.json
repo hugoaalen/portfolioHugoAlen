@@ -1,0 +1,72 @@
+[
+  {
+    "id": "ingenieria-informatica-uoc",
+    "order": 10,
+    "visible": true,
+    "date": {
+      "es": "Febrero 2025 - Actualmente",
+      "en": "February 2025 - Currently"
+    },
+    "title": {
+      "es": "Ingeniería Informática",
+      "en": "Computer Engineering"
+    },
+    "company": "Universitat Oberta de Catalunya"
+  },
+  {
+    "id": "tizen-smart-tv-samsung",
+    "order": 20,
+    "visible": true,
+    "date": {
+      "es": "Febrero 2025 (50h)",
+      "en": "February 2025 (50h)"
+    },
+    "title": {
+      "es": "Desarrollo de aplicaciones Tizen para Smart TV",
+      "en": "Development of Tizen applications for Smart TV"
+    },
+    "company": "Samsung Dev Spain"
+  },
+  {
+    "id": "ia-productividad-google",
+    "order": 30,
+    "visible": true,
+    "date": {
+      "es": "Enero 2025 (2h)",
+      "en": "January 2025 (2h)"
+    },
+    "title": {
+      "es": "Inteligencia Artificial y productividad",
+      "en": "Artificial Intelligence and productivity"
+    },
+    "company": "Google"
+  },
+  {
+    "id": "cs-daw",
+    "order": 40,
+    "visible": true,
+    "date": {
+      "es": "Septiembre 2022 - Junio 2024",
+      "en": "September 2022 - June 2024"
+    },
+    "title": {
+      "es": "CS Desarrollo de Aplicaciones Web",
+      "en": "Higher Technician in Web Application Development"
+    },
+    "company": "IES Pazo da Mercé"
+  },
+  {
+    "id": "cm-preimpresion-digital",
+    "order": 50,
+    "visible": true,
+    "date": {
+      "es": "Septiembre 2020 - Junio 2022",
+      "en": "September 2020 - June 2022"
+    },
+    "title": {
+      "es": "CM Preimpresión Digital",
+      "en": "Technician in Digital Prepress"
+    },
+    "company": "Colegio Hogar Afundación"
+  }
+]

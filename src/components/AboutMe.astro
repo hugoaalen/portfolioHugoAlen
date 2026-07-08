@@ -1,19 +1,5 @@
 ---
-// Centralizamos los textos aquí para mantener el HTML limpio
-const ABOUT_TEXT = {
-  p1: {
-    es: "Me llamo <strong>Hugo Alén</strong>, soy desarrollador web y administrador de sistemas nacido en Vigo. <br>Mi día a día gestionando redes e infraestructuras IT me ha dado una visión integral de cómo la tecnología optimiza los procesos empresariales. Además, mi formación en diseño gráfico aporta un enfoque creativo a mi perfil, permitiéndome construir soluciones web que no solo son robustas y eficientes, sino también visualmente atractivas.",
-    en: "My name is <strong>Hugo Alén</strong>, a web developer and systems administrator based in Vigo. <br>My day-to-day experience managing networks and IT infrastructure has given me a comprehensive view of how technology optimizes business processes. Furthermore, my background in graphic design brings a creative edge to my profile, allowing me to build web solutions that are not only robust and efficient, but also visually appealing."
-  },
-  p2: {
-    es: "Actualmente curso el grado en <strong>Ingeniería Informática</strong>, una etapa que está consolidando mi experiencia práctica con bases teóricas sólidas en ingeniería de software, estructuras de datos, redes y sistemas operativos. <br>",
-    en: "I am currently pursuing a degree in <strong>Computer Engineering</strong>, a stage that is bridging my practical experience with strong theoretical foundations in software engineering, data structures, networks, and operating systems. <br>"
-  },
-  p3: {
-    es: "<strong>Fuera de la pantalla</strong>, soy un apasionado del deporte —especialmente el fútbol—, disfruto del tiempo con mis amigos y me encanta explorar las últimas tendencias tecnológicas. <br>Si buscas a un profesional comprometido, versátil y con ganas de aportar valor real a tu equipo, ¡me encantaría que hablásemos!",
-    en: "<strong>Beyond the screen</strong>, I'm passionate about sports—especially football—enjoying time with friends, and exploring the latest tech trends. <br>If you're looking for a committed, versatile professional eager to add real value to your team, I'd love to connect!"
-  }
-};
+import { about } from "@/data/content";
 ---
 
 <article
@@ -23,26 +9,16 @@ const ABOUT_TEXT = {
   <div
     class="relative z-10 columns-1 md:columns-2 md:gap-10 [&>p]:mb-5 [&>p:last-child]:mb-0 [&>p]:leading-relaxed [&>p]:break-inside-avoid [&>p>strong]:bg-[#c5ff4a] [&>p>strong]:px-1 [&>p>strong]:text-black [&>p>strong]:font-black text-pretty order-2 md:order-1"
   >
-    <p 
-      class="i18n-html" 
-      data-es={ABOUT_TEXT.p1.es} 
-      data-en={ABOUT_TEXT.p1.en} 
-      set:html={ABOUT_TEXT.p1.es}
-    ></p>
-    
-    <p 
-      class="i18n-html" 
-      data-es={ABOUT_TEXT.p2.es} 
-      data-en={ABOUT_TEXT.p2.en} 
-      set:html={ABOUT_TEXT.p2.es}
-    ></p>
-    
-    <p 
-      class="i18n-html" 
-      data-es={ABOUT_TEXT.p3.es} 
-      data-en={ABOUT_TEXT.p3.en} 
-      set:html={ABOUT_TEXT.p3.es}
-    ></p>
+    {
+      about.map((paragraph) => (
+        <p
+          class="i18n-html"
+          data-es={paragraph.es}
+          data-en={paragraph.en}
+          set:html={paragraph.es}
+        />
+      ))
+    }
   </div>
 </article>
 

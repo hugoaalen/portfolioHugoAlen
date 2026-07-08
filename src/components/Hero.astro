@@ -4,8 +4,9 @@ import LinkedInIcon from "@/components/icons/LinkedIn.astro";
 import MailIcon from "@/components/icons/Mail.astro";
 import GitHub from "@/components/icons/GitHub.astro";
 import SocialPill from "@/components/SocialPill.astro";
+import { profile } from "@/data/content";
 
-const personalImageAlt = "Hugo Alén";
+const { hero, social } = profile;
 ---
 
 <div class="relative max-w-5xl" id="hero-content">
@@ -14,50 +15,57 @@ const personalImageAlt = "Hugo Alén";
       <div class="flex items-center gap-4">
         <img
           class="object-cover border-2 border-black rounded-full shadow-[4px_4px_0_#111] size-20 dark:border-white dark:shadow-[4px_4px_0_#c5ff4a]"
-          src="/yo.jpg"
-          alt={personalImageAlt}
+          src={profile.image}
+          alt={profile.imageAlt}
         />
         <div>
           <p class="text-[10px] font-black tracking-[0.18em] text-black uppercase dark:text-[#c5ff4a] sm:text-xs sm:tracking-[0.24em]">
-            Web development · Systems · Design
+            {profile.kicker}
           </p>
           <p class="mt-2 text-xs font-black tracking-[0.2em] text-gray-600 uppercase dark:text-gray-400">
-            Vigo, ES
+            {profile.location}
           </p>
         </div>
       </div>
 
       <a
-        href="https://www.linkedin.com/in/hugo-al%C3%A9n-acu%C3%B1a-aaa7772a3/"
+        href={social.linkedin}
         target="_blank"
         rel="noopener"
         class="flex items-center transition hover:-translate-y-1 sm:justify-end"
       >
-        <Badge><span id="badge-available">Disponible para trabajar</span></Badge>
+        <Badge>
+          <span class="i18n" id="badge-available" data-es={hero.badge.es} data-en={hero.badge.en}>
+            {hero.badge.es}
+          </span>
+        </Badge>
       </a>
     </header>
 
     <h1
-      class="max-w-4xl text-5xl font-black leading-[0.9] tracking-[-0.07em] text-black uppercase sm:text-7xl md:text-[5.8rem] dark:text-white"
+      class="max-w-4xl text-5xl font-black leading-[0.9] tracking-[-0.07em] text-black uppercase sm:text-7xl md:text-[5.8rem] dark:text-white i18n"
       id="hero-title"
+      data-es={hero.title.es}
+      data-en={hero.title.en}
     >
-      Hola, soy Hugo Alén
+      {hero.title.es}
     </h1>
 
     <div class="grid gap-5 mt-8 md:grid-cols-[0.8fr_1.2fr] md:gap-10">
       <p
-        class="text-xl font-medium leading-relaxed text-gray-800 [&>strong]:bg-[#c5ff4a] [&>strong]:px-1 [&>strong]:text-black [&>strong]:font-bold dark:text-gray-200 md:text-2xl"
+        class="text-xl font-medium leading-relaxed text-gray-800 [&>strong]:bg-[#c5ff4a] [&>strong]:px-1 [&>strong]:text-black [&>strong]:font-bold dark:text-gray-200 md:text-2xl i18n-html"
         id="hero-desc1"
-      >
-      Soy un <strong>desarrollador web y técnico de sistemas</strong> en constante evolución.
-      </p>
+        data-es={hero.description[0].es}
+        data-en={hero.description[0].en}
+        set:html={hero.description[0].es}
+      />
       <p
-        class="text-base leading-relaxed text-gray-600 dark:[&>strong]:text-[#c5ff4a] [&>strong]:font-bold dark:text-gray-400 sm:text-lg"
+        class="text-base leading-relaxed text-gray-600 dark:[&>strong]:text-[#c5ff4a] [&>strong]:font-bold dark:text-gray-400 sm:text-lg i18n-html"
         id="hero-desc2"
-      >
-      Actualmente trabajo en <em class="italic">Grupo Marsan</em>, dentro del área de <strong>Organización y Sistemas</strong>, donde colaboro en la mejora y gestión de procesos tecnológicos. <br>
-      Compagino este trabajo con mis proyectos personales y mis estudios de grado en <strong>Ingeniería Informática</strong> en la <em class="italic">Universitat Oberta de Catalunya</em>.
-      </p>
+        data-es={hero.description[1].es}
+        data-en={hero.description[1].en}
+        set:html={hero.description[1].es}
+      />
     </div>
 
     <nav class="flex flex-wrap gap-3 mt-9">
@@ -67,17 +75,19 @@ const personalImageAlt = "Hugo Alén";
       <span id="btn-cv">Descargar CV</span>
     </SocialPill>
     -->
-    <SocialPill href="mailto:hugoaalen@gmail.com">
+    <SocialPill href={`mailto:${profile.email}`}>
       <MailIcon class="size-4" />
-      <span id="btn-contact">Contáctame</span>
+      <span class="i18n" id="btn-contact" data-es={hero.buttons.contact.es} data-en={hero.buttons.contact.en}>
+        {hero.buttons.contact.es}
+      </span>
     </SocialPill>
     <SocialPill
-      href="https://www.linkedin.com/in/hugo-al%C3%A9n-acu%C3%B1a-aaa7772a3/"
+      href={social.linkedin}
     >
       <LinkedInIcon class="size-4" />
       LinkedIn
     </SocialPill>
-    <SocialPill href="https://github.com/hugoaalen">
+    <SocialPill href={social.github}>
       <GitHub class="size-4" />
       Github
     </SocialPill>
@@ -86,51 +96,18 @@ const personalImageAlt = "Hugo Alén";
 </div>
 
 <script>
-  const translations = {
-    es: {
-      badge: "Disponible para trabajar",
-      title: "Hola, soy Hugo Alén",
-      desc1: "Soy un <strong>desarrollador web y técnico de sistemas</strong> en constante evolución.",
-      desc2: "Actualmente trabajo en <em class=\"italic\">Grupo Marsan</em>, dentro del área de <strong>Organización y Sistemas</strong>, donde colaboro en la mejora y gestión de procesos tecnológicos. <br>\n  Compagino este trabajo con mis proyectos personales y mis estudios de grado en <strong>Ingeniería Informática</strong> en la <em class=\"italic\">Universitat Oberta de Catalunya</em>.",
-      cv: "Descargar CV",
-      contact: "Contáctame"
-    },
-    en: {
-      badge: "Available to work",
-      title: "Hi, I'm Hugo Alén",
-      desc1: "I'm a <strong>web developer and systems technician</strong> in constant evolution.",
-      desc2: "I currently work at <em class=\"italic\">Grupo Marsan</em>, within the <strong>Organization and Systems</strong> area, where I collaborate on the improvement and management of technological processes. <br>\n  I combine this work with my personal projects and my <strong>Computer Engineering</strong> degree at <em class=\"italic\">Universitat Oberta de Catalunya</em>.",
-      cv: "Download CV",
-      contact: "Contact me"
-    }
-  };
-  
   function updateLanguage() {
     const lang = localStorage.getItem('language') || 'es';
-    const t = translations[lang as keyof typeof translations] || translations.es;
-    
-    // Actualizar badge
-    const badge = document.getElementById('badge-available');
-    if (badge) badge.textContent = t.badge;
-    
-    // Actualizar título
-    const title = document.getElementById('hero-title');
-    if (title) title.textContent = t.title;
-    
-    // Actualizar descripción 1
-    const desc1 = document.getElementById('hero-desc1');
-    if (desc1) desc1.innerHTML = t.desc1;
-    
-    // Actualizar descripción 2
-    const desc2 = document.getElementById('hero-desc2');
-    if (desc2) desc2.innerHTML = t.desc2;
-    
-    // Actualizar botones
-    const btnCv = document.getElementById('btn-cv');
-    if (btnCv) btnCv.textContent = t.cv;
-    
-    const btnContact = document.getElementById('btn-contact');
-    if (btnContact) btnContact.textContent = t.contact;
+
+    document.querySelectorAll('.i18n').forEach((el) => {
+      const translation = el.getAttribute(`data-${lang}`);
+      if (translation) el.textContent = translation;
+    });
+
+    document.querySelectorAll('.i18n-html').forEach((el) => {
+      const translation = el.getAttribute(`data-${lang}`);
+      if (translation) el.innerHTML = translation;
+    });
   }
   
   updateLanguage();

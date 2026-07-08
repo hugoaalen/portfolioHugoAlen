@@ -1,0 +1,137 @@
+[
+  {
+    "id": "zaizen",
+    "order": 10,
+    "visible": true,
+    "featured": true,
+    "status": "published",
+    "category": "app",
+    "title": {
+      "es": "ZaiZen - Control de gastos y finanzas personales",
+      "en": "ZaiZen - Expense Tracking and Personal Finance Management"
+    },
+    "description": {
+      "es": "Aplicación web para el control de gastos y finanzas personales. Permite a los usuarios registrar sus ingresos y gastos, categorizar sus transacciones y visualizar gráficos de su situación financiera.",
+      "en": "Web application for expense tracking and personal finance management. It allows users to record their income and expenses, categorize their transactions, and visualize charts of their financial situation."
+    },
+    "link": "https://zaizen.vercel.app",
+    "github": "https://github.com/hugoaalen/zaizen",
+    "image": "/projects/zaizen.png",
+    "tags": ["REACT", "SUPABASE", "TAILWIND"]
+  },
+  {
+    "id": "senda",
+    "order": 20,
+    "visible": true,
+    "featured": false,
+    "status": "published",
+    "category": "app",
+    "title": {
+      "es": "Senda - Planificador de progreso académico",
+      "en": "Senda - Academic Progress Planner"
+    },
+    "description": {
+      "es": "Aplicación personal para seguir el avance de una carrera universitaria, gestionar asignaturas por estado, planificar escenarios de matrícula y guardar datos en local o sincronizarlos con Firebase Auth y Firestore.",
+      "en": "Personal app for tracking university degree progress, managing subjects by status, planning enrollment scenarios, and storing data locally or syncing it with Firebase Auth and Firestore."
+    },
+    "github": "https://github.com/hugoaalen/Senda",
+    "image": "/projects/senda-window.png",
+    "tags": ["REACT", "TYPESCRIPT", "FIREBASE", "VITE"]
+  },
+  {
+    "id": "onosoalmanaque",
+    "order": 30,
+    "visible": true,
+    "featured": false,
+    "status": "published",
+    "category": "app",
+    "title": {
+      "es": "oNoSoAlMaNaQuE - Organizador de calendario de eventos",
+      "en": "oNoSoAlMaNaQuE - Event Calendar Organizer"
+    },
+    "description": {
+      "es": "Aplicación web para organizar calendarios de eventos. Permite a los usuarios crear un link desde el cuál los diferentes usuarios pueden marcar los días que les vienen bien para un evento, facilitando la coordinación de fechas entre grupos de personas.",
+      "en": "Web application for organizing event calendars. It allows users to create a link from which different users can mark the days that work for them for an event, facilitating date coordination between groups of people."
+    },
+    "link": "https://onosoalmanaque.vercel.app",
+    "github": "https://github.com/hugoaalen/onosoalmanaque",
+    "image": "/projects/onosoalmanaque.webp",
+    "tags": ["ASTRO", "REACT", "SUPABASE", "TAILWIND"]
+  },
+  {
+    "id": "impostor",
+    "order": 40,
+    "visible": true,
+    "featured": false,
+    "status": "published",
+    "category": "game",
+    "title": {
+      "es": "¿Quién finge? - Juego local del impostor",
+      "en": "Who is Faking? - Local Impostor Game"
+    },
+    "description": {
+      "es": "Juego local para grupos pensado para jugar desde un solo móvil. Permite configurar jugadores e impostores, elegir categorías, revelar roles por turnos, usar pistas o palabra señuelo y evitar repeticiones entre rondas.",
+      "en": "Local party game designed to be played from a single phone. It lets users configure players and impostors, choose categories, reveal roles turn by turn, use hints or decoy words, and avoid repeated words between rounds."
+    },
+    "github": "https://github.com/hugoaalen/Impostor",
+    "image": "/projects/impostor-window.png",
+    "tags": ["REACT", "TYPESCRIPT", "VITE"]
+  },
+  {
+    "id": "bpkeepers",
+    "order": 50,
+    "visible": true,
+    "featured": false,
+    "status": "published",
+    "category": "website",
+    "title": {
+      "es": "BPKeepers - Entrenamientos y mentoría para porteros",
+      "en": "BPKeepers - Coaching and goalkeeper training"
+    },
+    "description": {
+      "es": "Sitio web de la escuela de porteros de Brais Pereiro, BPKeepers. Entrenamientos para porteros de todas las edades y niveles.",
+      "en": "Website of Brais Pereiro's goalkeeper school, BPKeepers. Training for goalkeepers of all ages and levels."
+    },
+    "github": "https://github.com/hugoaalen/bpkeepers",
+    "image": "/projects/bpkeepers.webp",
+    "tags": ["HTML", "CSS"]
+  },
+  {
+    "id": "taskflow",
+    "order": 60,
+    "visible": true,
+    "featured": false,
+    "status": "published",
+    "category": "tool",
+    "title": {
+      "es": "TaskFlow - API REST de gestión de tareas",
+      "en": "TaskFlow - Task Management REST API"
+    },
+    "description": {
+      "es": "Demo de API REST en PHP 8.1 con tipado estricto, PDO, migraciones SQL, tests de integración con PHPUnit y una estructura por capas inspirada en arquitectura hexagonal.",
+      "en": "PHP 8.1 REST API demo with strict typing, PDO, SQL migrations, PHPUnit integration tests, and a layered structure inspired by hexagonal architecture."
+    },
+    "github": "https://github.com/hugoaalen/TaskFlow",
+    "image": "/projects/taskflow.svg",
+    "tags": ["PHP", "MYSQL"]
+  },
+  {
+    "id": "vehixhub",
+    "order": 70,
+    "visible": true,
+    "featured": false,
+    "status": "published",
+    "category": "app",
+    "title": {
+      "es": "VehixHub - Panel de inventario de vehículos",
+      "en": "VehixHub - Vehicle Inventory Dashboard"
+    },
+    "description": {
+      "es": "MVP para gestionar inventario de coches con frontend Angular y TypeScript, formularios reactivos con filtros dinámicos, backend PHP 8, MySQL y consultas PDO preparadas.",
+      "en": "MVP for managing vehicle inventory with an Angular and TypeScript frontend, reactive filtering forms, a PHP 8 backend, MySQL, and prepared PDO queries."
+    },
+    "github": "https://github.com/hugoaalen/VehixHub",
+    "image": "/projects/vehixhub.svg",
+    "tags": ["ANGULAR", "TYPESCRIPT", "PHP", "MYSQL"]
+  }
+]
