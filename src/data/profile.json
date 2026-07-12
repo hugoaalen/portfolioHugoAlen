@@ -2,7 +2,7 @@
   "name": "Hugo Alén",
   "image": "/yo.jpg",
   "imageAlt": "Hugo Alén",
-  "kicker": "Web development · Systems · Design",
+  "kicker": "Software Engineer · Cloud & DevOps · Cybersecurity",
   "location": "Vigo, ES",
   "email": "hugoaalen@gmail.com",
   "social": {
@@ -20,12 +20,12 @@
     },
     "description": [
       {
-        "es": "Soy un <strong>desarrollador web y técnico de sistemas</strong> en constante evolución.",
-        "en": "I'm a <strong>web developer and systems technician</strong> in constant evolution."
+        "es": "Soy un <strong>Software & Systems Engineer</strong> enfocado en el desarrollo .NET, la optimización de infraestructuras y la seguridad del software.",
+        "en": "I'm a <strong>Software & Systems Engineer</strong> focused on .NET development, infrastructure optimization, and software security."
       },
       {
-        "es": "Actualmente trabajo en <em class=\"italic\">Grupo Marsan</em>, dentro del área de <strong>Organización y Sistemas</strong>, donde colaboro en la mejora y gestión de procesos tecnológicos. <br>\n  Compagino este trabajo con mis proyectos personales y mis estudios de grado en <strong>Ingeniería Informática</strong> en la <em class=\"italic\">Universitat Oberta de Catalunya</em>.",
-        "en": "I currently work at <em class=\"italic\">Grupo Marsan</em>, within the <strong>Organization and Systems</strong> area, where I collaborate on the improvement and management of technological processes. <br>\n  I combine this work with my personal projects and my <strong>Computer Engineering</strong> degree at <em class=\"italic\">Universitat Oberta de Catalunya</em>."
+        "es": "Actualmente trabajo en <em class=\"italic\">Grupo Marsan</em> desarrollando soluciones críticas e industriales internacionales. Compagino mi rol profesional con el grado en <strong>Ingeniería Informática</strong> en la <em class=\"italic\">UOC</em> y el <strong>Curso de Especialización en Ciberseguridad</strong>.",
+        "en": "I currently work at <em class=\"italic\">Grupo Marsan</em> developing critical and international industrial solutions. I combine my professional role with my <strong>Computer Engineering</strong> degree at <em class=\"italic\">UOC</em> and a <strong>Specialization Course in Cybersecurity</strong>."
       }
     ],
     "buttons": {
