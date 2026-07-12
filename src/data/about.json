@@ -3,21 +3,21 @@
     "id": "intro",
     "order": 10,
     "visible": true,
-    "es": "Me llamo <strong>Hugo Alén</strong>, soy desarrollador web y administrador de sistemas nacido en Vigo. <br>Mi día a día gestionando redes e infraestructuras IT me ha dado una visión integral de cómo la tecnología optimiza los procesos empresariales. Además, mi formación en diseño gráfico aporta un enfoque creativo a mi perfil, permitiéndome construir soluciones web que no solo son robustas y eficientes, sino también visualmente atractivas.",
-    "en": "My name is <strong>Hugo Alén</strong>, a web developer and systems administrator based in Vigo. <br>My day-to-day experience managing networks and IT infrastructure has given me a comprehensive view of how technology optimizes business processes. Furthermore, my background in graphic design brings a creative edge to my profile, allowing me to build web solutions that are not only robust and efficient, but also visually appealing."
+    "es": "Me llamo <strong>Hugo Alén</strong>, soy Software & Systems Engineer afincado en Vigo. <br>Mi experiencia en entornos industriales internacionales gestionando infraestructuras críticas y optimizando bases de datos empresariales me ha dado una visión analítica e integral del software. Enfoque centrado en la creación de soluciones backend robustas con .NET, la automatización de procesos mediante scripting y el despliegue eficiente con tecnologías de contenedores.",
+    "en": "My name is <strong>Hugo Alén</strong>, a Software & Systems Engineer based in Vigo. <br>My experience in international industrial environments managing critical infrastructure and optimizing enterprise databases has provided me with a comprehensive, analytical view of software development. I focus on building robust backend solutions with .NET, process automation through scripting, and efficient deployment using container technologies."
   },
   {
     "id": "studies",
     "order": 20,
     "visible": true,
-    "es": "Actualmente curso el grado en <strong>Ingeniería Informática</strong>, una etapa que está consolidando mi experiencia práctica con bases teóricas sólidas en ingeniería de software, estructuras de datos, redes y sistemas operativos. <br>",
-    "en": "I am currently pursuing a degree in <strong>Computer Engineering</strong>, a stage that is bridging my practical experience with strong theoretical foundations in software engineering, data structures, networks, and operating systems. <br>"
+    "es": "Actualmente curso el grado en <strong>Ingeniería Informática</strong> en la UOC junto con el <strong>Curso de Especialización en Ciberseguridad</strong>, consolidando mi trayectoria práctica con bases sólidas en arquitectura de software, sistemas distribuidos y protección de entornos de la información (DevSecOps, hardening y seguridad en APIs).",
+    "en": "I am currently pursuing a degree in <strong>Computer Engineering</strong> at UOC alongside a <strong>Specialization Course in Cybersecurity</strong>, bridging my practical experience with deep foundations in software architecture, distributed systems, and information environment security (DevSecOps, hardening, and API security)."
   },
   {
     "id": "personal",
     "order": 30,
     "visible": true,
-    "es": "<strong>Fuera de la pantalla</strong>, soy un apasionado del deporte —especialmente el fútbol—, disfruto del tiempo con mis amigos y me encanta explorar las últimas tendencias tecnológicas. <br>Si buscas a un profesional comprometido, versátil y con ganas de aportar valor real a tu equipo, ¡me encantaría que hablásemos!",
-    "en": "<strong>Beyond the screen</strong>, I'm passionate about sports—especially football—enjoying time with friends, and exploring the latest tech trends. <br>If you're looking for a committed, versatile professional eager to add real value to your team, I'd love to connect!"
+    "es": "<strong>Fuera de la pantalla</strong>, soy un apasionado del deporte —especialmente el fútbol—, disfruto del tiempo con mis amigos y sigo de cerca el ecosistema de la ciberseguridad y el desarrollo Cloud. <br>Si buscas a un profesional versátil, analítico y con ganas de aportar valor real y soluciones seguras a tu equipo, ¡me encantaría que hablásemos!",
+    "en": "<strong>Beyond the screen</strong>, I'm passionate about sports—especially football—enjoying time with friends, and closely following the cybersecurity and Cloud development ecosystems. <br>If you're looking for a versatile, analytical professional eager to add real value and secure solutions to your team, I'd love to connect!"
   }
 ]
