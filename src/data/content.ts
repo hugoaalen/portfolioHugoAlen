@@ -22,13 +22,13 @@ export const AVAILABLE_PROJECT_TAGS = [
   "MYSQL",
 ] as const;
 
-const PROJECT_STATUS = ["published", "draft", "archived"] as const;
-const PROJECT_CATEGORIES = ["app", "website", "game", "tool", "design"] as const;
+export const PROJECT_STATUSES = ["published", "draft", "archived"] as const;
+export const PROJECT_CATEGORIES = ["app", "website", "game", "tool", "design"] as const;
 
 type Lang = "es" | "en";
 type I18nText = Record<Lang, string>;
 type ProjectTag = (typeof AVAILABLE_PROJECT_TAGS)[number];
-type ProjectStatus = (typeof PROJECT_STATUS)[number];
+type ProjectStatus = (typeof PROJECT_STATUSES)[number];
 type ProjectCategory = (typeof PROJECT_CATEGORIES)[number];
 
 export interface EditableItem {
@@ -226,7 +226,7 @@ function parseProjects(value: unknown): Project[] {
     });
 
     const status = assertString(raw.status, `projects[${index}].status`);
-    if (!PROJECT_STATUS.includes(status as ProjectStatus)) {
+    if (!PROJECT_STATUSES.includes(status as ProjectStatus)) {
       fail(`projects[${index}].status debe ser published, draft o archived`);
     }
 

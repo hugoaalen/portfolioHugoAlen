@@ -1,0 +1,20 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function isAdmin() {
+      return request.auth != null
+        && request.auth.token.email == "hugoaalen@gmail.com";
+    }
+
+    match /projects/{projectId} {
+      allow read: if isAdmin()
+        || (resource.data.visible == true && resource.data.status == "published");
+      allow create, update, delete: if isAdmin();
+    }
+
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

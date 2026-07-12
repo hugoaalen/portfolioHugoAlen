@@ -91,3 +91,20 @@ pnpm run build
 ```
 
 4. Si el build pasa, el portfolio está listo para desplegar.
+
+## CMS con Firebase
+
+La primera pantalla editable vive en `/admin/projects`.
+
+- El acceso se hace con Google Auth.
+- Solo `hugoaalen@gmail.com` debe poder escribir en Firestore.
+- Los proyectos se guardan en la colección `projects`.
+- El botón `Importar JSON` copia el contenido actual de `src/data/projects.json` a Firestore como semilla inicial.
+
+Antes de usar el CMS hay que publicar las reglas de Firestore:
+
+```bash
+firebase deploy --only firestore:rules --project portfolio-hugo-alen
+```
+
+Si prefieres hacerlo desde la consola de Firebase, pega el contenido de `firestore.rules` en Firestore Database > Reglas y publícalo.

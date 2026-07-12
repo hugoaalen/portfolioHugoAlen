@@ -1,0 +1,527 @@
+---
+import Layout from "@/layouts/Layout.astro";
+---
+
+<Layout
+  title="Admin Proyectos - Hugo Alén"
+  description="Editor privado de proyectos del portfolio"
+>
+  <main class="min-h-screen px-4 py-32 text-black bg-[#f6f6ef] dark:bg-[#050505] dark:text-white">
+    <section class="w-full max-w-6xl p-6 mx-auto border-2 border-black bg-white shadow-[10px_10px_0_#111] dark:border-white dark:bg-[#111] dark:shadow-[10px_10px_0_#c5ff4a] sm:p-8">
+      <a href="/admin" class="text-sm font-black uppercase underline">Volver al panel</a>
+
+      <div class="flex flex-col gap-5 mt-5 lg:flex-row lg:items-end lg:justify-between">
+        <div>
+          <p class="inline-block px-2 py-1 text-xs font-black tracking-[0.18em] uppercase bg-[#c5ff4a] text-black">
+            CMS privado
+          </p>
+          <h1 class="mt-4 text-4xl font-black leading-none tracking-tight uppercase sm:text-5xl">
+            Proyectos
+          </h1>
+          <p class="max-w-2xl mt-4 text-gray-700 dark:text-gray-300">
+            Edita los proyectos desde Firestore. Los datos actuales del JSON pueden importarse como contenido inicial.
+          </p>
+        </div>
+
+        <div class="flex flex-wrap gap-3">
+          <button
+            id="reload-projects"
+            class="px-4 py-3 text-sm font-black uppercase transition border-2 border-black dark:border-white hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black"
+            type="button"
+          >
+            Recargar
+          </button>
+          <button
+            id="seed-projects"
+            class="px-4 py-3 text-sm font-black text-black uppercase transition border-2 border-black bg-[#c5ff4a] hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black"
+            type="button"
+          >
+            Importar JSON
+          </button>
+        </div>
+      </div>
+
+      <div id="admin-loading" class="p-4 mt-8 text-sm font-bold border-2 border-black dark:border-white">
+        Comprobando sesión...
+      </div>
+
+      <div id="admin-login" class="hidden p-5 mt-8 border-2 border-black dark:border-white">
+        <p class="text-sm font-bold text-gray-700 dark:text-gray-300">
+          Inicia sesión con la cuenta autorizada para editar los proyectos.
+        </p>
+        <button
+          id="admin-login-button"
+          class="px-4 py-3 mt-4 text-sm font-black text-black uppercase transition border-2 border-black bg-[#c5ff4a] hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black"
+          type="button"
+        >
+          Entrar con Google
+        </button>
+      </div>
+
+      <div id="admin-denied" class="hidden p-4 mt-8 text-sm font-bold text-white bg-red-700 border-2 border-black dark:border-white">
+        Tu cuenta de Google no está autorizada para administrar este portfolio.
+      </div>
+
+      <div id="admin-panel" class="hidden mt-8">
+        <div class="flex flex-col gap-3 p-4 border-2 border-black dark:border-white sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <p class="text-sm font-bold text-gray-700 dark:text-gray-300">Sesión iniciada como:</p>
+            <p id="admin-user-email" class="mt-1 font-black"></p>
+          </div>
+          <button
+            id="admin-logout-button"
+            class="px-4 py-3 text-sm font-black uppercase transition border-2 border-black dark:border-white hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black"
+            type="button"
+          >
+            Cerrar sesión
+          </button>
+        </div>
+
+        <p id="projects-message" class="hidden p-4 mt-6 text-sm font-bold border-2 border-black dark:border-white"></p>
+
+        <div class="grid gap-6 mt-6 lg:grid-cols-[0.85fr_1.15fr]">
+          <section class="p-4 border-2 border-black dark:border-white">
+            <div class="flex items-center justify-between gap-4">
+              <h2 class="text-2xl font-black uppercase">Listado</h2>
+              <button
+                id="new-project"
+                class="px-3 py-2 text-xs font-black text-black uppercase border-2 border-black bg-[#c5ff4a]"
+                type="button"
+              >
+                Nuevo
+              </button>
+            </div>
+            <div id="projects-list" class="grid gap-3 mt-5"></div>
+          </section>
+
+          <form id="project-form" class="p-4 border-2 border-black dark:border-white">
+            <h2 class="text-2xl font-black uppercase">Editor</h2>
+
+            <div class="grid gap-4 mt-5 sm:grid-cols-2">
+              <label class="grid gap-2 text-sm font-black uppercase">
+                ID
+                <input id="project-id" class="px-3 py-2 text-black border-2 border-black" required />
+              </label>
+              <label class="grid gap-2 text-sm font-black uppercase">
+                Orden
+                <input id="project-order" class="px-3 py-2 text-black border-2 border-black" min="0" required type="number" />
+              </label>
+              <label class="grid gap-2 text-sm font-black uppercase">
+                Estado
+                <select id="project-status" class="px-3 py-2 text-black border-2 border-black"></select>
+              </label>
+              <label class="grid gap-2 text-sm font-black uppercase">
+                Categoría
+                <select id="project-category" class="px-3 py-2 text-black border-2 border-black"></select>
+              </label>
+            </div>
+
+            <div class="flex flex-wrap gap-5 mt-5">
+              <label class="inline-flex items-center gap-2 text-sm font-black uppercase">
+                <input id="project-visible" class="size-5" type="checkbox" />
+                Visible
+              </label>
+              <label class="inline-flex items-center gap-2 text-sm font-black uppercase">
+                <input id="project-featured" class="size-5" type="checkbox" />
+                Destacado
+              </label>
+            </div>
+
+            <div class="grid gap-4 mt-5 sm:grid-cols-2">
+              <label class="grid gap-2 text-sm font-black uppercase">
+                Título ES
+                <input id="project-title-es" class="px-3 py-2 text-black border-2 border-black" required />
+              </label>
+              <label class="grid gap-2 text-sm font-black uppercase">
+                Título EN
+                <input id="project-title-en" class="px-3 py-2 text-black border-2 border-black" required />
+              </label>
+            </div>
+
+            <div class="grid gap-4 mt-5 sm:grid-cols-2">
+              <label class="grid gap-2 text-sm font-black uppercase">
+                Descripción ES
+                <textarea id="project-description-es" class="min-h-32 px-3 py-2 text-black border-2 border-black" required></textarea>
+              </label>
+              <label class="grid gap-2 text-sm font-black uppercase">
+                Descripción EN
+                <textarea id="project-description-en" class="min-h-32 px-3 py-2 text-black border-2 border-black" required></textarea>
+              </label>
+            </div>
+
+            <div class="grid gap-4 mt-5 sm:grid-cols-3">
+              <label class="grid gap-2 text-sm font-black uppercase">
+                Imagen
+                <input id="project-image" class="px-3 py-2 text-black border-2 border-black" placeholder="/projects/imagen.png" required />
+              </label>
+              <label class="grid gap-2 text-sm font-black uppercase">
+                GitHub
+                <input id="project-github" class="px-3 py-2 text-black border-2 border-black" placeholder="https://github.com/..." />
+              </label>
+              <label class="grid gap-2 text-sm font-black uppercase">
+                Enlace
+                <input id="project-link" class="px-3 py-2 text-black border-2 border-black" placeholder="https://..." />
+              </label>
+            </div>
+
+            <fieldset class="p-4 mt-5 border-2 border-black dark:border-white">
+              <legend class="px-2 text-sm font-black uppercase">Tecnologías</legend>
+              <div id="project-tags" class="flex flex-wrap gap-3"></div>
+            </fieldset>
+
+            <div class="flex flex-wrap gap-3 mt-6">
+              <button
+                class="px-4 py-3 text-sm font-black text-black uppercase transition border-2 border-black bg-[#c5ff4a] hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black"
+                type="submit"
+              >
+                Guardar
+              </button>
+              <button
+                id="delete-project"
+                class="px-4 py-3 text-sm font-black text-white uppercase transition bg-red-700 border-2 border-black dark:border-white hover:bg-black"
+                type="button"
+              >
+                Eliminar
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+</Layout>
+
+<script>
+  import { onAuthStateChanged, signInWithPopup, signOut } from "firebase/auth";
+  import {
+    collection,
+    deleteDoc,
+    doc,
+    getDocs,
+    orderBy,
+    query,
+    setDoc,
+  } from "firebase/firestore";
+  import seedProjects from "@/data/projects.json";
+  import {
+    AVAILABLE_PROJECT_TAGS,
+    PROJECT_CATEGORIES,
+    PROJECT_STATUSES,
+    type Project,
+  } from "@/data/content";
+  import { adminEmail, auth, db, googleProvider } from "@/lib/firebase";
+
+  const loading = document.getElementById("admin-loading");
+  const login = document.getElementById("admin-login");
+  const denied = document.getElementById("admin-denied");
+  const panel = document.getElementById("admin-panel");
+  const userEmail = document.getElementById("admin-user-email");
+  const loginButton = document.getElementById("admin-login-button");
+  const logoutButton = document.getElementById("admin-logout-button");
+  const reloadButton = document.getElementById("reload-projects");
+  const seedButton = document.getElementById("seed-projects");
+  const newButton = document.getElementById("new-project");
+  const deleteButton = document.getElementById("delete-project");
+  const message = document.getElementById("projects-message");
+  const list = document.getElementById("projects-list");
+  const form = document.getElementById("project-form") as HTMLFormElement | null;
+  const tagsContainer = document.getElementById("project-tags");
+
+  const fields = {
+    id: document.getElementById("project-id") as HTMLInputElement | null,
+    order: document.getElementById("project-order") as HTMLInputElement | null,
+    status: document.getElementById("project-status") as HTMLSelectElement | null,
+    category: document.getElementById("project-category") as HTMLSelectElement | null,
+    visible: document.getElementById("project-visible") as HTMLInputElement | null,
+    featured: document.getElementById("project-featured") as HTMLInputElement | null,
+    titleEs: document.getElementById("project-title-es") as HTMLInputElement | null,
+    titleEn: document.getElementById("project-title-en") as HTMLInputElement | null,
+    descriptionEs: document.getElementById("project-description-es") as HTMLTextAreaElement | null,
+    descriptionEn: document.getElementById("project-description-en") as HTMLTextAreaElement | null,
+    image: document.getElementById("project-image") as HTMLInputElement | null,
+    github: document.getElementById("project-github") as HTMLInputElement | null,
+    link: document.getElementById("project-link") as HTMLInputElement | null,
+  };
+
+  let projects: Project[] = [];
+  let selectedProjectId = "";
+
+  function setMessage(text: string, variant: "info" | "error" | "success" = "info") {
+    if (!message) return;
+
+    message.textContent = text;
+    message.classList.remove("hidden", "bg-[#c5ff4a]", "bg-red-700", "text-white", "text-black", "dark:text-white");
+    if (variant === "error") {
+      message.classList.add("bg-red-700", "text-white");
+      return;
+    }
+
+    if (variant === "success") {
+      message.classList.add("bg-[#c5ff4a]", "text-black");
+      return;
+    }
+
+    message.classList.add("text-black", "dark:text-white");
+  }
+
+  function showState(state: "loading" | "login" | "denied" | "panel") {
+    loading?.classList.toggle("hidden", state !== "loading");
+    login?.classList.toggle("hidden", state !== "login");
+    denied?.classList.toggle("hidden", state !== "denied");
+    panel?.classList.toggle("hidden", state !== "panel");
+  }
+
+  function fillSelect(select: HTMLSelectElement | null, values: readonly string[]) {
+    if (!select) return;
+
+    select.innerHTML = values.map((value) => `<option value="${value}">${value}</option>`).join("");
+  }
+
+  function renderTagInputs() {
+    if (!tagsContainer) return;
+
+    tagsContainer.innerHTML = AVAILABLE_PROJECT_TAGS.map((tag) => `
+      <label class="inline-flex items-center gap-2 px-3 py-2 text-xs font-black uppercase border-2 border-black dark:border-white">
+        <input class="project-tag size-4" type="checkbox" value="${tag}" />
+        ${tag}
+      </label>
+    `).join("");
+  }
+
+  function emptyProject(): Project {
+    const nextOrder = projects.length > 0
+      ? Math.max(...projects.map((project) => project.order)) + 10
+      : 10;
+
+    return {
+      id: "",
+      order: nextOrder,
+      visible: true,
+      featured: false,
+      status: "draft",
+      category: "app",
+      title: { es: "", en: "" },
+      description: { es: "", en: "" },
+      image: "/projects/",
+      tags: [],
+    };
+  }
+
+  function setFormProject(project: Project) {
+    selectedProjectId = project.id;
+
+    if (fields.id) fields.id.value = project.id;
+    if (fields.order) fields.order.value = String(project.order);
+    if (fields.status) fields.status.value = project.status;
+    if (fields.category) fields.category.value = project.category;
+    if (fields.visible) fields.visible.checked = project.visible;
+    if (fields.featured) fields.featured.checked = project.featured;
+    if (fields.titleEs) fields.titleEs.value = project.title.es;
+    if (fields.titleEn) fields.titleEn.value = project.title.en;
+    if (fields.descriptionEs) fields.descriptionEs.value = project.description.es;
+    if (fields.descriptionEn) fields.descriptionEn.value = project.description.en;
+    if (fields.image) fields.image.value = project.image;
+    if (fields.github) fields.github.value = project.github ?? "";
+    if (fields.link) fields.link.value = project.link ?? "";
+
+    document.querySelectorAll<HTMLInputElement>(".project-tag").forEach((checkbox) => {
+      checkbox.checked = project.tags.includes(checkbox.value as Project["tags"][number]);
+    });
+  }
+
+  function getFormProject(): Project {
+    const id = fields.id?.value.trim() ?? "";
+    const order = Number(fields.order?.value ?? 0);
+    const github = fields.github?.value.trim();
+    const link = fields.link?.value.trim();
+    const tags = [...document.querySelectorAll<HTMLInputElement>(".project-tag:checked")]
+      .map((checkbox) => checkbox.value as Project["tags"][number]);
+
+    if (!id) throw new Error("El proyecto necesita un ID.");
+    if (!Number.isFinite(order)) throw new Error("El orden tiene que ser un número.");
+
+    return {
+      id,
+      order,
+      visible: fields.visible?.checked ?? false,
+      featured: fields.featured?.checked ?? false,
+      status: (fields.status?.value ?? "draft") as Project["status"],
+      category: (fields.category?.value ?? "app") as Project["category"],
+      title: {
+        es: fields.titleEs?.value.trim() ?? "",
+        en: fields.titleEn?.value.trim() ?? "",
+      },
+      description: {
+        es: fields.descriptionEs?.value.trim() ?? "",
+        en: fields.descriptionEn?.value.trim() ?? "",
+      },
+      image: fields.image?.value.trim() ?? "",
+      tags,
+      ...(github ? { github } : {}),
+      ...(link ? { link } : {}),
+    };
+  }
+
+  function renderProjectsList() {
+    if (!list) return;
+
+    if (projects.length === 0) {
+      list.innerHTML = `
+        <p class="p-4 text-sm font-bold border-2 border-dashed border-gray-400">
+          No hay proyectos en Firestore todavía. Pulsa "Importar JSON" para crear la colección inicial.
+        </p>
+      `;
+      setFormProject(emptyProject());
+      return;
+    }
+
+    list.innerHTML = projects.map((project) => `
+      <button
+        class="p-4 text-left transition border-2 border-black dark:border-white ${project.id === selectedProjectId ? "bg-[#c5ff4a] text-black" : "hover:bg-[#c5ff4a] hover:text-black"}"
+        data-project-id="${project.id}"
+        type="button"
+      >
+        <span class="block text-xs font-black uppercase">${project.status} · orden ${project.order}</span>
+        <span class="block mt-1 text-lg font-black uppercase">${project.title.es}</span>
+        <span class="block mt-1 text-xs font-bold">${project.visible ? "Visible" : "Oculto"}${project.featured ? " · Destacado" : ""}</span>
+      </button>
+    `).join("");
+
+    list.querySelectorAll<HTMLButtonElement>("[data-project-id]").forEach((button) => {
+      button.addEventListener("click", () => {
+        const project = projects.find((item) => item.id === button.dataset.projectId);
+        if (!project) return;
+
+        setFormProject(project);
+        renderProjectsList();
+      });
+    });
+
+    if (selectedProjectId) {
+      const selected = projects.find((project) => project.id === selectedProjectId);
+      if (selected) setFormProject(selected);
+    }
+  }
+
+  async function loadProjects() {
+    setMessage("Cargando proyectos desde Firestore...");
+    const snapshot = await getDocs(query(collection(db, "projects"), orderBy("order", "asc")));
+    projects = snapshot.docs.map((projectDoc) => projectDoc.data() as Project);
+    selectedProjectId = projects[0]?.id ?? "";
+    renderProjectsList();
+    setMessage(`Proyectos cargados: ${projects.length}`, "success");
+  }
+
+  async function seedCurrentProjects() {
+    setMessage("Importando proyectos actuales del JSON...");
+    await Promise.all(seedProjects.map((project) => {
+      return setDoc(doc(db, "projects", project.id), project);
+    }));
+    await loadProjects();
+    setMessage("Proyectos importados correctamente.", "success");
+  }
+
+  fillSelect(fields.status, PROJECT_STATUSES);
+  fillSelect(fields.category, PROJECT_CATEGORIES);
+  renderTagInputs();
+  setFormProject(emptyProject());
+
+  onAuthStateChanged(auth, async (user) => {
+    if (!user) {
+      showState("login");
+      return;
+    }
+
+    if (user.email !== adminEmail) {
+      showState("denied");
+      return;
+    }
+
+    if (userEmail) {
+      userEmail.textContent = user.email || "";
+    }
+
+    showState("panel");
+
+    try {
+      await loadProjects();
+    } catch (error) {
+      console.error(error);
+      setMessage("No se pudieron cargar los proyectos. Revisa las reglas de Firestore.", "error");
+    }
+  });
+
+  loginButton?.addEventListener("click", async () => {
+    showState("loading");
+
+    try {
+      await signInWithPopup(auth, googleProvider);
+    } catch (error) {
+      console.error(error);
+      showState("login");
+    }
+  });
+
+  logoutButton?.addEventListener("click", async () => {
+    await signOut(auth);
+  });
+
+  reloadButton?.addEventListener("click", async () => {
+    try {
+      await loadProjects();
+    } catch (error) {
+      console.error(error);
+      setMessage("No se pudieron recargar los proyectos.", "error");
+    }
+  });
+
+  seedButton?.addEventListener("click", async () => {
+    try {
+      await seedCurrentProjects();
+    } catch (error) {
+      console.error(error);
+      setMessage("No se pudieron importar los proyectos. Revisa las reglas de Firestore.", "error");
+    }
+  });
+
+  newButton?.addEventListener("click", () => {
+    selectedProjectId = "";
+    setFormProject(emptyProject());
+    selectedProjectId = "";
+    renderProjectsList();
+  });
+
+  form?.addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    try {
+      const project = getFormProject();
+      await setDoc(doc(db, "projects", project.id), project);
+      selectedProjectId = project.id;
+      await loadProjects();
+      setMessage("Proyecto guardado correctamente.", "success");
+    } catch (error) {
+      console.error(error);
+      const text = error instanceof Error ? error.message : "No se pudo guardar el proyecto.";
+      setMessage(text, "error");
+    }
+  });
+
+  deleteButton?.addEventListener("click", async () => {
+    const id = fields.id?.value.trim();
+    if (!id) return;
+
+    const shouldDelete = window.confirm(`¿Eliminar el proyecto "${id}" de Firestore?`);
+    if (!shouldDelete) return;
+
+    try {
+      await deleteDoc(doc(db, "projects", id));
+      selectedProjectId = "";
+      await loadProjects();
+      setMessage("Proyecto eliminado correctamente.", "success");
+    } catch (error) {
+      console.error(error);
+      setMessage("No se pudo eliminar el proyecto.", "error");
+    }
+  });
+</script>

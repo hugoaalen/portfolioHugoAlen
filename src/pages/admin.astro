@@ -1,0 +1,123 @@
+---
+import Layout from "@/layouts/Layout.astro";
+---
+
+<Layout
+  title="Admin CMS - Hugo Alén"
+  description="Panel privado para editar el contenido del portfolio"
+>
+  <main class="min-h-screen px-4 py-32 text-black bg-[#f6f6ef] dark:bg-[#050505] dark:text-white">
+    <section class="w-full max-w-3xl p-6 mx-auto border-2 border-black bg-white shadow-[10px_10px_0_#111] dark:border-white dark:bg-[#111] dark:shadow-[10px_10px_0_#c5ff4a] sm:p-8">
+      <p class="inline-block px-2 py-1 text-xs font-black tracking-[0.18em] uppercase bg-[#c5ff4a] text-black">
+        CMS privado
+      </p>
+
+      <h1 class="mt-5 text-4xl font-black leading-none tracking-tight uppercase sm:text-5xl">
+        Panel de contenido
+      </h1>
+
+      <p class="max-w-2xl mt-4 text-gray-700 dark:text-gray-300">
+        Accede con Google para administrar el contenido del portfolio. Solo el email autorizado puede entrar.
+      </p>
+
+      <div id="admin-loading" class="p-4 mt-8 text-sm font-bold border-2 border-black dark:border-white">
+        Comprobando sesión...
+      </div>
+
+      <div id="admin-login" class="hidden mt-8">
+        <button
+          id="admin-login-button"
+          class="inline-flex items-center justify-center px-4 py-3 text-sm font-black text-black uppercase transition border-2 border-black bg-[#c5ff4a] hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black"
+        >
+          Entrar con Google
+        </button>
+      </div>
+
+      <div id="admin-denied" class="hidden p-4 mt-8 text-sm font-bold text-white bg-red-700 border-2 border-black dark:border-white">
+        Tu cuenta de Google no está autorizada para administrar este portfolio.
+      </div>
+
+      <div id="admin-panel" class="hidden mt-8">
+        <div class="p-4 border-2 border-black dark:border-white">
+          <p class="text-sm font-bold text-gray-700 dark:text-gray-300">Sesión iniciada como:</p>
+          <p id="admin-user-email" class="mt-1 font-black"></p>
+        </div>
+
+        <div class="grid gap-4 mt-6 sm:grid-cols-2">
+          <a
+            href="/admin/projects"
+            class="p-5 transition border-2 border-black bg-[#c5ff4a] text-black shadow-[6px_6px_0_#111] hover:-translate-y-1"
+          >
+            <h2 class="text-xl font-black uppercase">Proyectos</h2>
+            <p class="mt-2 text-sm font-bold">Crear, editar, ocultar y destacar proyectos.</p>
+          </a>
+
+          <div class="p-5 text-gray-500 border-2 border-dashed border-gray-400 dark:text-gray-400">
+            <h2 class="text-xl font-black uppercase">Próximamente</h2>
+            <p class="mt-2 text-sm">Experiencia, formación, hero y sobre mí.</p>
+          </div>
+        </div>
+
+        <button
+          id="admin-logout-button"
+          class="px-4 py-3 mt-8 text-sm font-black uppercase transition border-2 border-black dark:border-white hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black"
+        >
+          Cerrar sesión
+        </button>
+      </div>
+    </section>
+  </main>
+</Layout>
+
+<script>
+  import { onAuthStateChanged, signInWithPopup, signOut } from "firebase/auth";
+  import { adminEmail, auth, googleProvider } from "@/lib/firebase";
+
+  const loading = document.getElementById("admin-loading");
+  const login = document.getElementById("admin-login");
+  const denied = document.getElementById("admin-denied");
+  const panel = document.getElementById("admin-panel");
+  const userEmail = document.getElementById("admin-user-email");
+  const loginButton = document.getElementById("admin-login-button");
+  const logoutButton = document.getElementById("admin-logout-button");
+
+  function showState(state: "loading" | "login" | "denied" | "panel") {
+    loading?.classList.toggle("hidden", state !== "loading");
+    login?.classList.toggle("hidden", state !== "login");
+    denied?.classList.toggle("hidden", state !== "denied");
+    panel?.classList.toggle("hidden", state !== "panel");
+  }
+
+  onAuthStateChanged(auth, (user) => {
+    if (!user) {
+      showState("login");
+      return;
+    }
+
+    if (user.email !== adminEmail) {
+      showState("denied");
+      return;
+    }
+
+    if (userEmail) {
+      userEmail.textContent = user.email || "";
+    }
+
+    showState("panel");
+  });
+
+  loginButton?.addEventListener("click", async () => {
+    showState("loading");
+
+    try {
+      await signInWithPopup(auth, googleProvider);
+    } catch (error) {
+      console.error(error);
+      showState("login");
+    }
+  });
+
+  logoutButton?.addEventListener("click", async () => {
+    await signOut(auth);
+  });
+</script>

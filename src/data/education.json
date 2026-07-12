@@ -1,5 +1,19 @@
 [
   {
+    "id": "ce-ciberseguridad-ti",
+    "order": 5,
+    "visible": true,
+    "date": {
+      "es": "Septiembre 2026 - Actualmente",
+      "en": "September 2026 - Currently"
+    },
+    "title": {
+      "es": "Curso de Especialización en Ciberseguridad en Entornos de las Tecnologías de la Información",
+      "en": "Specialization Course in Cybersecurity in Information Technology Environments"
+    },
+    "company": "IES Antón Losada Diéguez"
+  },
+  {
     "id": "ingenieria-informatica-uoc",
     "order": 10,
     "visible": true,
