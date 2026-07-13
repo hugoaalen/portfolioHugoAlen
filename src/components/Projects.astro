@@ -18,7 +18,16 @@ import PHP from "./icons/PHP.astro";
 import Angular from "./icons/Angular.astro";
 import MySQL from "./icons/MySQL.astro";
 import Java from "./icons/Java.astro";
-import TextIcon from "./icons/TextIcon.astro";
+import Bash from "./icons/Bash.astro";
+import CSharp from "./icons/CSharp.astro";
+import Docker from "./icons/Docker.astro";
+import DotNet from "./icons/DotNet.astro";
+import Express from "./icons/Express.astro";
+import NodeJS from "./icons/NodeJS.astro";
+import PostgreSQL from "./icons/PostgreSQL.astro";
+import Python from "./icons/Python.astro";
+import SQLite from "./icons/SQLite.astro";
+import SqlServer from "./icons/SqlServer.astro";
 import { projects } from "@/data/content";
 
 const TAGS = {
@@ -37,17 +46,17 @@ const TAGS = {
   PHP: { name: "PHP", class: "bg-[#777BB4] text-white", icon: PHP },
   ANGULAR: { name: "Angular", class: "bg-[#C3002F] text-white", icon: Angular },
   MYSQL: { name: "MySQL", class: "bg-[#00546B] text-white", icon: MySQL },
-  NODE: { name: "Node.js", class: "bg-[#2F6B2F] text-white", icon: TextIcon, iconLabel: "Node" },
-  EXPRESS: { name: "Express", class: "bg-black text-white", icon: TextIcon, iconLabel: "EX" },
-  PYTHON: { name: "Python", class: "bg-[#3776AB] text-white", icon: TextIcon, iconLabel: "PY" },
-  DOCKER: { name: "Docker", class: "bg-[#2496ED] text-white", icon: TextIcon, iconLabel: "DK" },
-  POSTGRESQL: { name: "PostgreSQL", class: "bg-[#336791] text-white", icon: TextIcon, iconLabel: "PG" },
-  SQLSERVER: { name: "SQL Server", class: "bg-[#A91D22] text-white", icon: TextIcon, iconLabel: "SQL" },
-  DOTNET: { name: ".NET", class: "bg-[#512BD4] text-white", icon: TextIcon, iconLabel: ".NET" },
-  CSHARP: { name: "C#", class: "bg-[#68217A] text-white", icon: TextIcon, iconLabel: "C#" },
-  BASH: { name: "Bash", class: "bg-[#293137] text-white", icon: TextIcon, iconLabel: "$_" },
+  NODE: { name: "Node.js", class: "bg-[#2F6B2F] text-white", icon: NodeJS },
+  EXPRESS: { name: "Express", class: "bg-black text-white", icon: Express },
+  PYTHON: { name: "Python", class: "bg-[#3776AB] text-white", icon: Python },
+  DOCKER: { name: "Docker", class: "bg-[#2496ED] text-white", icon: Docker },
+  POSTGRESQL: { name: "PostgreSQL", class: "bg-[#336791] text-white", icon: PostgreSQL },
+  SQLSERVER: { name: "SQL Server", class: "bg-[#A91D22] text-white", icon: SqlServer },
+  DOTNET: { name: ".NET", class: "bg-[#512BD4] text-white", icon: DotNet },
+  CSHARP: { name: "C#", class: "bg-[#68217A] text-white", icon: CSharp },
+  BASH: { name: "Bash", class: "bg-[#293137] text-white", icon: Bash },
   JAVA: { name: "Java", class: "bg-[#E76F00] text-white", icon: Java },
-  SQLITE: { name: "SQLite", class: "bg-[#003B57] text-white", icon: TextIcon, iconLabel: "SQL" },
+  SQLITE: { name: "SQLite", class: "bg-[#003B57] text-white", icon: SQLite },
 };
 
 const PROJECTS = projects.map((project) => ({
