@@ -1,0 +1,12 @@
+{
+  "rewrites": [
+    {
+      "source": "/__/auth/:path*",
+      "destination": "https://portfolio-hugo-alen.firebaseapp.com/__/auth/:path*"
+    },
+    {
+      "source": "/__/firebase/:path*",
+      "destination": "https://portfolio-hugo-alen.firebaseapp.com/__/firebase/:path*"
+    }
+  ]
+}
