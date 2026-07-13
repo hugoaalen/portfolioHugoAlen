@@ -1,5 +1,51 @@
 ---
 import Layout from "@/layouts/Layout.astro";
+import Angular from "@/components/icons/Angular.astro";
+import AstroIcon from "@/components/icons/LogoAstro.astro";
+import Bootstrap from "@/components/icons/Bootstrap.astro";
+import CSS from "@/components/icons/Css.astro";
+import Firebase from "@/components/icons/Firebase.astro";
+import HTML from "@/components/icons/Html.astro";
+import Java from "@/components/icons/Java.astro";
+import MySQL from "@/components/icons/MySQL.astro";
+import NextJS from "@/components/icons/NextJS.astro";
+import PHP from "@/components/icons/PHP.astro";
+import React from "@/components/icons/React.astro";
+import Supabase from "@/components/icons/Supabase.astro";
+import Tailwind from "@/components/icons/Tailwind.astro";
+import TextIcon from "@/components/icons/TextIcon.astro";
+import TypeScript from "@/components/icons/TypeScript.astro";
+import VanillaJS from "@/components/icons/VanillaJS.astro";
+import Vite from "@/components/icons/Vite.astro";
+
+const ADMIN_PROJECT_TAGS = {
+  NEXT: { icon: NextJS },
+  TAILWIND: { icon: Tailwind },
+  HTML: { icon: HTML },
+  CSS: { icon: CSS },
+  VANILLAJS: { icon: VanillaJS },
+  BOOTSTRAP: { icon: Bootstrap },
+  REACT: { icon: React },
+  SUPABASE: { icon: Supabase },
+  ASTRO: { icon: AstroIcon },
+  VITE: { icon: Vite },
+  TYPESCRIPT: { icon: TypeScript },
+  FIREBASE: { icon: Firebase },
+  PHP: { icon: PHP },
+  ANGULAR: { icon: Angular },
+  MYSQL: { icon: MySQL },
+  NODE: { icon: TextIcon, iconLabel: "Node" },
+  EXPRESS: { icon: TextIcon, iconLabel: "EX" },
+  PYTHON: { icon: TextIcon, iconLabel: "PY" },
+  DOCKER: { icon: TextIcon, iconLabel: "DK" },
+  POSTGRESQL: { icon: TextIcon, iconLabel: "PG" },
+  SQLSERVER: { icon: TextIcon, iconLabel: "SQL" },
+  DOTNET: { icon: TextIcon, iconLabel: ".NET" },
+  CSHARP: { icon: TextIcon, iconLabel: "C#" },
+  BASH: { icon: TextIcon, iconLabel: "$_" },
+  JAVA: { icon: Java },
+  SQLITE: { icon: TextIcon, iconLabel: "SQL" },
+};
 ---
 
 <Layout
@@ -189,6 +235,16 @@ import Layout from "@/layouts/Layout.astro";
       </div>
     </section>
   </main>
+
+  <div id="admin-project-tag-icons" class="hidden" aria-hidden="true">
+    {
+      Object.entries(ADMIN_PROJECT_TAGS).map(([key, tag]) => (
+        <span data-admin-project-tag-icon={key}>
+          <tag.icon class="size-4" label={"iconLabel" in tag ? tag.iconLabel : undefined} />
+        </span>
+      ))
+    }
+  </div>
 </Layout>
 
 <style>
@@ -234,6 +290,29 @@ import Layout from "@/layouts/Layout.astro";
     width: 1rem;
   }
 
+  #project-form .project-tag-label {
+    transition:
+      background-color 150ms ease,
+      color 150ms ease,
+      transform 150ms ease;
+  }
+
+  #project-form .project-tag-label:has(.project-tag:checked) {
+    color: #111;
+    background-color: #c5ff4a;
+  }
+
+  #project-form .project-tag-label:focus-within {
+    outline: 3px solid #c5ff4a;
+    outline-offset: 3px;
+  }
+
+  #project-form .project-tag-icon svg {
+    width: 1rem;
+    height: 1rem;
+    flex: 0 0 auto;
+  }
+
   #projects-list button {
     overflow-wrap: anywhere;
   }
@@ -274,6 +353,36 @@ import Layout from "@/layouts/Layout.astro";
   const list = document.getElementById("projects-list");
   const form = document.getElementById("project-form") as HTMLFormElement | null;
   const tagsContainer = document.getElementById("project-tags");
+  const tagIconLibrary = document.getElementById("admin-project-tag-icons");
+
+  const PROJECT_TAG_LABELS = {
+    NEXT: "Next.js",
+    TAILWIND: "Tailwind CSS",
+    HTML: "HTML",
+    CSS: "CSS",
+    VANILLAJS: "VanillaJS",
+    BOOTSTRAP: "Bootstrap",
+    REACT: "React",
+    SUPABASE: "Supabase",
+    ASTRO: "Astro",
+    VITE: "Vite",
+    TYPESCRIPT: "TypeScript",
+    FIREBASE: "Firebase",
+    PHP: "PHP",
+    ANGULAR: "Angular",
+    MYSQL: "MySQL",
+    NODE: "Node.js",
+    EXPRESS: "Express",
+    PYTHON: "Python",
+    DOCKER: "Docker",
+    POSTGRESQL: "PostgreSQL",
+    SQLSERVER: "SQL Server",
+    DOTNET: ".NET",
+    CSHARP: "C#",
+    BASH: "Bash",
+    JAVA: "Java",
+    SQLITE: "SQLite",
+  };
 
   const fields = {
     id: document.getElementById("project-id") as HTMLInputElement | null,
@@ -325,13 +434,20 @@ import Layout from "@/layouts/Layout.astro";
     select.innerHTML = values.map((value) => `<option value="${value}">${value}</option>`).join("");
   }
 
+  function tagIconHtml(tag: string) {
+    return tagIconLibrary?.querySelector<HTMLElement>(`[data-admin-project-tag-icon="${tag}"]`)?.innerHTML.trim() ?? "";
+  }
+
   function renderTagInputs() {
     if (!tagsContainer) return;
 
     tagsContainer.innerHTML = AVAILABLE_PROJECT_TAGS.map((tag) => `
-      <label class="inline-flex items-center gap-2 px-3 py-2 text-xs font-black uppercase border-2 border-black dark:border-white">
+      <label class="project-tag-label inline-flex items-center gap-2 px-3 py-2 text-xs font-black uppercase border-2 border-black bg-white text-black dark:border-white dark:bg-[#111] dark:text-white">
         <input class="project-tag size-4" type="checkbox" value="${tag}" />
-        ${tag}
+        <span class="project-tag-icon inline-flex shrink-0 items-center justify-center">
+          ${tagIconHtml(tag)}
+        </span>
+        <span>${PROJECT_TAG_LABELS[tag] ?? tag}</span>
       </label>
     `).join("");
   }
