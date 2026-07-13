@@ -6,9 +6,10 @@ import { about } from "@/data/content";
   class="relative flex flex-col items-center justify-center gap-8 p-7 overflow-hidden text-gray-800 border-2 border-black bg-white shadow-[10px_10px_0_#111] dark:border-white dark:bg-[#111] dark:shadow-[10px_10px_0_#c5ff4a] dark:text-gray-200 md:flex-row md:p-12"
   id="about-container"
 >
-  <div
-    class="relative z-10 columns-1 md:columns-2 md:gap-10 [&>p]:mb-5 [&>p:last-child]:mb-0 [&>p]:leading-relaxed [&>p]:break-inside-avoid [&>p>strong]:bg-[#c5ff4a] [&>p>strong]:px-1 [&>p>strong]:text-black [&>p>strong]:font-black text-pretty order-2 md:order-1"
-  >
+	  <div
+	    id="about-content"
+	    class="relative z-10 columns-1 md:columns-2 md:gap-10 [&>p]:mb-5 [&>p:last-child]:mb-0 [&>p]:leading-relaxed [&>p]:break-inside-avoid [&>p>strong]:bg-[#c5ff4a] [&>p>strong]:px-1 [&>p>strong]:text-black [&>p>strong]:font-black text-pretty order-2 md:order-1"
+	  >
     {
       about.map((paragraph) => (
         <p
@@ -23,19 +24,57 @@ import { about } from "@/data/content";
 </article>
 
 <script>
+  import { collection, getDocs, query, where } from "firebase/firestore";
+  import { db } from "@/lib/firebase";
+
   function updateAboutLanguage() {
     const lang = localStorage.getItem('language') || 'es';
     const elements = document.querySelectorAll('.i18n-html');
-    
+
     elements.forEach(el => {
       const translation = el.getAttribute(`data-${lang}`);
       if (translation) {
         // Usamos innerHTML en lugar de textContent porque tenemos etiquetas <br> y <strong>
-        el.innerHTML = translation; 
+        el.innerHTML = translation;
       }
     });
   }
-  
+
+  function escapeHtml(value: unknown) {
+    return String(value ?? "")
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;")
+      .replaceAll('"', "&quot;")
+      .replaceAll("'", "&#039;");
+  }
+
+  async function hydrateAboutFromFirestore() {
+    try {
+      const container = document.getElementById("about-content");
+      if (!container) return;
+
+      const snapshot = await getDocs(query(collection(db, "about"), where("visible", "==", true)));
+      const items = snapshot.docs
+        .map((item) => item.data())
+        .sort((a, b) => Number(a.order ?? 0) - Number(b.order ?? 0));
+      if (items.length === 0) return;
+
+      container.innerHTML = items.map((item) => `
+        <p
+          class="i18n-html"
+          data-es="${escapeHtml(item.es)}"
+          data-en="${escapeHtml(item.en)}"
+        >${item.es ?? ""}</p>
+      `).join("");
+
+      updateAboutLanguage();
+    } catch (error) {
+      console.error("No se pudo cargar Sobre mí desde Firestore.", error);
+    }
+  }
+
   updateAboutLanguage();
+  hydrateAboutFromFirestore();
   window.addEventListener('languageChanged', updateAboutLanguage);
 </script>

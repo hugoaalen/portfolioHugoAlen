@@ -13,6 +13,26 @@ service cloud.firestore {
       allow create, update, delete: if isAdmin();
     }
 
+    match /content/{contentId} {
+      allow read: if contentId == "profile";
+      allow create, update, delete: if isAdmin();
+    }
+
+    match /about/{itemId} {
+      allow read: if isAdmin() || resource.data.visible == true;
+      allow create, update, delete: if isAdmin();
+    }
+
+    match /experience/{itemId} {
+      allow read: if isAdmin() || resource.data.visible == true;
+      allow create, update, delete: if isAdmin();
+    }
+
+    match /education/{itemId} {
+      allow read: if isAdmin() || resource.data.visible == true;
+      allow create, update, delete: if isAdmin();
+    }
+
     match /{document=**} {
       allow read, write: if false;
     }

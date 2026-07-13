@@ -8,16 +8,19 @@ import { education } from "@/data/content";
     education.map((item) => (
       <li class="">
         <EducationItem {...item} />
-      </li> 
+      </li>
     ))
   }
 </ol>
 
 <script>
+  import { collection, getDocs, query, where } from "firebase/firestore";
+  import { db } from "@/lib/firebase";
+
   function updateEducationLanguage() {
     const lang = localStorage.getItem('language') || 'es';
     const container = document.getElementById('education-container');
-    
+
     if (!container) return;
 
     const elements = container.querySelectorAll('.i18n');
@@ -28,8 +31,71 @@ import { education } from "@/data/content";
         el.textContent = translation;
       }
     });
-  }
-  
-  updateEducationLanguage();
-  window.addEventListener('languageChanged', updateEducationLanguage);
-</script>
+	  }
+
+	  function escapeHtml(value: unknown) {
+	    return String(value ?? "")
+	      .replaceAll("&", "&amp;")
+	      .replaceAll("<", "&lt;")
+	      .replaceAll(">", "&gt;")
+	      .replaceAll('"', "&quot;")
+	      .replaceAll("'", "&#039;");
+	  }
+
+	  function renderEducationItem(item: any) {
+	    const link = item.link
+	      ? `<a href="${escapeHtml(item.link)}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 font-semibold underline decoration-black decoration-2 underline-offset-4">
+	          Saber más
+	          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 icon icon-tabler icon-tabler-chevron-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+	            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+	            <path d="M9 6l6 6l-6 6" />
+	          </svg>
+	        </a>`
+	      : "";
+
+	    return `
+	      <li>
+	        <div class="relative h-full p-6 transition border-2 border-black bg-[#c5ff4a] shadow-[7px_7px_0_#111] hover:-translate-y-1 dark:border-white">
+	          <div class="relative">
+	            <div>
+	              <h3 class="text-lg font-black leading-tight text-black uppercase i18n" data-es="${escapeHtml(item.title?.es)}" data-en="${escapeHtml(item.title?.en)}">
+	                ${escapeHtml(item.title?.es)}
+	              </h3>
+	              <h4 class="mt-2 font-bold text-gray-800">
+	                ${escapeHtml(item.company)}
+	              </h4>
+	              <time class="inline-block p-1 mt-4 text-xs font-black tracking-wide text-white uppercase bg-black i18n" data-es="${escapeHtml(item.date?.es)}" data-en="${escapeHtml(item.date?.en)}">
+	                ${escapeHtml(item.date?.es)}
+	              </time>
+	            </div>
+	          </div>
+	          <div class="relative flex flex-col gap-2 text-gray-700">
+	            ${link}
+	          </div>
+	        </div>
+	      </li>
+	    `;
+	  }
+
+	  async function hydrateEducationFromFirestore() {
+	    try {
+	      const container = document.getElementById("education-container");
+	      if (!container) return;
+
+	      const snapshot = await getDocs(query(collection(db, "education"), where("visible", "==", true)));
+	      const items = snapshot.docs
+	        .map((item) => item.data())
+	        .sort((a, b) => Number(a.order ?? 0) - Number(b.order ?? 0));
+	      if (items.length === 0) return;
+
+	      container.innerHTML = items.map(renderEducationItem).join("");
+	      updateEducationLanguage();
+	    } catch (error) {
+	      console.error("No se pudo cargar Formación desde Firestore.", error);
+	    }
+	  }
+
+	  updateEducationLanguage();
+	  hydrateEducationFromFirestore();
+	  window.addEventListener('languageChanged', updateEducationLanguage);
+	</script>

@@ -14,21 +14,23 @@ const { hero, social } = profile;
     <header class="flex flex-col gap-5 pb-6 mb-7 border-b-2 border-black dark:border-white sm:flex-row sm:items-center sm:justify-between">
       <div class="flex items-center gap-4">
         <img
+          id="hero-profile-image"
           class="object-cover border-2 border-black rounded-full shadow-[4px_4px_0_#111] size-20 dark:border-white dark:shadow-[4px_4px_0_#c5ff4a]"
           src={profile.image}
           alt={profile.imageAlt}
         />
         <div>
-          <p class="text-[10px] font-black tracking-[0.18em] text-black uppercase dark:text-[#c5ff4a] sm:text-xs sm:tracking-[0.24em]">
+          <p id="hero-kicker" class="text-[10px] font-black tracking-[0.18em] text-black uppercase dark:text-[#c5ff4a] sm:text-xs sm:tracking-[0.24em]">
             {profile.kicker}
           </p>
-          <p class="mt-2 text-xs font-black tracking-[0.2em] text-gray-600 uppercase dark:text-gray-400">
+          <p id="hero-location" class="mt-2 text-xs font-black tracking-[0.2em] text-gray-600 uppercase dark:text-gray-400">
             {profile.location}
           </p>
         </div>
       </div>
 
       <a
+        id="hero-badge-link"
         href={social.linkedin}
         target="_blank"
         rel="noopener"
@@ -69,25 +71,26 @@ const { hero, social } = profile;
     </div>
 
     <nav class="flex flex-wrap gap-3 mt-9">
-    <!--    
+    <!--
     <SocialPill href="/CV-Hugo-Alen.pdf" download="CV-Hugo-Alen.pdf">
       <DownloadIcon class="size-4" />
       <span id="btn-cv">Descargar CV</span>
     </SocialPill>
     -->
-    <SocialPill href={`mailto:${profile.email}`}>
+    <SocialPill href={`mailto:${profile.email}`} id="hero-email-link">
       <MailIcon class="size-4" />
       <span class="i18n" id="btn-contact" data-es={hero.buttons.contact.es} data-en={hero.buttons.contact.en}>
         {hero.buttons.contact.es}
       </span>
     </SocialPill>
     <SocialPill
+      id="hero-linkedin-link"
       href={social.linkedin}
     >
       <LinkedInIcon class="size-4" />
       LinkedIn
     </SocialPill>
-    <SocialPill href={social.github}>
+    <SocialPill href={social.github} id="hero-github-link">
       <GitHub class="size-4" />
       Github
     </SocialPill>
@@ -96,6 +99,9 @@ const { hero, social } = profile;
 </div>
 
 <script>
+  import { doc, getDoc } from "firebase/firestore";
+  import { db } from "@/lib/firebase";
+
   function updateLanguage() {
     const lang = localStorage.getItem('language') || 'es';
 
@@ -109,7 +115,63 @@ const { hero, social } = profile;
       if (translation) el.innerHTML = translation;
     });
   }
-  
+
+  async function hydrateProfileFromFirestore() {
+    try {
+      const snapshot = await getDoc(doc(db, "content", "profile"));
+      if (!snapshot.exists()) return;
+
+      const profile = snapshot.data();
+      const hero = profile.hero ?? {};
+      const social = profile.social ?? {};
+      const image = document.getElementById("hero-profile-image") as HTMLImageElement | null;
+      const kicker = document.getElementById("hero-kicker");
+      const location = document.getElementById("hero-location");
+      const badge = document.getElementById("badge-available");
+      const title = document.getElementById("hero-title");
+      const desc1 = document.getElementById("hero-desc1");
+      const desc2 = document.getElementById("hero-desc2");
+      const contact = document.getElementById("btn-contact");
+      const emailLink = document.getElementById("hero-email-link") as HTMLAnchorElement | null;
+      const badgeLink = document.getElementById("hero-badge-link") as HTMLAnchorElement | null;
+      const linkedInLink = document.getElementById("hero-linkedin-link") as HTMLAnchorElement | null;
+      const githubLink = document.getElementById("hero-github-link") as HTMLAnchorElement | null;
+
+      if (image && typeof profile.image === "string") image.src = profile.image;
+      if (image && typeof profile.imageAlt === "string") image.alt = profile.imageAlt;
+      if (kicker && typeof profile.kicker === "string") kicker.textContent = profile.kicker;
+      if (location && typeof profile.location === "string") location.textContent = profile.location;
+      if (emailLink && typeof profile.email === "string") emailLink.href = `mailto:${profile.email}`;
+      if (badgeLink && typeof social.linkedin === "string") badgeLink.href = social.linkedin;
+      if (linkedInLink && typeof social.linkedin === "string") linkedInLink.href = social.linkedin;
+      if (githubLink && typeof social.github === "string") githubLink.href = social.github;
+
+      const i18nTargets = [
+        [badge, hero.badge],
+        [title, hero.title],
+        [contact, hero.buttons?.contact],
+      ] as const;
+
+      i18nTargets.forEach(([element, value]) => {
+        if (!element || !value?.es || !value?.en) return;
+        element.setAttribute("data-es", value.es);
+        element.setAttribute("data-en", value.en);
+      });
+
+      [desc1, desc2].forEach((element, index) => {
+        const value = hero.description?.[index];
+        if (!element || !value?.es || !value?.en) return;
+        element.setAttribute("data-es", value.es);
+        element.setAttribute("data-en", value.en);
+      });
+
+      updateLanguage();
+    } catch (error) {
+      console.error("No se pudo cargar el perfil desde Firestore.", error);
+    }
+  }
+
   updateLanguage();
+  hydrateProfileFromFirestore();
   window.addEventListener('languageChanged', updateLanguage);
 </script>

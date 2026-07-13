@@ -8,30 +8,99 @@ import { experience } from "@/data/content";
     experience.map((item) => (
       <li class="">
         <ExperienceItem {...item} />
-      </li> 
+      </li>
     ))
   }
 </ol>
 
 <script>
+  import { collection, getDocs, query, where } from "firebase/firestore";
+  import { db } from "@/lib/firebase";
+
   function updateExperienceLanguage() {
     const lang = localStorage.getItem('language') || 'es';
     const container = document.getElementById('experience-container');
-    
+
     if (!container) return;
 
     // Buscamos todos los elementos con la clase i18n dentro del contenedor
     const elements = container.querySelectorAll('.i18n');
-    
+
     elements.forEach(el => {
       const translation = el.getAttribute(`data-${lang}`);
       if (translation) {
-        el.innerHTML = translation; 
+        el.innerHTML = translation;
       }
     });
-  }
-  
-  // Ejecutar al cargar la página y cuando se dispare el evento de cambio de idioma
-  updateExperienceLanguage();
-  window.addEventListener('languageChanged', updateExperienceLanguage);
-</script>
+	  }
+
+	  function escapeHtml(value: unknown) {
+	    return String(value ?? "")
+	      .replaceAll("&", "&amp;")
+	      .replaceAll("<", "&lt;")
+	      .replaceAll(">", "&gt;")
+	      .replaceAll('"', "&quot;")
+	      .replaceAll("'", "&#039;");
+	  }
+
+	  function renderExperienceItem(item: any) {
+	    const link = item.link
+	      ? `<a href="${escapeHtml(item.link)}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 font-semibold underline decoration-[#c5ff4a] decoration-2 underline-offset-4 hover:text-black dark:hover:text-white">
+	          <span class="i18n" data-es="Saber más" data-en="Learn more">Saber más</span>
+	          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 icon icon-tabler icon-tabler-chevron-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+	            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+	            <path d="M9 6l6 6l-6 6" />
+	          </svg>
+	        </a>`
+	      : "";
+
+	    return `
+	      <li>
+	        <div class="relative grid h-full gap-5 p-6 transition border-2 border-black bg-white shadow-[7px_7px_0_#111] hover:-translate-y-1 dark:border-white dark:bg-[#111] dark:shadow-[7px_7px_0_#c5ff4a]">
+	          <div class="relative">
+	            <div>
+	              <h3 class="text-xl font-black leading-tight text-black uppercase dark:text-[#c5ff4a] i18n" data-es="${escapeHtml(item.title?.es)}" data-en="${escapeHtml(item.title?.en)}">
+	                ${escapeHtml(item.title?.es)}
+	              </h3>
+	              <h4 class="mt-2 text-lg font-bold text-gray-800 dark:text-white">
+	                ${escapeHtml(item.company)}
+	              </h4>
+	              <time class="inline-block p-1 mt-3 text-xs font-black tracking-wide text-black uppercase bg-[#c5ff4a] i18n" data-es="${escapeHtml(item.date?.es)}" data-en="${escapeHtml(item.date?.en)}">
+	                ${escapeHtml(item.date?.es)}
+	              </time>
+	            </div>
+	          </div>
+	          <div class="relative flex flex-col gap-2 pt-5 leading-relaxed text-gray-700 border-t-2 border-black dark:border-white dark:text-gray-300">
+	            <div class="text-pretty i18n" data-es="${escapeHtml(item.description?.es)}" data-en="${escapeHtml(item.description?.en)}">
+	              ${escapeHtml(item.description?.es)}
+	            </div>
+	            ${link}
+	          </div>
+	        </div>
+	      </li>
+	    `;
+	  }
+
+	  async function hydrateExperienceFromFirestore() {
+	    try {
+	      const container = document.getElementById("experience-container");
+	      if (!container) return;
+
+	      const snapshot = await getDocs(query(collection(db, "experience"), where("visible", "==", true)));
+	      const items = snapshot.docs
+	        .map((item) => item.data())
+	        .sort((a, b) => Number(a.order ?? 0) - Number(b.order ?? 0));
+	      if (items.length === 0) return;
+
+	      container.innerHTML = items.map(renderExperienceItem).join("");
+	      updateExperienceLanguage();
+	    } catch (error) {
+	      console.error("No se pudo cargar Experiencia desde Firestore.", error);
+	    }
+	  }
+
+	  // Ejecutar al cargar la página y cuando se dispare el evento de cambio de idioma
+	  updateExperienceLanguage();
+	  hydrateExperienceFromFirestore();
+	  window.addEventListener('languageChanged', updateExperienceLanguage);
+	</script>

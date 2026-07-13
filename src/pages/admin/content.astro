@@ -1,0 +1,527 @@
+---
+import Layout from "@/layouts/Layout.astro";
+---
+
+<Layout
+  title="Admin Contenido - Hugo Alén"
+  description="Editor privado del contenido general del portfolio"
+>
+  <main class="min-h-screen px-3 py-28 overflow-x-hidden text-black bg-[#f6f6ef] dark:bg-[#050505] dark:text-white sm:px-4 sm:py-32">
+    <section class="w-full max-w-6xl p-4 mx-auto overflow-hidden border-2 border-black bg-white shadow-[6px_6px_0_#111] dark:border-white dark:bg-[#111] dark:shadow-[6px_6px_0_#c5ff4a] sm:p-8">
+      <a href="/admin" class="text-sm font-black uppercase underline">Volver al panel</a>
+
+      <div class="flex flex-col gap-5 mt-5 lg:flex-row lg:items-end lg:justify-between">
+        <div>
+          <p class="inline-block px-2 py-1 text-xs font-black tracking-[0.18em] uppercase bg-[#c5ff4a] text-black">
+            CMS privado
+          </p>
+          <h1 class="mt-4 text-4xl font-black leading-none tracking-tight uppercase break-words sm:text-5xl">
+            Contenido
+          </h1>
+          <p class="max-w-2xl mt-4 text-gray-700 dark:text-gray-300">
+            Edita hero, perfil, sobre mí, experiencia y formación desde Firestore.
+          </p>
+        </div>
+      </div>
+
+      <div id="admin-loading" class="p-4 mt-8 text-sm font-bold border-2 border-black dark:border-white">
+        Comprobando sesión...
+      </div>
+
+      <div id="admin-login" class="hidden p-5 mt-8 border-2 border-black dark:border-white">
+        <p class="text-sm font-bold text-gray-700 dark:text-gray-300">
+          Inicia sesión con la cuenta autorizada para editar el contenido.
+        </p>
+        <button
+          id="admin-login-button"
+          class="px-4 py-3 mt-4 text-sm font-black text-black uppercase transition border-2 border-black bg-[#c5ff4a] hover:bg-black hover:text-white"
+          type="button"
+        >
+          Entrar con Google
+        </button>
+      </div>
+
+      <div id="admin-denied" class="hidden p-4 mt-8 text-sm font-bold text-white bg-red-700 border-2 border-black dark:border-white">
+        Tu cuenta de Google no está autorizada para administrar este portfolio.
+      </div>
+
+      <div id="admin-panel" class="hidden mt-8">
+        <div class="flex flex-col min-w-0 gap-3 p-4 border-2 border-black dark:border-white sm:flex-row sm:items-center sm:justify-between">
+          <div class="min-w-0">
+            <p class="text-sm font-bold text-gray-700 dark:text-gray-300">Sesión iniciada como:</p>
+            <p id="admin-user-email" class="mt-1 font-black break-all"></p>
+          </div>
+          <button
+            id="admin-logout-button"
+            class="px-4 py-3 text-sm font-black uppercase transition border-2 border-black dark:border-white hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black"
+            type="button"
+          >
+            Cerrar sesión
+          </button>
+        </div>
+
+        <p id="content-message" class="hidden p-4 mt-6 text-sm font-bold border-2 border-black dark:border-white"></p>
+
+        <section class="p-4 mt-6 border-2 border-black dark:border-white">
+          <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <h2 class="text-2xl font-black uppercase">Perfil y hero</h2>
+            <div class="flex flex-wrap gap-3">
+              <button id="load-profile" class="px-3 py-2 text-xs font-black uppercase border-2 border-black dark:border-white" type="button">Recargar</button>
+              <button id="seed-profile" class="px-3 py-2 text-xs font-black text-black uppercase border-2 border-black bg-[#c5ff4a]" type="button">Importar JSON</button>
+              <button id="save-profile" class="px-3 py-2 text-xs font-black text-black uppercase border-2 border-black bg-[#c5ff4a]" type="button">Guardar</button>
+            </div>
+          </div>
+
+          <div class="grid gap-4 mt-5 sm:grid-cols-2">
+            <label class="grid gap-2 text-sm font-black uppercase">Nombre<input id="profile-name" class="cms-input" /></label>
+            <label class="grid gap-2 text-sm font-black uppercase">Kicker<input id="profile-kicker" class="cms-input" /></label>
+            <label class="grid gap-2 text-sm font-black uppercase">Ubicación<input id="profile-location" class="cms-input" /></label>
+            <label class="grid gap-2 text-sm font-black uppercase">Email<input id="profile-email" class="cms-input" type="email" /></label>
+            <label class="grid gap-2 text-sm font-black uppercase">Imagen<input id="profile-image" class="cms-input" /></label>
+            <label class="grid gap-2 text-sm font-black uppercase">Alt imagen<input id="profile-image-alt" class="cms-input" /></label>
+            <label class="grid gap-2 text-sm font-black uppercase">GitHub<input id="profile-github" class="cms-input" /></label>
+            <label class="grid gap-2 text-sm font-black uppercase">LinkedIn<input id="profile-linkedin" class="cms-input" /></label>
+            <label class="grid gap-2 text-sm font-black uppercase">Badge ES<input id="hero-badge-es" class="cms-input" /></label>
+            <label class="grid gap-2 text-sm font-black uppercase">Badge EN<input id="hero-badge-en" class="cms-input" /></label>
+            <label class="grid gap-2 text-sm font-black uppercase">Título ES<input id="hero-title-es" class="cms-input" /></label>
+            <label class="grid gap-2 text-sm font-black uppercase">Título EN<input id="hero-title-en" class="cms-input" /></label>
+            <label class="grid gap-2 text-sm font-black uppercase sm:col-span-2">Descripción 1 ES<textarea id="hero-desc1-es" class="cms-input min-h-28"></textarea></label>
+            <label class="grid gap-2 text-sm font-black uppercase sm:col-span-2">Descripción 1 EN<textarea id="hero-desc1-en" class="cms-input min-h-28"></textarea></label>
+            <label class="grid gap-2 text-sm font-black uppercase sm:col-span-2">Descripción 2 ES<textarea id="hero-desc2-es" class="cms-input min-h-28"></textarea></label>
+            <label class="grid gap-2 text-sm font-black uppercase sm:col-span-2">Descripción 2 EN<textarea id="hero-desc2-en" class="cms-input min-h-28"></textarea></label>
+            <label class="grid gap-2 text-sm font-black uppercase">Botón contacto ES<input id="hero-contact-es" class="cms-input" /></label>
+            <label class="grid gap-2 text-sm font-black uppercase">Botón contacto EN<input id="hero-contact-en" class="cms-input" /></label>
+          </div>
+        </section>
+
+        <section class="grid gap-6 mt-6 lg:grid-cols-[0.85fr_1.15fr]">
+          <div class="p-4 border-2 border-black dark:border-white">
+            <div class="flex flex-wrap gap-2">
+              <button class="content-tab px-3 py-2 text-xs font-black uppercase border-2 border-black bg-[#c5ff4a] text-black" data-collection="about" type="button">Sobre mí</button>
+              <button class="content-tab px-3 py-2 text-xs font-black uppercase border-2 border-black dark:border-white" data-collection="experience" type="button">Experiencia</button>
+              <button class="content-tab px-3 py-2 text-xs font-black uppercase border-2 border-black dark:border-white" data-collection="education" type="button">Formación</button>
+            </div>
+            <div class="flex items-center justify-between gap-4 mt-5">
+              <h2 id="items-title" class="text-2xl font-black uppercase">Sobre mí</h2>
+              <button id="new-item" class="px-3 py-2 text-xs font-black text-black uppercase border-2 border-black bg-[#c5ff4a]" type="button">Nuevo</button>
+            </div>
+            <div id="items-list" class="grid gap-3 mt-5"></div>
+            <button id="seed-items" class="px-3 py-2 mt-5 text-xs font-black text-black uppercase border-2 border-black bg-[#c5ff4a]" type="button">
+              Importar JSON
+            </button>
+          </div>
+
+          <form id="item-form" class="p-4 border-2 border-black dark:border-white">
+            <h2 class="text-2xl font-black uppercase">Editor</h2>
+            <div class="grid gap-4 mt-5 sm:grid-cols-2">
+              <label class="grid gap-2 text-sm font-black uppercase">ID<input id="item-id" class="cms-input" required /></label>
+              <label class="grid gap-2 text-sm font-black uppercase">Orden<input id="item-order" class="cms-input" type="number" required /></label>
+            </div>
+            <label class="inline-flex items-center gap-2 mt-5 text-sm font-black uppercase">
+              <input id="item-visible" class="size-5" type="checkbox" />
+              Visible
+            </label>
+            <div id="item-date-fields" class="grid gap-4 mt-5 sm:grid-cols-2">
+              <label class="grid gap-2 text-sm font-black uppercase">Fecha ES<input id="item-date-es" class="cms-input" /></label>
+              <label class="grid gap-2 text-sm font-black uppercase">Fecha EN<input id="item-date-en" class="cms-input" /></label>
+            </div>
+            <div id="item-title-fields" class="grid gap-4 mt-5 sm:grid-cols-2">
+              <label class="grid gap-2 text-sm font-black uppercase">Título ES<input id="item-title-es" class="cms-input" /></label>
+              <label class="grid gap-2 text-sm font-black uppercase">Título EN<input id="item-title-en" class="cms-input" /></label>
+            </div>
+            <div id="item-company-fields" class="grid gap-4 mt-5 sm:grid-cols-2">
+              <label class="grid gap-2 text-sm font-black uppercase">Centro/empresa<input id="item-company" class="cms-input" /></label>
+              <label class="grid gap-2 text-sm font-black uppercase">Enlace<input id="item-link" class="cms-input" /></label>
+            </div>
+            <div id="item-about-fields" class="grid gap-4 mt-5">
+              <label class="grid gap-2 text-sm font-black uppercase">Texto ES<textarea id="item-es" class="cms-input min-h-36"></textarea></label>
+              <label class="grid gap-2 text-sm font-black uppercase">Texto EN<textarea id="item-en" class="cms-input min-h-36"></textarea></label>
+            </div>
+            <div id="item-description-fields" class="grid gap-4 mt-5">
+              <label class="grid gap-2 text-sm font-black uppercase">Descripción ES<textarea id="item-description-es" class="cms-input min-h-36"></textarea></label>
+              <label class="grid gap-2 text-sm font-black uppercase">Descripción EN<textarea id="item-description-en" class="cms-input min-h-36"></textarea></label>
+            </div>
+            <div class="flex flex-wrap gap-3 mt-6">
+              <button class="px-4 py-3 text-sm font-black text-black uppercase border-2 border-black bg-[#c5ff4a]" type="submit">Guardar</button>
+              <button id="delete-item" class="px-4 py-3 text-sm font-black text-white uppercase bg-red-700 border-2 border-black dark:border-white" type="button">Eliminar</button>
+            </div>
+          </form>
+        </section>
+      </div>
+    </section>
+  </main>
+</Layout>
+
+<style>
+  .cms-input {
+    min-width: 0;
+    width: 100%;
+    padding: 0.5rem 0.75rem;
+    color: #111;
+    background: #fff;
+    border: 2px solid #111;
+    caret-color: #111;
+    color-scheme: light;
+    -webkit-text-fill-color: #111;
+  }
+
+  .cms-input:focus {
+    outline: 3px solid #c5ff4a;
+    outline-offset: 3px;
+  }
+</style>
+
+<script>
+  import { getRedirectResult, onAuthStateChanged, signInWithRedirect, signOut } from "firebase/auth";
+  import { collection, deleteDoc, doc, getDoc, getDocs, orderBy, query, setDoc } from "firebase/firestore";
+  import aboutSeed from "@/data/about.json";
+  import educationSeed from "@/data/education.json";
+  import experienceSeed from "@/data/experience.json";
+  import profileSeed from "@/data/profile.json";
+  import { adminEmail, auth, db, googleProvider } from "@/lib/firebase";
+
+  type CollectionName = "about" | "experience" | "education";
+
+  const titles: Record<CollectionName, string> = {
+    about: "Sobre mí",
+    experience: "Experiencia",
+    education: "Formación",
+  };
+
+  const seeds = {
+    about: aboutSeed,
+    experience: experienceSeed,
+    education: educationSeed,
+  };
+
+  const loading = document.getElementById("admin-loading");
+  const login = document.getElementById("admin-login");
+  const denied = document.getElementById("admin-denied");
+  const panel = document.getElementById("admin-panel");
+  const userEmail = document.getElementById("admin-user-email");
+  const message = document.getElementById("content-message");
+  const itemsTitle = document.getElementById("items-title");
+  const itemsList = document.getElementById("items-list");
+  const itemForm = document.getElementById("item-form") as HTMLFormElement | null;
+
+  const profileFields = {
+    name: document.getElementById("profile-name") as HTMLInputElement | null,
+    kicker: document.getElementById("profile-kicker") as HTMLInputElement | null,
+    location: document.getElementById("profile-location") as HTMLInputElement | null,
+    email: document.getElementById("profile-email") as HTMLInputElement | null,
+    image: document.getElementById("profile-image") as HTMLInputElement | null,
+    imageAlt: document.getElementById("profile-image-alt") as HTMLInputElement | null,
+    github: document.getElementById("profile-github") as HTMLInputElement | null,
+    linkedin: document.getElementById("profile-linkedin") as HTMLInputElement | null,
+    badgeEs: document.getElementById("hero-badge-es") as HTMLInputElement | null,
+    badgeEn: document.getElementById("hero-badge-en") as HTMLInputElement | null,
+    titleEs: document.getElementById("hero-title-es") as HTMLInputElement | null,
+    titleEn: document.getElementById("hero-title-en") as HTMLInputElement | null,
+    desc1Es: document.getElementById("hero-desc1-es") as HTMLTextAreaElement | null,
+    desc1En: document.getElementById("hero-desc1-en") as HTMLTextAreaElement | null,
+    desc2Es: document.getElementById("hero-desc2-es") as HTMLTextAreaElement | null,
+    desc2En: document.getElementById("hero-desc2-en") as HTMLTextAreaElement | null,
+    contactEs: document.getElementById("hero-contact-es") as HTMLInputElement | null,
+    contactEn: document.getElementById("hero-contact-en") as HTMLInputElement | null,
+  };
+
+  const itemFields = {
+    id: document.getElementById("item-id") as HTMLInputElement | null,
+    order: document.getElementById("item-order") as HTMLInputElement | null,
+    visible: document.getElementById("item-visible") as HTMLInputElement | null,
+    dateEs: document.getElementById("item-date-es") as HTMLInputElement | null,
+    dateEn: document.getElementById("item-date-en") as HTMLInputElement | null,
+    titleEs: document.getElementById("item-title-es") as HTMLInputElement | null,
+    titleEn: document.getElementById("item-title-en") as HTMLInputElement | null,
+    company: document.getElementById("item-company") as HTMLInputElement | null,
+    link: document.getElementById("item-link") as HTMLInputElement | null,
+    es: document.getElementById("item-es") as HTMLTextAreaElement | null,
+    en: document.getElementById("item-en") as HTMLTextAreaElement | null,
+    descriptionEs: document.getElementById("item-description-es") as HTMLTextAreaElement | null,
+    descriptionEn: document.getElementById("item-description-en") as HTMLTextAreaElement | null,
+  };
+
+  let activeCollection: CollectionName = "about";
+  let activeItems: any[] = [];
+  let selectedItemId = "";
+
+  function setMessage(text: string, variant: "info" | "error" | "success" = "info") {
+    if (!message) return;
+    message.textContent = text;
+    message.classList.remove("hidden", "bg-[#c5ff4a]", "bg-red-700", "text-white", "text-black", "dark:text-white");
+    if (variant === "error") message.classList.add("bg-red-700", "text-white");
+    else if (variant === "success") message.classList.add("bg-[#c5ff4a]", "text-black");
+    else message.classList.add("text-black", "dark:text-white");
+  }
+
+  function showState(state: "loading" | "login" | "denied" | "panel") {
+    loading?.classList.toggle("hidden", state !== "loading");
+    login?.classList.toggle("hidden", state !== "login");
+    denied?.classList.toggle("hidden", state !== "denied");
+    panel?.classList.toggle("hidden", state !== "panel");
+  }
+
+  function setProfileForm(profile: any) {
+    if (profileFields.name) profileFields.name.value = profile.name ?? "";
+    if (profileFields.kicker) profileFields.kicker.value = profile.kicker ?? "";
+    if (profileFields.location) profileFields.location.value = profile.location ?? "";
+    if (profileFields.email) profileFields.email.value = profile.email ?? "";
+    if (profileFields.image) profileFields.image.value = profile.image ?? "";
+    if (profileFields.imageAlt) profileFields.imageAlt.value = profile.imageAlt ?? "";
+    if (profileFields.github) profileFields.github.value = profile.social?.github ?? "";
+    if (profileFields.linkedin) profileFields.linkedin.value = profile.social?.linkedin ?? "";
+    if (profileFields.badgeEs) profileFields.badgeEs.value = profile.hero?.badge?.es ?? "";
+    if (profileFields.badgeEn) profileFields.badgeEn.value = profile.hero?.badge?.en ?? "";
+    if (profileFields.titleEs) profileFields.titleEs.value = profile.hero?.title?.es ?? "";
+    if (profileFields.titleEn) profileFields.titleEn.value = profile.hero?.title?.en ?? "";
+    if (profileFields.desc1Es) profileFields.desc1Es.value = profile.hero?.description?.[0]?.es ?? "";
+    if (profileFields.desc1En) profileFields.desc1En.value = profile.hero?.description?.[0]?.en ?? "";
+    if (profileFields.desc2Es) profileFields.desc2Es.value = profile.hero?.description?.[1]?.es ?? "";
+    if (profileFields.desc2En) profileFields.desc2En.value = profile.hero?.description?.[1]?.en ?? "";
+    if (profileFields.contactEs) profileFields.contactEs.value = profile.hero?.buttons?.contact?.es ?? "";
+    if (profileFields.contactEn) profileFields.contactEn.value = profile.hero?.buttons?.contact?.en ?? "";
+  }
+
+  function getProfileForm() {
+    return {
+      name: profileFields.name?.value.trim() ?? "",
+      image: profileFields.image?.value.trim() ?? "",
+      imageAlt: profileFields.imageAlt?.value.trim() ?? "",
+      kicker: profileFields.kicker?.value.trim() ?? "",
+      location: profileFields.location?.value.trim() ?? "",
+      email: profileFields.email?.value.trim() ?? "",
+      social: {
+        github: profileFields.github?.value.trim() ?? "",
+        linkedin: profileFields.linkedin?.value.trim() ?? "",
+      },
+      hero: {
+        badge: { es: profileFields.badgeEs?.value.trim() ?? "", en: profileFields.badgeEn?.value.trim() ?? "" },
+        title: { es: profileFields.titleEs?.value.trim() ?? "", en: profileFields.titleEn?.value.trim() ?? "" },
+        description: [
+          { es: profileFields.desc1Es?.value.trim() ?? "", en: profileFields.desc1En?.value.trim() ?? "" },
+          { es: profileFields.desc2Es?.value.trim() ?? "", en: profileFields.desc2En?.value.trim() ?? "" },
+        ],
+        buttons: {
+          cv: profileSeed.hero.buttons.cv,
+          contact: { es: profileFields.contactEs?.value.trim() ?? "", en: profileFields.contactEn?.value.trim() ?? "" },
+        },
+      },
+    };
+  }
+
+  async function loadProfile() {
+    const snapshot = await getDoc(doc(db, "content", "profile"));
+    setProfileForm(snapshot.exists() ? snapshot.data() : profileSeed);
+  }
+
+  async function saveProfile(profile = getProfileForm()) {
+    await setDoc(doc(db, "content", "profile"), profile);
+    setMessage("Perfil guardado correctamente.", "success");
+  }
+
+  function emptyItem() {
+    const order = activeItems.length > 0 ? Math.max(...activeItems.map((item) => Number(item.order) || 0)) + 10 : 10;
+    if (activeCollection === "about") return { id: "", order, visible: true, es: "", en: "" };
+    return {
+      id: "",
+      order,
+      visible: true,
+      date: { es: "", en: "" },
+      title: { es: "", en: "" },
+      company: "",
+      link: "",
+      ...(activeCollection === "experience" ? { description: { es: "", en: "" } } : {}),
+    };
+  }
+
+  function setItemForm(item: any) {
+    selectedItemId = item.id ?? "";
+    if (itemFields.id) itemFields.id.value = item.id ?? "";
+    if (itemFields.order) itemFields.order.value = String(item.order ?? 0);
+    if (itemFields.visible) itemFields.visible.checked = item.visible ?? true;
+    if (itemFields.dateEs) itemFields.dateEs.value = item.date?.es ?? "";
+    if (itemFields.dateEn) itemFields.dateEn.value = item.date?.en ?? "";
+    if (itemFields.titleEs) itemFields.titleEs.value = item.title?.es ?? "";
+    if (itemFields.titleEn) itemFields.titleEn.value = item.title?.en ?? "";
+    if (itemFields.company) itemFields.company.value = item.company ?? "";
+    if (itemFields.link) itemFields.link.value = item.link ?? "";
+    if (itemFields.es) itemFields.es.value = item.es ?? "";
+    if (itemFields.en) itemFields.en.value = item.en ?? "";
+    if (itemFields.descriptionEs) itemFields.descriptionEs.value = item.description?.es ?? "";
+    if (itemFields.descriptionEn) itemFields.descriptionEn.value = item.description?.en ?? "";
+  }
+
+  function getItemForm() {
+    const base = {
+      id: itemFields.id?.value.trim() ?? "",
+      order: Number(itemFields.order?.value ?? 0),
+      visible: itemFields.visible?.checked ?? false,
+    };
+    if (!base.id) throw new Error("El elemento necesita un ID.");
+
+    if (activeCollection === "about") {
+      return {
+        ...base,
+        es: itemFields.es?.value.trim() ?? "",
+        en: itemFields.en?.value.trim() ?? "",
+      };
+    }
+
+    return {
+      ...base,
+      date: { es: itemFields.dateEs?.value.trim() ?? "", en: itemFields.dateEn?.value.trim() ?? "" },
+      title: { es: itemFields.titleEs?.value.trim() ?? "", en: itemFields.titleEn?.value.trim() ?? "" },
+      company: itemFields.company?.value.trim() ?? "",
+      ...(itemFields.link?.value.trim() ? { link: itemFields.link.value.trim() } : {}),
+      ...(activeCollection === "experience"
+        ? { description: { es: itemFields.descriptionEs?.value.trim() ?? "", en: itemFields.descriptionEn?.value.trim() ?? "" } }
+        : {}),
+    };
+  }
+
+  function updateItemFieldVisibility() {
+    const isAbout = activeCollection === "about";
+    const isExperience = activeCollection === "experience";
+    document.getElementById("item-date-fields")?.classList.toggle("hidden", isAbout);
+    document.getElementById("item-title-fields")?.classList.toggle("hidden", isAbout);
+    document.getElementById("item-company-fields")?.classList.toggle("hidden", isAbout);
+    document.getElementById("item-about-fields")?.classList.toggle("hidden", !isAbout);
+    document.getElementById("item-description-fields")?.classList.toggle("hidden", !isExperience);
+    if (itemsTitle) itemsTitle.textContent = titles[activeCollection];
+  }
+
+  function renderItemsList() {
+    if (!itemsList) return;
+    if (activeItems.length === 0) {
+      itemsList.innerHTML = `<p class="p-4 text-sm font-bold border-2 border-dashed border-gray-400">No hay elementos. Pulsa "Importar JSON".</p>`;
+      setItemForm(emptyItem());
+      return;
+    }
+
+    itemsList.innerHTML = activeItems.map((item) => `
+      <button class="min-w-0 p-4 text-left transition border-2 border-black dark:border-white ${item.id === selectedItemId ? "bg-[#c5ff4a] text-black" : "hover:bg-[#c5ff4a] hover:text-black"}" data-item-id="${item.id}" type="button">
+        <span class="block text-xs font-black uppercase">${item.visible ? "Visible" : "Oculto"} · orden ${item.order}</span>
+        <span class="block mt-1 text-lg font-black uppercase break-words">${activeCollection === "about" ? item.id : item.title?.es}</span>
+      </button>
+    `).join("");
+
+    itemsList.querySelectorAll<HTMLButtonElement>("[data-item-id]").forEach((button) => {
+      button.addEventListener("click", () => {
+        const item = activeItems.find((entry) => entry.id === button.dataset.itemId);
+        if (!item) return;
+        setItemForm(item);
+        renderItemsList();
+      });
+    });
+
+    const selected = activeItems.find((item) => item.id === selectedItemId);
+    if (selected) setItemForm(selected);
+  }
+
+  async function loadItems() {
+    updateItemFieldVisibility();
+    setMessage(`Cargando ${titles[activeCollection]}...`);
+    const snapshot = await getDocs(query(collection(db, activeCollection), orderBy("order", "asc")));
+    activeItems = snapshot.docs.map((itemDoc) => itemDoc.data());
+    selectedItemId = activeItems[0]?.id ?? "";
+    renderItemsList();
+    setMessage(`${titles[activeCollection]} cargado: ${activeItems.length}`, "success");
+  }
+
+  async function seedItems() {
+    await Promise.all((seeds[activeCollection] as any[]).map((item) => setDoc(doc(db, activeCollection, item.id), item)));
+    await loadItems();
+    setMessage(`${titles[activeCollection]} importado correctamente.`, "success");
+  }
+
+  function setActiveCollection(collectionName: CollectionName) {
+    activeCollection = collectionName;
+    selectedItemId = "";
+    document.querySelectorAll<HTMLButtonElement>(".content-tab").forEach((button) => {
+      const isActive = button.dataset.collection === collectionName;
+      button.classList.toggle("bg-[#c5ff4a]", isActive);
+      button.classList.toggle("text-black", isActive);
+    });
+    loadItems().catch((error) => {
+      console.error(error);
+      setMessage("No se pudo cargar la sección.", "error");
+    });
+  }
+
+  getRedirectResult(auth).catch((error) => {
+    console.error(error);
+    showState("login");
+  });
+
+  onAuthStateChanged(auth, async (user) => {
+    if (!user) {
+      showState("login");
+      return;
+    }
+    if (user.email !== adminEmail) {
+      showState("denied");
+      return;
+    }
+    if (userEmail) userEmail.textContent = user.email || "";
+    showState("panel");
+    try {
+      await loadProfile();
+      await loadItems();
+    } catch (error) {
+      console.error(error);
+      setMessage("No se pudo cargar el contenido. Revisa las reglas de Firestore.", "error");
+    }
+  });
+
+  document.getElementById("admin-login-button")?.addEventListener("click", async () => {
+    showState("loading");
+    try {
+      await signInWithRedirect(auth, googleProvider);
+    } catch (error) {
+      console.error(error);
+      showState("login");
+    }
+  });
+
+  document.getElementById("admin-logout-button")?.addEventListener("click", async () => {
+    await signOut(auth);
+  });
+
+  document.getElementById("load-profile")?.addEventListener("click", () => loadProfile().catch(console.error));
+  document.getElementById("seed-profile")?.addEventListener("click", () => saveProfile(profileSeed).then(() => setProfileForm(profileSeed)).catch(console.error));
+  document.getElementById("save-profile")?.addEventListener("click", () => saveProfile().catch((error) => setMessage(error.message, "error")));
+  document.getElementById("seed-items")?.addEventListener("click", () => seedItems().catch((error) => setMessage(error.message, "error")));
+  document.getElementById("new-item")?.addEventListener("click", () => {
+    selectedItemId = "";
+    setItemForm(emptyItem());
+    renderItemsList();
+  });
+
+  document.querySelectorAll<HTMLButtonElement>(".content-tab").forEach((button) => {
+    button.addEventListener("click", () => setActiveCollection(button.dataset.collection as CollectionName));
+  });
+
+  itemForm?.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    try {
+      const item = getItemForm();
+      await setDoc(doc(db, activeCollection, item.id), item);
+      selectedItemId = item.id;
+      await loadItems();
+      setMessage("Elemento guardado correctamente.", "success");
+    } catch (error) {
+      const text = error instanceof Error ? error.message : "No se pudo guardar.";
+      setMessage(text, "error");
+    }
+  });
+
+  document.getElementById("delete-item")?.addEventListener("click", async () => {
+    const id = itemFields.id?.value.trim();
+    if (!id) return;
+    if (!window.confirm(`¿Eliminar "${id}" de ${titles[activeCollection]}?`)) return;
+    await deleteDoc(doc(db, activeCollection, id));
+    selectedItemId = "";
+    await loadItems();
+    setMessage("Elemento eliminado correctamente.", "success");
+  });
+</script>
