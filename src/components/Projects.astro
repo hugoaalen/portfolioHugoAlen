@@ -31,32 +31,32 @@ import SqlServer from "./icons/SqlServer.astro";
 import { projects } from "@/data/content";
 
 const TAGS = {
-  NEXT: { name: "Next.js", class: "bg-black text-white", icon: NextJS },
-  TAILWIND: { name: "Tailwind CSS", class: "bg-[#003159] text-white", icon: Tailwind },
-  HTML: { name: "HTML", class: "bg-[#E34F2680] text-white", icon: HTML },
-  CSS: { name: "CSS", class: "bg-[#264DE480] text-white", icon: CSS },
-  VANILLAJS: { name: "VanillaJS", class: "bg-[#F7DF1E80] text-white", icon: VanillaJS },
-  BOOTSTRAP: { name: "Bootstrap", class: "bg-[#7952B380] text-white", icon: Bootstrap },
-  REACT: { name: "React", class: "bg-[#003159] text-white", icon: React },
-  SUPABASE: { name: "Supabase", class: "bg-[#1C3F2E] text-white", icon: Supabase },
-  ASTRO: { name: "Astro", class: "bg-[#E34F2680] text-white", icon: AstroIcon },
-  VITE: { name: "Vite", class: "bg-[#646CFF] text-white", icon: Vite },
-  TYPESCRIPT: { name: "TypeScript", class: "bg-[#3178C6] text-white", icon: TypeScript },
-  FIREBASE: { name: "Firebase", class: "bg-[#FFCA28] text-black", icon: Firebase },
-  PHP: { name: "PHP", class: "bg-[#777BB4] text-white", icon: PHP },
-  ANGULAR: { name: "Angular", class: "bg-[#C3002F] text-white", icon: Angular },
-  MYSQL: { name: "MySQL", class: "bg-[#00546B] text-white", icon: MySQL },
-  NODE: { name: "Node.js", class: "bg-[#2F6B2F] text-white", icon: NodeJS },
-  EXPRESS: { name: "Express", class: "bg-black text-white", icon: Express },
-  PYTHON: { name: "Python", class: "bg-[#3776AB] text-white", icon: Python },
-  DOCKER: { name: "Docker", class: "bg-[#2496ED] text-white", icon: Docker },
-  POSTGRESQL: { name: "PostgreSQL", class: "bg-[#336791] text-white", icon: PostgreSQL },
-  SQLSERVER: { name: "SQL Server", class: "bg-[#A91D22] text-white", icon: SqlServer },
-  DOTNET: { name: ".NET", class: "bg-[#512BD4] text-white", icon: DotNet },
-  CSHARP: { name: "C#", class: "bg-[#68217A] text-white", icon: CSharp },
-  BASH: { name: "Bash", class: "bg-[#293137] text-white", icon: Bash },
-  JAVA: { name: "Java", class: "bg-[#E76F00] text-white", icon: Java },
-  SQLITE: { name: "SQLite", class: "bg-[#003B57] text-white", icon: SQLite },
+  NEXT: { name: "Next.js", class: "bg-black text-white", icon: NextJS, iconColor: "#000000" },
+  TAILWIND: { name: "Tailwind CSS", class: "bg-[#003159] text-white", icon: Tailwind, iconColor: "#38BDF8" },
+  HTML: { name: "HTML", class: "bg-[#E34F2680] text-white", icon: HTML, iconColor: "#E34F26" },
+  CSS: { name: "CSS", class: "bg-[#264DE480] text-white", icon: CSS, iconColor: "#1572B6" },
+  VANILLAJS: { name: "VanillaJS", class: "bg-[#F7DF1E80] text-white", icon: VanillaJS, iconColor: "#F7DF1E" },
+  BOOTSTRAP: { name: "Bootstrap", class: "bg-[#7952B380] text-white", icon: Bootstrap, iconColor: "#7952B3" },
+  REACT: { name: "React", class: "bg-[#003159] text-white", icon: React, iconColor: "#61DAFB" },
+  SUPABASE: { name: "Supabase", class: "bg-[#1C3F2E] text-white", icon: Supabase, iconColor: "#3ECF8E" },
+  ASTRO: { name: "Astro", class: "bg-[#E34F2680] text-white", icon: AstroIcon, iconColor: "#FF5D01" },
+  VITE: { name: "Vite", class: "bg-[#646CFF] text-white", icon: Vite, iconColor: "#646CFF" },
+  TYPESCRIPT: { name: "TypeScript", class: "bg-[#3178C6] text-white", icon: TypeScript, iconColor: "#3178C6" },
+  FIREBASE: { name: "Firebase", class: "bg-[#FFCA28] text-black", icon: Firebase, iconColor: "#FFCA28" },
+  PHP: { name: "PHP", class: "bg-[#777BB4] text-white", icon: PHP, iconColor: "#777BB4" },
+  ANGULAR: { name: "Angular", class: "bg-[#C3002F] text-white", icon: Angular, iconColor: "#DD0031" },
+  MYSQL: { name: "MySQL", class: "bg-[#00546B] text-white", icon: MySQL, iconColor: "#00758F" },
+  NODE: { name: "Node.js", class: "bg-[#2F6B2F] text-white", icon: NodeJS, iconColor: "#3C873A" },
+  EXPRESS: { name: "Express", class: "bg-black text-white", icon: Express, iconColor: "#000000" },
+  PYTHON: { name: "Python", class: "bg-[#3776AB] text-white", icon: Python, iconColor: "#3776AB" },
+  DOCKER: { name: "Docker", class: "bg-[#2496ED] text-white", icon: Docker, iconColor: "#2496ED" },
+  POSTGRESQL: { name: "PostgreSQL", class: "bg-[#336791] text-white", icon: PostgreSQL, iconColor: "#336791" },
+  SQLSERVER: { name: "SQL Server", class: "bg-[#A91D22] text-white", icon: SqlServer, iconColor: "#CC2927" },
+  DOTNET: { name: ".NET", class: "bg-[#512BD4] text-white", icon: DotNet, iconColor: "#512BD4" },
+  CSHARP: { name: "C#", class: "bg-[#68217A] text-white", icon: CSharp, iconColor: "#68217A" },
+  BASH: { name: "Bash", class: "bg-[#293137] text-white", icon: Bash, iconColor: "#293137" },
+  JAVA: { name: "Java", class: "bg-[#E76F00] text-white", icon: Java, iconColor: "#E76F00" },
+  SQLITE: { name: "SQLite", class: "bg-[#003B57] text-white", icon: SQLite, iconColor: "#003B57" },
 };
 
 const PROJECTS = projects.map((project) => ({
@@ -98,8 +98,10 @@ const PROJECTS = projects.map((project) => ({
             <ul class="flex flex-wrap gap-2 mb-2">
               {tags.map((tag) => (
                 <li>
-                  <span class={`flex gap-x-2 rounded-full text-xs ${tag.class} py-1 px-2`}>
-                    <tag.icon class="size-4" label={"iconLabel" in tag ? tag.iconLabel : undefined} />
+                  <span class={`flex items-center gap-x-2 rounded-full text-xs ${tag.class} py-1 px-2`}>
+                    <span class="inline-flex size-5 shrink-0 items-center justify-center rounded-full bg-white/95" style={`color: ${tag.iconColor}`}>
+                      <tag.icon class="size-3.5" />
+                    </span>
                     {tag.name}
                   </span>
                 </li>
@@ -139,7 +141,7 @@ const PROJECTS = projects.map((project) => ({
   {
     Object.entries(TAGS).map(([key, tag]) => (
       <span data-project-tag-icon={key}>
-        <tag.icon class="size-4" label={"iconLabel" in tag ? tag.iconLabel : undefined} />
+        <tag.icon class="size-3.5" />
       </span>
     ))
   }
@@ -156,32 +158,32 @@ const PROJECTS = projects.map((project) => ({
   import { db } from "@/lib/firebase";
 
   const PROJECT_TAGS = {
-    NEXT: { name: "Next.js", className: "bg-black text-white" },
-    TAILWIND: { name: "Tailwind CSS", className: "bg-[#003159] text-white" },
-    HTML: { name: "HTML", className: "bg-[#E34F2680] text-white" },
-    CSS: { name: "CSS", className: "bg-[#264DE480] text-white" },
-    VANILLAJS: { name: "VanillaJS", className: "bg-[#F7DF1E80] text-white" },
-    BOOTSTRAP: { name: "Bootstrap", className: "bg-[#7952B380] text-white" },
-    REACT: { name: "React", className: "bg-[#003159] text-white" },
-    SUPABASE: { name: "Supabase", className: "bg-[#1C3F2E] text-white" },
-    ASTRO: { name: "Astro", className: "bg-[#E34F2680] text-white" },
-    VITE: { name: "Vite", className: "bg-[#646CFF] text-white" },
-    TYPESCRIPT: { name: "TypeScript", className: "bg-[#3178C6] text-white" },
-    FIREBASE: { name: "Firebase", className: "bg-[#FFCA28] text-black" },
-    PHP: { name: "PHP", className: "bg-[#777BB4] text-white" },
-    ANGULAR: { name: "Angular", className: "bg-[#C3002F] text-white" },
-    MYSQL: { name: "MySQL", className: "bg-[#00546B] text-white" },
-    NODE: { name: "Node.js", className: "bg-[#2F6B2F] text-white" },
-    EXPRESS: { name: "Express", className: "bg-black text-white" },
-    PYTHON: { name: "Python", className: "bg-[#3776AB] text-white" },
-    DOCKER: { name: "Docker", className: "bg-[#2496ED] text-white" },
-    POSTGRESQL: { name: "PostgreSQL", className: "bg-[#336791] text-white" },
-    SQLSERVER: { name: "SQL Server", className: "bg-[#A91D22] text-white" },
-    DOTNET: { name: ".NET", className: "bg-[#512BD4] text-white" },
-    CSHARP: { name: "C#", className: "bg-[#68217A] text-white" },
-    BASH: { name: "Bash", className: "bg-[#293137] text-white" },
-    JAVA: { name: "Java", className: "bg-[#E76F00] text-white" },
-    SQLITE: { name: "SQLite", className: "bg-[#003B57] text-white" },
+    NEXT: { name: "Next.js", className: "bg-black text-white", iconColor: "#000000" },
+    TAILWIND: { name: "Tailwind CSS", className: "bg-[#003159] text-white", iconColor: "#38BDF8" },
+    HTML: { name: "HTML", className: "bg-[#E34F2680] text-white", iconColor: "#E34F26" },
+    CSS: { name: "CSS", className: "bg-[#264DE480] text-white", iconColor: "#1572B6" },
+    VANILLAJS: { name: "VanillaJS", className: "bg-[#F7DF1E80] text-white", iconColor: "#F7DF1E" },
+    BOOTSTRAP: { name: "Bootstrap", className: "bg-[#7952B380] text-white", iconColor: "#7952B3" },
+    REACT: { name: "React", className: "bg-[#003159] text-white", iconColor: "#61DAFB" },
+    SUPABASE: { name: "Supabase", className: "bg-[#1C3F2E] text-white", iconColor: "#3ECF8E" },
+    ASTRO: { name: "Astro", className: "bg-[#E34F2680] text-white", iconColor: "#FF5D01" },
+    VITE: { name: "Vite", className: "bg-[#646CFF] text-white", iconColor: "#646CFF" },
+    TYPESCRIPT: { name: "TypeScript", className: "bg-[#3178C6] text-white", iconColor: "#3178C6" },
+    FIREBASE: { name: "Firebase", className: "bg-[#FFCA28] text-black", iconColor: "#FFCA28" },
+    PHP: { name: "PHP", className: "bg-[#777BB4] text-white", iconColor: "#777BB4" },
+    ANGULAR: { name: "Angular", className: "bg-[#C3002F] text-white", iconColor: "#DD0031" },
+    MYSQL: { name: "MySQL", className: "bg-[#00546B] text-white", iconColor: "#00758F" },
+    NODE: { name: "Node.js", className: "bg-[#2F6B2F] text-white", iconColor: "#3C873A" },
+    EXPRESS: { name: "Express", className: "bg-black text-white", iconColor: "#000000" },
+    PYTHON: { name: "Python", className: "bg-[#3776AB] text-white", iconColor: "#3776AB" },
+    DOCKER: { name: "Docker", className: "bg-[#2496ED] text-white", iconColor: "#2496ED" },
+    POSTGRESQL: { name: "PostgreSQL", className: "bg-[#336791] text-white", iconColor: "#336791" },
+    SQLSERVER: { name: "SQL Server", className: "bg-[#A91D22] text-white", iconColor: "#CC2927" },
+    DOTNET: { name: ".NET", className: "bg-[#512BD4] text-white", iconColor: "#512BD4" },
+    CSHARP: { name: "C#", className: "bg-[#68217A] text-white", iconColor: "#68217A" },
+    BASH: { name: "Bash", className: "bg-[#293137] text-white", iconColor: "#293137" },
+    JAVA: { name: "Java", className: "bg-[#E76F00] text-white", iconColor: "#E76F00" },
+    SQLITE: { name: "SQLite", className: "bg-[#003B57] text-white", iconColor: "#003B57" },
   };
   const projectsContainer = document.getElementById("projects-container");
   const iconLibrary = document.getElementById("project-tag-icons");
@@ -206,8 +208,10 @@ const PROJECTS = projects.map((project) => ({
 
     return `
       <li>
-        <span class="flex gap-x-2 rounded-full text-xs ${tag.className} py-1 px-2">
-          ${iconHtml(`[data-project-tag-icon="${tagKey}"]`)}
+        <span class="flex items-center gap-x-2 rounded-full text-xs ${tag.className} py-1 px-2">
+          <span class="inline-flex size-5 shrink-0 items-center justify-center rounded-full bg-white/95" style="color: ${tag.iconColor}">
+            ${iconHtml(`[data-project-tag-icon="${tagKey}"]`)}
+          </span>
           ${escapeHtml(tag.name)}
         </span>
       </li>

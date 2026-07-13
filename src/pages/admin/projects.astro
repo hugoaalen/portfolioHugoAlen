@@ -28,32 +28,32 @@ import SQLite from "@/components/icons/SQLite.astro";
 import SqlServer from "@/components/icons/SqlServer.astro";
 
 const ADMIN_PROJECT_TAGS = {
-  NEXT: { icon: NextJS },
-  TAILWIND: { icon: Tailwind },
-  HTML: { icon: HTML },
-  CSS: { icon: CSS },
-  VANILLAJS: { icon: VanillaJS },
-  BOOTSTRAP: { icon: Bootstrap },
-  REACT: { icon: React },
-  SUPABASE: { icon: Supabase },
-  ASTRO: { icon: AstroIcon },
-  VITE: { icon: Vite },
-  TYPESCRIPT: { icon: TypeScript },
-  FIREBASE: { icon: Firebase },
-  PHP: { icon: PHP },
-  ANGULAR: { icon: Angular },
-  MYSQL: { icon: MySQL },
-  NODE: { icon: NodeJS },
-  EXPRESS: { icon: Express },
-  PYTHON: { icon: Python },
-  DOCKER: { icon: Docker },
-  POSTGRESQL: { icon: PostgreSQL },
-  SQLSERVER: { icon: SqlServer },
-  DOTNET: { icon: DotNet },
-  CSHARP: { icon: CSharp },
-  BASH: { icon: Bash },
-  JAVA: { icon: Java },
-  SQLITE: { icon: SQLite },
+  NEXT: { icon: NextJS, iconColor: "#000000" },
+  TAILWIND: { icon: Tailwind, iconColor: "#38BDF8" },
+  HTML: { icon: HTML, iconColor: "#E34F26" },
+  CSS: { icon: CSS, iconColor: "#1572B6" },
+  VANILLAJS: { icon: VanillaJS, iconColor: "#F7DF1E" },
+  BOOTSTRAP: { icon: Bootstrap, iconColor: "#7952B3" },
+  REACT: { icon: React, iconColor: "#61DAFB" },
+  SUPABASE: { icon: Supabase, iconColor: "#3ECF8E" },
+  ASTRO: { icon: AstroIcon, iconColor: "#FF5D01" },
+  VITE: { icon: Vite, iconColor: "#646CFF" },
+  TYPESCRIPT: { icon: TypeScript, iconColor: "#3178C6" },
+  FIREBASE: { icon: Firebase, iconColor: "#FFCA28" },
+  PHP: { icon: PHP, iconColor: "#777BB4" },
+  ANGULAR: { icon: Angular, iconColor: "#DD0031" },
+  MYSQL: { icon: MySQL, iconColor: "#00758F" },
+  NODE: { icon: NodeJS, iconColor: "#3C873A" },
+  EXPRESS: { icon: Express, iconColor: "#000000" },
+  PYTHON: { icon: Python, iconColor: "#3776AB" },
+  DOCKER: { icon: Docker, iconColor: "#2496ED" },
+  POSTGRESQL: { icon: PostgreSQL, iconColor: "#336791" },
+  SQLSERVER: { icon: SqlServer, iconColor: "#CC2927" },
+  DOTNET: { icon: DotNet, iconColor: "#512BD4" },
+  CSHARP: { icon: CSharp, iconColor: "#68217A" },
+  BASH: { icon: Bash, iconColor: "#293137" },
+  JAVA: { icon: Java, iconColor: "#E76F00" },
+  SQLITE: { icon: SQLite, iconColor: "#003B57" },
 };
 ---
 
@@ -249,7 +249,7 @@ const ADMIN_PROJECT_TAGS = {
     {
       Object.entries(ADMIN_PROJECT_TAGS).map(([key, tag]) => (
         <span data-admin-project-tag-icon={key}>
-          <tag.icon class="size-4" label={"iconLabel" in tag ? tag.iconLabel : undefined} />
+          <tag.icon class="size-3.5" />
         </span>
       ))
     }
@@ -393,6 +393,35 @@ const ADMIN_PROJECT_TAGS = {
     SQLITE: "SQLite",
   };
 
+  const PROJECT_TAG_COLORS = {
+    NEXT: "#000000",
+    TAILWIND: "#38BDF8",
+    HTML: "#E34F26",
+    CSS: "#1572B6",
+    VANILLAJS: "#F7DF1E",
+    BOOTSTRAP: "#7952B3",
+    REACT: "#61DAFB",
+    SUPABASE: "#3ECF8E",
+    ASTRO: "#FF5D01",
+    VITE: "#646CFF",
+    TYPESCRIPT: "#3178C6",
+    FIREBASE: "#FFCA28",
+    PHP: "#777BB4",
+    ANGULAR: "#DD0031",
+    MYSQL: "#00758F",
+    NODE: "#3C873A",
+    EXPRESS: "#000000",
+    PYTHON: "#3776AB",
+    DOCKER: "#2496ED",
+    POSTGRESQL: "#336791",
+    SQLSERVER: "#CC2927",
+    DOTNET: "#512BD4",
+    CSHARP: "#68217A",
+    BASH: "#293137",
+    JAVA: "#E76F00",
+    SQLITE: "#003B57",
+  };
+
   const fields = {
     id: document.getElementById("project-id") as HTMLInputElement | null,
     order: document.getElementById("project-order") as HTMLInputElement | null,
@@ -453,7 +482,10 @@ const ADMIN_PROJECT_TAGS = {
     tagsContainer.innerHTML = AVAILABLE_PROJECT_TAGS.map((tag) => `
       <label class="project-tag-label inline-flex items-center gap-2 px-3 py-2 text-xs font-black uppercase border-2 border-black bg-white text-black dark:border-white dark:bg-[#111] dark:text-white">
         <input class="project-tag size-4" type="checkbox" value="${tag}" />
-        <span class="project-tag-icon inline-flex shrink-0 items-center justify-center">
+        <span
+          class="project-tag-icon inline-flex size-5 shrink-0 items-center justify-center rounded-full bg-white/95"
+          style="color: ${PROJECT_TAG_COLORS[tag] ?? "#111"}"
+        >
           ${tagIconHtml(tag)}
         </span>
         <span>${PROJECT_TAG_LABELS[tag] ?? tag}</span>
