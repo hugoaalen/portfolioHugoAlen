@@ -155,13 +155,29 @@ import Layout from "@/layouts/Layout.astro";
                 <input id="project-image" class="px-3 py-2 text-black border-2 border-black" placeholder="/projects/imagen.png" required />
               </label>
               <label class="grid gap-2 text-sm font-black uppercase">
+                Subir imagen
+                <input id="project-image-upload" accept="image/*" class="px-3 py-2 text-black bg-white border-2 border-black" type="file" />
+              </label>
+              <label class="grid gap-2 text-sm font-black uppercase">
                 GitHub
                 <input id="project-github" class="px-3 py-2 text-black border-2 border-black" placeholder="https://github.com/..." />
               </label>
+            </div>
+
+            <div class="grid gap-4 mt-5 sm:grid-cols-3">
               <label class="grid gap-2 text-sm font-black uppercase">
                 Enlace
                 <input id="project-link" class="px-3 py-2 text-black border-2 border-black" placeholder="https://..." />
               </label>
+              <div class="grid gap-2 text-sm font-black uppercase sm:col-span-2">
+                Vista previa
+                <div class="flex items-center justify-center h-32 overflow-hidden border-2 border-black bg-[#f6f6ef] dark:border-white dark:bg-black">
+                  <img id="project-image-preview" alt="Vista previa de la imagen del proyecto" class="hidden object-cover object-top w-full h-full" />
+                  <span id="project-image-empty" class="px-3 text-xs text-center text-gray-600 dark:text-gray-300">
+                    Sin imagen seleccionada
+                  </span>
+                </div>
+              </div>
             </div>
 
             <fieldset class="p-4 mt-5 border-2 border-black dark:border-white">
@@ -202,6 +218,7 @@ import Layout from "@/layouts/Layout.astro";
     query,
     setDoc,
   } from "firebase/firestore";
+  import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
   import seedProjects from "@/data/projects.json";
   import {
     AVAILABLE_PROJECT_TAGS,
@@ -209,7 +226,7 @@ import Layout from "@/layouts/Layout.astro";
     PROJECT_STATUSES,
     type Project,
   } from "@/data/content";
-  import { adminEmail, auth, db, googleProvider } from "@/lib/firebase";
+  import { adminEmail, auth, db, googleProvider, storage } from "@/lib/firebase";
 
   const loading = document.getElementById("admin-loading");
   const login = document.getElementById("admin-login");
@@ -226,6 +243,9 @@ import Layout from "@/layouts/Layout.astro";
   const list = document.getElementById("projects-list");
   const form = document.getElementById("project-form") as HTMLFormElement | null;
   const tagsContainer = document.getElementById("project-tags");
+  const imageUpload = document.getElementById("project-image-upload") as HTMLInputElement | null;
+  const imagePreview = document.getElementById("project-image-preview") as HTMLImageElement | null;
+  const imageEmpty = document.getElementById("project-image-empty");
 
   const fields = {
     id: document.getElementById("project-id") as HTMLInputElement | null,
@@ -277,6 +297,65 @@ import Layout from "@/layouts/Layout.astro";
     select.innerHTML = values.map((value) => `<option value="${value}">${value}</option>`).join("");
   }
 
+  function slugify(value: string) {
+    return value
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-+|-+$/g, "")
+      .slice(0, 70);
+  }
+
+  function getFileExtension(file: File) {
+    const [, extension] = file.name.match(/\.([a-zA-Z0-9]+)$/) ?? [];
+    return extension ? extension.toLowerCase() : "webp";
+  }
+
+  function updateImagePreview(src: string) {
+    const cleanSrc = src.trim();
+    const hasImage = cleanSrc !== "" && cleanSrc !== "/projects/";
+    if (!imagePreview || !imageEmpty) return;
+
+    imagePreview.classList.toggle("hidden", !hasImage);
+    imageEmpty.classList.toggle("hidden", hasImage);
+
+    if (hasImage) {
+      imagePreview.src = cleanSrc;
+    } else {
+      imagePreview.removeAttribute("src");
+    }
+  }
+
+  async function uploadProjectImage(file: File) {
+    if (!file.type.startsWith("image/")) {
+      throw new Error("El archivo tiene que ser una imagen.");
+    }
+
+    if (file.size > 5 * 1024 * 1024) {
+      throw new Error("La imagen no puede superar los 5 MB.");
+    }
+
+    const projectId = fields.id?.value.trim() || fields.titleEs?.value.trim() || "proyecto";
+    const fileName = `${slugify(projectId) || "proyecto"}-${Date.now()}.${getFileExtension(file)}`;
+    const imageRef = ref(storage, `project-images/${fileName}`);
+
+    setMessage(`Subiendo imagen "${file.name}"...`);
+
+    const snapshot = await uploadBytes(imageRef, file, {
+      contentType: file.type || "image/webp",
+      customMetadata: { projectId },
+    });
+    const url = await getDownloadURL(snapshot.ref);
+
+    if (fields.image) {
+      fields.image.value = url;
+    }
+
+    updateImagePreview(url);
+    setMessage("Imagen subida correctamente. Guarda el proyecto para aplicar el cambio.", "success");
+  }
+
   function renderTagInputs() {
     if (!tagsContainer) return;
 
@@ -323,6 +402,9 @@ import Layout from "@/layouts/Layout.astro";
     if (fields.image) fields.image.value = project.image;
     if (fields.github) fields.github.value = project.github ?? "";
     if (fields.link) fields.link.value = project.link ?? "";
+    if (imageUpload) imageUpload.value = "";
+
+    updateImagePreview(project.image);
 
     document.querySelectorAll<HTMLInputElement>(".project-tag").forEach((checkbox) => {
       checkbox.checked = project.tags.includes(checkbox.value as Project["tags"][number]);
@@ -495,6 +577,27 @@ import Layout from "@/layouts/Layout.astro";
     setFormProject(emptyProject());
     selectedProjectId = "";
     renderProjectsList();
+  });
+
+  imageUpload?.addEventListener("change", async () => {
+    const file = imageUpload.files?.[0];
+    if (!file) return;
+
+    try {
+      imageUpload.disabled = true;
+      await uploadProjectImage(file);
+    } catch (error) {
+      console.error(error);
+      const text = error instanceof Error ? error.message : "No se pudo subir la imagen.";
+      setMessage(text, "error");
+      imageUpload.value = "";
+    } finally {
+      imageUpload.disabled = false;
+    }
+  });
+
+  fields.image?.addEventListener("input", () => {
+    updateImagePreview(fields.image?.value ?? "");
   });
 
   form?.addEventListener("submit", async (event) => {
