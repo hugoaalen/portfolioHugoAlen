@@ -113,7 +113,162 @@ const PROJECTS = projects.map((project) => ({
   }
 </div>
 
+<div id="project-tag-icons" class="hidden" aria-hidden="true">
+  {
+    Object.entries(TAGS).map(([key, tag]) => (
+      <span data-project-tag-icon={key}>
+        <tag.icon class="size-4" />
+      </span>
+    ))
+  }
+  <span data-project-action-icon="github">
+    <GitHub class="size-6" />
+  </span>
+  <span data-project-action-icon="link">
+    <Link class="size-4" />
+  </span>
+</div>
+
 <script>
+  import { collection, getDocs, query, where } from "firebase/firestore";
+  import { db } from "@/lib/firebase";
+
+  const PROJECT_TAGS = {
+    NEXT: { name: "Next.js", className: "bg-black text-white" },
+    TAILWIND: { name: "Tailwind CSS", className: "bg-[#003159] text-white" },
+    HTML: { name: "HTML", className: "bg-[#E34F2680] text-white" },
+    CSS: { name: "CSS", className: "bg-[#264DE480] text-white" },
+    VANILLAJS: { name: "VanillaJS", className: "bg-[#F7DF1E80] text-white" },
+    BOOTSTRAP: { name: "Bootstrap", className: "bg-[#7952B380] text-white" },
+    REACT: { name: "React", className: "bg-[#003159] text-white" },
+    SUPABASE: { name: "Supabase", className: "bg-[#1C3F2E] text-white" },
+    ASTRO: { name: "Astro", className: "bg-[#E34F2680] text-white" },
+    VITE: { name: "Vite", className: "bg-[#646CFF] text-white" },
+    TYPESCRIPT: { name: "TypeScript", className: "bg-[#3178C6] text-white" },
+    FIREBASE: { name: "Firebase", className: "bg-[#FFCA28] text-black" },
+    PHP: { name: "PHP", className: "bg-[#777BB4] text-white" },
+    ANGULAR: { name: "Angular", className: "bg-[#C3002F] text-white" },
+    MYSQL: { name: "MySQL", className: "bg-[#00546B] text-white" },
+  };
+  const projectsContainer = document.getElementById("projects-container");
+  const iconLibrary = document.getElementById("project-tag-icons");
+  const linkButtonClass = "inline-flex min-w-28 items-center justify-center gap-2 px-3 py-2 text-xs font-black text-black uppercase transition border-2 border-black bg-[#c5ff4a] group hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black focus:outline-none [&>svg]:size-5 [&>svg]:shrink-0";
+
+  function escapeHtml(value: unknown) {
+    return String(value ?? "")
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;")
+      .replaceAll('"', "&quot;")
+      .replaceAll("'", "&#039;");
+  }
+
+  function iconHtml(selector: string) {
+    return iconLibrary?.querySelector<HTMLElement>(selector)?.innerHTML.trim() ?? "";
+  }
+
+  function renderTag(tagKey: string) {
+    const tag = PROJECT_TAGS[tagKey as keyof typeof PROJECT_TAGS];
+    if (!tag) return "";
+
+    return `
+      <li>
+        <span class="flex gap-x-2 rounded-full text-xs ${tag.className} py-1 px-2">
+          ${iconHtml(`[data-project-tag-icon="${tagKey}"]`)}
+          ${escapeHtml(tag.name)}
+        </span>
+      </li>
+    `;
+  }
+
+  function renderProject(project: any) {
+    const titleEs = project.title?.es ?? "";
+    const titleEn = project.title?.en ?? titleEs;
+    const descriptionEs = project.description?.es ?? "";
+    const descriptionEn = project.description?.en ?? descriptionEs;
+    const tags = Array.isArray(project.tags) ? project.tags : [];
+    const featuredClass = project.featured ? " project-card-featured" : "";
+    const githubLink = project.github
+      ? `<a href="${escapeHtml(project.github)}" role="link" class="${linkButtonClass}">
+          ${iconHtml('[data-project-action-icon="github"]')}
+          <span class="i18n" data-es="Código" data-en="Code">Código</span>
+        </a>`
+      : "";
+    const externalLink = project.link
+      ? `<a href="${escapeHtml(project.link)}" role="link" class="${linkButtonClass}">
+          ${iconHtml('[data-project-action-icon="link"]')}
+          <span class="i18n" data-es="Enlace" data-en="Link">Enlace</span>
+        </a>`
+      : "";
+
+    return `
+      <article class="project-card flex flex-col overflow-hidden transition duration-200 border-2 border-black bg-white shadow-[8px_8px_0_#111] group hover:-translate-y-1 hover:shadow-[12px_12px_0_#111] dark:border-white dark:bg-[#111] dark:shadow-[8px_8px_0_#c5ff4a] dark:hover:shadow-[12px_12px_0_#c5ff4a]${featuredClass}">
+        <div class="w-full">
+          <div class="relative flex flex-col items-center overflow-hidden">
+            <img
+              alt="Thumbnail de ${escapeHtml(titleEs)}"
+              class="object-cover object-top w-full h-56 transition duration-500 grayscale-[20%] group-hover:grayscale-0 group-hover:scale-[1.03]"
+              loading="lazy"
+              src="${escapeHtml(project.image)}"
+            />
+          </div>
+        </div>
+
+        <div class="flex flex-col flex-1 w-full p-6 border-t-2 border-black dark:border-white">
+          <h3
+            class="text-xl font-black leading-tight tracking-tight text-black uppercase dark:text-white i18n"
+            data-es="${escapeHtml(titleEs)}"
+            data-en="${escapeHtml(titleEn)}"
+          >
+            ${escapeHtml(titleEs)}
+          </h3>
+
+          <div class="flex flex-wrap mt-2">
+            <ul class="flex flex-wrap gap-2 mb-2">
+              ${tags.map(renderTag).join("")}
+            </ul>
+
+            <div
+              class="mt-3 text-sm leading-relaxed text-gray-700 dark:text-gray-300 i18n"
+              data-es="${escapeHtml(descriptionEs)}"
+              data-en="${escapeHtml(descriptionEn)}"
+            >
+              ${escapeHtml(descriptionEs)}
+            </div>
+
+            <footer class="flex items-end justify-start mt-6 gap-x-3">
+              ${githubLink}
+              ${externalLink}
+            </footer>
+          </div>
+        </div>
+      </article>
+    `;
+  }
+
+  async function hydrateProjectsFromFirestore() {
+    if (!projectsContainer) return;
+
+    try {
+      const snapshot = await getDocs(query(
+        collection(db, "projects"),
+        where("visible", "==", true),
+        where("status", "==", "published"),
+      ));
+      const remoteProjects = snapshot.docs
+        .map((projectDoc) => projectDoc.data())
+        .sort((a, b) => Number(a.order ?? 0) - Number(b.order ?? 0));
+
+      if (remoteProjects.length === 0) return;
+
+      projectsContainer.innerHTML = remoteProjects.map(renderProject).join("");
+      projectsContainer.dataset.source = "firestore";
+      updateProjectsLanguage();
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   // Script genérico: no necesita conocer los datos de los proyectos
   function updateProjectsLanguage() {
     const lang = localStorage.getItem('language') || 'es';
@@ -129,6 +284,7 @@ const PROJECTS = projects.map((project) => ({
   
   // Ejecución inicial y escucha de eventos
   updateProjectsLanguage();
+  hydrateProjectsFromFirestore();
   window.addEventListener('languageChanged', updateProjectsLanguage);
 </script>
 
