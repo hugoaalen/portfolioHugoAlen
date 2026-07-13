@@ -192,7 +192,7 @@ import Layout from "@/layouts/Layout.astro";
 </Layout>
 
 <script>
-  import { getRedirectResult, onAuthStateChanged, signInWithRedirect, signOut } from "firebase/auth";
+  import { onAuthStateChanged, signInWithPopup, signOut } from "firebase/auth";
   import {
     collection,
     deleteDoc,
@@ -426,12 +426,6 @@ import Layout from "@/layouts/Layout.astro";
   renderTagInputs();
   setFormProject(emptyProject());
 
-  getRedirectResult(auth).catch((error) => {
-    console.error(error);
-    showState("login");
-    setMessage("No se pudo completar el acceso con Google.", "error");
-  });
-
   onAuthStateChanged(auth, async (user) => {
     if (!user) {
       showState("login");
@@ -461,7 +455,7 @@ import Layout from "@/layouts/Layout.astro";
     showState("loading");
 
     try {
-      await signInWithRedirect(auth, googleProvider);
+      await signInWithPopup(auth, googleProvider);
     } catch (error) {
       console.error(error);
       showState("login");

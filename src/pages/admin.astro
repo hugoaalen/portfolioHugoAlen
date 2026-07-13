@@ -70,7 +70,7 @@ import Layout from "@/layouts/Layout.astro";
 </Layout>
 
 <script>
-  import { getRedirectResult, onAuthStateChanged, signInWithRedirect, signOut } from "firebase/auth";
+  import { onAuthStateChanged, signInWithPopup, signOut } from "firebase/auth";
   import { adminEmail, auth, googleProvider } from "@/lib/firebase";
 
   const loading = document.getElementById("admin-loading");
@@ -87,11 +87,6 @@ import Layout from "@/layouts/Layout.astro";
     denied?.classList.toggle("hidden", state !== "denied");
     panel?.classList.toggle("hidden", state !== "panel");
   }
-
-  getRedirectResult(auth).catch((error) => {
-    console.error(error);
-    showState("login");
-  });
 
   onAuthStateChanged(auth, (user) => {
     if (!user) {
@@ -115,7 +110,7 @@ import Layout from "@/layouts/Layout.astro";
     showState("loading");
 
     try {
-      await signInWithRedirect(auth, googleProvider);
+      await signInWithPopup(auth, googleProvider);
     } catch (error) {
       console.error(error);
       showState("login");
