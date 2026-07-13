@@ -9,6 +9,8 @@ const THEMES = ["Light", "Dark", "System"]
 <div class="relative ml-1 mr-1">
   <button
     id="theme-toggle-btn"
+    type="button"
+    aria-expanded="false"
     class="flex p-2 text-black transition appearance-none border-none hover:bg-black hover:text-white"
   >
     <span class="sr-only">Elige el tema</span>
@@ -24,7 +26,7 @@ const THEMES = ["Light", "Dark", "System"]
   </button>
   <div
     id="themes-menu"
-    class="absolute hidden scale-80 top-10 right-0 text-sm font-black uppercase p-2 min-w-[8rem] border-2 border-black bg-white text-black dark:bg-[#111] dark:text-white dark:border-white shadow-[5px_5px_0_#111] dark:shadow-[5px_5px_0_#c5ff4a]"
+    class="absolute z-50 hidden scale-80 top-10 right-0 text-sm font-black uppercase p-2 min-w-[8rem] border-2 border-black bg-white text-black dark:bg-[#111] dark:text-white dark:border-white shadow-[5px_5px_0_#111] dark:shadow-[5px_5px_0_#c5ff4a]"
   >
     <ul>
       {
@@ -40,7 +42,7 @@ const THEMES = ["Light", "Dark", "System"]
 
 <style>
   #themes-menu.open {
-    display: inline;
+    display: block;
     animation: scale-up-center 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
   }
 
@@ -61,6 +63,7 @@ const THEMES = ["Light", "Dark", "System"]
   let remove = null
   const matchMedia = window.matchMedia("(prefers-color-scheme: dark)")
   const themesMenu = document.getElementById("themes-menu")
+  const themeButton = document.getElementById("theme-toggle-btn")
 
   const getThemePreference = () => {
     if (typeof localStorage !== "undefined") {
@@ -98,18 +101,27 @@ const THEMES = ["Light", "Dark", "System"]
 
   updateTheme()
 
-  document.addEventListener("click", () => themesMenu.classList.remove("open"))
+  const closeThemesMenu = () => {
+    themesMenu?.classList.remove("open")
+    themeButton?.setAttribute("aria-expanded", "false")
+  }
 
-  document.getElementById("theme-toggle-btn").addEventListener("click", (e) => {
+  document.addEventListener("click", closeThemesMenu)
+  window.addEventListener("hashchange", closeThemesMenu)
+  document.addEventListener("astro:before-swap", closeThemesMenu)
+
+  themeButton?.addEventListener("click", (e) => {
     e.stopPropagation()
-    const isClosed = !themesMenu.classList.contains("open")
-    themesMenu.classList[isClosed ? "add" : "remove"]("open")
+    const isClosed = !themesMenu?.classList.contains("open")
+    themesMenu?.classList[isClosed ? "add" : "remove"]("open")
+    themeButton.setAttribute("aria-expanded", String(isClosed))
   })
 
   document.querySelectorAll(".themes-menu-option").forEach((element) => {
     element.addEventListener("click", (e) => {
-      localStorage.setItem("theme", e.target.innerText.toLowerCase().trim())
+      localStorage.setItem("theme", e.currentTarget.innerText.toLowerCase().trim())
       updateTheme()
+      closeThemesMenu()
     })
   })
 </script>
