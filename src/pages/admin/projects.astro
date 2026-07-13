@@ -192,11 +192,46 @@ import Layout from "@/layouts/Layout.astro";
 </Layout>
 
 <style>
-  #project-form input,
+  #project-form input:not([type="checkbox"]),
   #project-form select,
   #project-form textarea {
     min-width: 0;
     width: 100%;
+  }
+
+  #project-form input:not([type="checkbox"]),
+  #project-form select,
+  #project-form textarea {
+    color: #111;
+    background-color: #fff;
+    border-color: #111;
+    caret-color: #111;
+    color-scheme: light;
+    -webkit-text-fill-color: #111;
+  }
+
+  #project-form input::placeholder,
+  #project-form textarea::placeholder {
+    color: #4b5563;
+    opacity: 1;
+    -webkit-text-fill-color: #4b5563;
+  }
+
+  #project-form input:not([type="checkbox"]):focus,
+  #project-form select:focus,
+  #project-form textarea:focus {
+    outline: 3px solid #c5ff4a;
+    outline-offset: 3px;
+  }
+
+  #project-form input[type="checkbox"] {
+    accent-color: #c5ff4a;
+    flex: 0 0 auto;
+  }
+
+  #project-form .project-tag {
+    min-width: 0;
+    width: 1rem;
   }
 
   #projects-list button {
