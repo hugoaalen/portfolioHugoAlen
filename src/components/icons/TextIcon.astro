@@ -1,0 +1,21 @@
+---
+const { label = "" } = Astro.props;
+---
+
+<svg
+  {...Astro.props}
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 24 24"
+  aria-hidden="true"
+>
+  <text
+    x="12"
+    y="16"
+    fill="currentColor"
+    font-family="Arial, Helvetica, sans-serif"
+    font-size={label.length > 3 ? "7.5" : "9.5"}
+    font-weight="900"
+    letter-spacing=".1"
+    text-anchor="middle"
+  >{label}</text>
+</svg>

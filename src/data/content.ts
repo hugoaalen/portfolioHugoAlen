@@ -20,6 +20,17 @@ export const AVAILABLE_PROJECT_TAGS = [
   "PHP",
   "ANGULAR",
   "MYSQL",
+  "NODE",
+  "EXPRESS",
+  "PYTHON",
+  "DOCKER",
+  "POSTGRESQL",
+  "SQLSERVER",
+  "DOTNET",
+  "CSHARP",
+  "BASH",
+  "JAVA",
+  "SQLITE",
 ] as const;
 
 export const PROJECT_STATUSES = ["published", "draft", "archived"] as const;

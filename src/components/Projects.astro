@@ -17,6 +17,8 @@ import Firebase from "./icons/Firebase.astro";
 import PHP from "./icons/PHP.astro";
 import Angular from "./icons/Angular.astro";
 import MySQL from "./icons/MySQL.astro";
+import Java from "./icons/Java.astro";
+import TextIcon from "./icons/TextIcon.astro";
 import { projects } from "@/data/content";
 
 const TAGS = {
@@ -35,6 +37,17 @@ const TAGS = {
   PHP: { name: "PHP", class: "bg-[#777BB4] text-white", icon: PHP },
   ANGULAR: { name: "Angular", class: "bg-[#C3002F] text-white", icon: Angular },
   MYSQL: { name: "MySQL", class: "bg-[#00546B] text-white", icon: MySQL },
+  NODE: { name: "Node.js", class: "bg-[#2F6B2F] text-white", icon: TextIcon, iconLabel: "Node" },
+  EXPRESS: { name: "Express", class: "bg-black text-white", icon: TextIcon, iconLabel: "EX" },
+  PYTHON: { name: "Python", class: "bg-[#3776AB] text-white", icon: TextIcon, iconLabel: "PY" },
+  DOCKER: { name: "Docker", class: "bg-[#2496ED] text-white", icon: TextIcon, iconLabel: "DK" },
+  POSTGRESQL: { name: "PostgreSQL", class: "bg-[#336791] text-white", icon: TextIcon, iconLabel: "PG" },
+  SQLSERVER: { name: "SQL Server", class: "bg-[#A91D22] text-white", icon: TextIcon, iconLabel: "SQL" },
+  DOTNET: { name: ".NET", class: "bg-[#512BD4] text-white", icon: TextIcon, iconLabel: ".NET" },
+  CSHARP: { name: "C#", class: "bg-[#68217A] text-white", icon: TextIcon, iconLabel: "C#" },
+  BASH: { name: "Bash", class: "bg-[#293137] text-white", icon: TextIcon, iconLabel: "$_" },
+  JAVA: { name: "Java", class: "bg-[#E76F00] text-white", icon: Java },
+  SQLITE: { name: "SQLite", class: "bg-[#003B57] text-white", icon: TextIcon, iconLabel: "SQL" },
 };
 
 const PROJECTS = projects.map((project) => ({
@@ -77,7 +90,7 @@ const PROJECTS = projects.map((project) => ({
               {tags.map((tag) => (
                 <li>
                   <span class={`flex gap-x-2 rounded-full text-xs ${tag.class} py-1 px-2`}>
-                    <tag.icon class="size-4" />
+                    <tag.icon class="size-4" label={"iconLabel" in tag ? tag.iconLabel : undefined} />
                     {tag.name}
                   </span>
                 </li>
@@ -117,7 +130,7 @@ const PROJECTS = projects.map((project) => ({
   {
     Object.entries(TAGS).map(([key, tag]) => (
       <span data-project-tag-icon={key}>
-        <tag.icon class="size-4" />
+        <tag.icon class="size-4" label={"iconLabel" in tag ? tag.iconLabel : undefined} />
       </span>
     ))
   }
@@ -149,6 +162,17 @@ const PROJECTS = projects.map((project) => ({
     PHP: { name: "PHP", className: "bg-[#777BB4] text-white" },
     ANGULAR: { name: "Angular", className: "bg-[#C3002F] text-white" },
     MYSQL: { name: "MySQL", className: "bg-[#00546B] text-white" },
+    NODE: { name: "Node.js", className: "bg-[#2F6B2F] text-white" },
+    EXPRESS: { name: "Express", className: "bg-black text-white" },
+    PYTHON: { name: "Python", className: "bg-[#3776AB] text-white" },
+    DOCKER: { name: "Docker", className: "bg-[#2496ED] text-white" },
+    POSTGRESQL: { name: "PostgreSQL", className: "bg-[#336791] text-white" },
+    SQLSERVER: { name: "SQL Server", className: "bg-[#A91D22] text-white" },
+    DOTNET: { name: ".NET", className: "bg-[#512BD4] text-white" },
+    CSHARP: { name: "C#", className: "bg-[#68217A] text-white" },
+    BASH: { name: "Bash", className: "bg-[#293137] text-white" },
+    JAVA: { name: "Java", className: "bg-[#E76F00] text-white" },
+    SQLITE: { name: "SQLite", className: "bg-[#003B57] text-white" },
   };
   const projectsContainer = document.getElementById("projects-container");
   const iconLibrary = document.getElementById("project-tag-icons");
