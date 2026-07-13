@@ -310,13 +310,27 @@ import Layout from "@/layouts/Layout.astro";
   }
 
   async function loadProfile() {
-    const snapshot = await getDoc(doc(db, "content", "profile"));
-    setProfileForm(snapshot.exists() ? snapshot.data() : profileSeed);
+    setProfileForm(profileSeed);
+    try {
+      const snapshot = await getDoc(doc(db, "content", "profile"));
+      setProfileForm(snapshot.exists() ? snapshot.data() : profileSeed);
+      if (!snapshot.exists()) {
+        setMessage("Perfil cargado desde el JSON local. Pulsa Importar JSON para subirlo a Firestore.", "success");
+      }
+    } catch (error) {
+      console.error(error);
+      setMessage("No se pudo leer el perfil en Firestore. Muestro el JSON local; para guardar/importar revisa las reglas.", "error");
+    }
   }
 
   async function saveProfile(profile = getProfileForm()) {
-    await setDoc(doc(db, "content", "profile"), profile);
-    setMessage("Perfil guardado correctamente.", "success");
+    try {
+      await setDoc(doc(db, "content", "profile"), profile);
+      setMessage("Perfil guardado correctamente.", "success");
+    } catch (error) {
+      console.error(error);
+      setMessage("No se pudo guardar el perfil. Revisa que las reglas de Firestore estén publicadas.", "error");
+    }
   }
 
   function emptyItem() {
@@ -421,17 +435,30 @@ import Layout from "@/layouts/Layout.astro";
   async function loadItems() {
     updateItemFieldVisibility();
     setMessage(`Cargando ${titles[activeCollection]}...`);
-    const snapshot = await getDocs(query(collection(db, activeCollection), orderBy("order", "asc")));
-    activeItems = snapshot.docs.map((itemDoc) => itemDoc.data());
-    selectedItemId = activeItems[0]?.id ?? "";
-    renderItemsList();
-    setMessage(`${titles[activeCollection]} cargado: ${activeItems.length}`, "success");
+    try {
+      const snapshot = await getDocs(query(collection(db, activeCollection), orderBy("order", "asc")));
+      activeItems = snapshot.docs.map((itemDoc) => itemDoc.data());
+      selectedItemId = activeItems[0]?.id ?? "";
+      renderItemsList();
+      setMessage(`${titles[activeCollection]} cargado: ${activeItems.length}`, "success");
+    } catch (error) {
+      console.error(error);
+      activeItems = [...(seeds[activeCollection] as any[])].sort((a, b) => Number(a.order) - Number(b.order));
+      selectedItemId = activeItems[0]?.id ?? "";
+      renderItemsList();
+      setMessage(`No se pudo leer ${titles[activeCollection]} en Firestore. Muestro el JSON local; para guardar/importar revisa las reglas.`, "error");
+    }
   }
 
   async function seedItems() {
-    await Promise.all((seeds[activeCollection] as any[]).map((item) => setDoc(doc(db, activeCollection, item.id), item)));
-    await loadItems();
-    setMessage(`${titles[activeCollection]} importado correctamente.`, "success");
+    try {
+      await Promise.all((seeds[activeCollection] as any[]).map((item) => setDoc(doc(db, activeCollection, item.id), item)));
+      await loadItems();
+      setMessage(`${titles[activeCollection]} importado correctamente.`, "success");
+    } catch (error) {
+      console.error(error);
+      setMessage(`No se pudo importar ${titles[activeCollection]}. Revisa que las reglas de Firestore estén publicadas.`, "error");
+    }
   }
 
   function setActiveCollection(collectionName: CollectionName) {
@@ -442,10 +469,7 @@ import Layout from "@/layouts/Layout.astro";
       button.classList.toggle("bg-[#c5ff4a]", isActive);
       button.classList.toggle("text-black", isActive);
     });
-    loadItems().catch((error) => {
-      console.error(error);
-      setMessage("No se pudo cargar la sección.", "error");
-    });
+    loadItems();
   }
 
   getRedirectResult(auth).catch((error) => {
@@ -464,13 +488,8 @@ import Layout from "@/layouts/Layout.astro";
     }
     if (userEmail) userEmail.textContent = user.email || "";
     showState("panel");
-    try {
-      await loadProfile();
-      await loadItems();
-    } catch (error) {
-      console.error(error);
-      setMessage("No se pudo cargar el contenido. Revisa las reglas de Firestore.", "error");
-    }
+    await loadProfile();
+    await loadItems();
   });
 
   document.getElementById("admin-login-button")?.addEventListener("click", async () => {
@@ -487,10 +506,13 @@ import Layout from "@/layouts/Layout.astro";
     await signOut(auth);
   });
 
-  document.getElementById("load-profile")?.addEventListener("click", () => loadProfile().catch(console.error));
-  document.getElementById("seed-profile")?.addEventListener("click", () => saveProfile(profileSeed).then(() => setProfileForm(profileSeed)).catch(console.error));
-  document.getElementById("save-profile")?.addEventListener("click", () => saveProfile().catch((error) => setMessage(error.message, "error")));
-  document.getElementById("seed-items")?.addEventListener("click", () => seedItems().catch((error) => setMessage(error.message, "error")));
+  document.getElementById("load-profile")?.addEventListener("click", () => loadProfile());
+  document.getElementById("seed-profile")?.addEventListener("click", async () => {
+    await saveProfile(profileSeed);
+    setProfileForm(profileSeed);
+  });
+  document.getElementById("save-profile")?.addEventListener("click", () => saveProfile());
+  document.getElementById("seed-items")?.addEventListener("click", () => seedItems());
   document.getElementById("new-item")?.addEventListener("click", () => {
     selectedItemId = "";
     setItemForm(emptyItem());

@@ -6,7 +6,7 @@ import SystemIcon from "./icons/System.astro"
 const THEMES = ["Light", "Dark", "System"]
 ---
 
-<div class="relative ml-1 mr-1">
+<div id="theme-toggle-root" class="relative ml-1 mr-1">
   <button
     id="theme-toggle-btn"
     type="button"
@@ -60,7 +60,17 @@ const THEMES = ["Light", "Dark", "System"]
 </style>
 
 <script is:inline>
-  let remove = null
+  const cleanupsKey = "__portfolioThemeToggleCleanups"
+  window[cleanupsKey]?.forEach((cleanup) => cleanup())
+  window[cleanupsKey] = []
+
+  const addManagedListener = (target, event, handler, options) => {
+    target?.addEventListener(event, handler, options)
+    window[cleanupsKey]?.push(() => {
+      target?.removeEventListener(event, handler, options)
+    })
+  }
+
   const matchMedia = window.matchMedia("(prefers-color-scheme: dark)")
   const themesMenu = document.getElementById("themes-menu")
   const themeButton = document.getElementById("theme-toggle-btn")
@@ -82,14 +92,6 @@ const THEMES = ["Light", "Dark", "System"]
   }
 
   const updateTheme = () => {
-    if (remove != null) {
-      remove()
-    }
-    matchMedia.addEventListener("change", updateTheme)
-    remove = () => {
-      matchMedia.removeEventListener("change", updateTheme)
-    }
-
     const themePreference = getThemePreference()
     const isDark =
       themePreference === "dark" ||
@@ -100,17 +102,18 @@ const THEMES = ["Light", "Dark", "System"]
   }
 
   updateTheme()
+  addManagedListener(matchMedia, "change", updateTheme)
 
   const closeThemesMenu = () => {
     themesMenu?.classList.remove("open")
     themeButton?.setAttribute("aria-expanded", "false")
   }
 
-  document.addEventListener("click", closeThemesMenu)
-  window.addEventListener("hashchange", closeThemesMenu)
-  document.addEventListener("astro:before-swap", closeThemesMenu)
+  addManagedListener(document, "click", closeThemesMenu)
+  addManagedListener(window, "hashchange", closeThemesMenu)
+  addManagedListener(document, "astro:before-swap", closeThemesMenu)
 
-  themeButton?.addEventListener("click", (e) => {
+  addManagedListener(themeButton, "click", (e) => {
     e.stopPropagation()
     const isClosed = !themesMenu?.classList.contains("open")
     themesMenu?.classList[isClosed ? "add" : "remove"]("open")
@@ -118,7 +121,7 @@ const THEMES = ["Light", "Dark", "System"]
   })
 
   document.querySelectorAll(".themes-menu-option").forEach((element) => {
-    element.addEventListener("click", (e) => {
+    addManagedListener(element, "click", (e) => {
       localStorage.setItem("theme", e.currentTarget.innerText.toLowerCase().trim())
       updateTheme()
       closeThemesMenu()

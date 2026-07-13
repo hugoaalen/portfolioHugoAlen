@@ -48,7 +48,16 @@ const navItems_EN = [
   },
 ];
 
-const navItems = navItems_ES;
+const isAdminRoute = Astro.url.pathname.startsWith("/admin");
+const navItems = isAdminRoute
+  ? [
+      {
+        title: "Portfolio",
+        label: "portfolio",
+        url: "/",
+      },
+    ]
+  : navItems_ES;
 ---
 
 <header
@@ -60,7 +69,10 @@ const navItems = navItems_ES;
   >
     <button
       id="mobile-menu-toggle"
-      class="flex items-center gap-2 px-2.5 py-2.5 transition hover:bg-black hover:text-white md:hidden"
+      class:list={[
+        "items-center gap-2 px-2.5 py-2.5 transition hover:bg-black hover:text-white md:hidden",
+        isAdminRoute ? "hidden" : "flex",
+      ]}
       aria-expanded="false"
       aria-controls="header-links"
     >
@@ -74,7 +86,10 @@ const navItems = navItems_ES;
 
     <div
       id="header-links"
-      class="absolute right-0 hidden w-[calc(100vw-1.5rem)] max-w-64 grid-cols-2 gap-1 p-2 top-[calc(100%+0.65rem)] border-2 border-black bg-[#c5ff4a] shadow-[5px_5px_0_#111] dark:border-white dark:shadow-[5px_5px_0_#fff] md:static md:flex md:w-auto md:max-w-none md:p-0 md:border-0 md:shadow-none dark:md:shadow-none"
+      class:list={[
+        "right-0 w-[calc(100vw-1.5rem)] max-w-64 grid-cols-2 gap-1 p-2 top-[calc(100%+0.65rem)] border-2 border-black bg-[#c5ff4a] shadow-[5px_5px_0_#111] dark:border-white dark:shadow-[5px_5px_0_#fff] md:static md:flex md:w-auto md:max-w-none md:p-0 md:border-0 md:shadow-none dark:md:shadow-none",
+        isAdminRoute ? "static flex w-auto max-w-none p-0 border-0 shadow-none dark:shadow-none" : "absolute hidden",
+      ]}
     >
       {
         navItems.map((link) => (
@@ -90,7 +105,7 @@ const navItems = navItems_ES;
       }
     </div>
 
-    <div class="w-px h-6 mx-1 bg-black/25 md:hidden" aria-hidden="true"></div>
+    <div class:list={["w-px h-6 mx-1 bg-black/25 md:hidden", isAdminRoute ? "hidden" : ""]} aria-hidden="true"></div>
     <ThemeToggle />
     <LanguageToggle />
   </nav>
@@ -101,6 +116,16 @@ const navItems = navItems_ES;
   // Este script solo maneja el IntersectionObserver para el highlight
   
   document.addEventListener("astro:page-load", () => {
+    const cleanupsKey = "__portfolioHeaderCleanups"
+    window[cleanupsKey]?.forEach((cleanup) => cleanup())
+    window[cleanupsKey] = []
+    const addManagedListener = (target, event, handler, options) => {
+      target?.addEventListener(event, handler, options)
+      window[cleanupsKey]?.push(() => {
+        target?.removeEventListener(event, handler, options)
+      })
+    }
+
     const menuToggle = document.getElementById("mobile-menu-toggle");
     const menu = document.getElementById("header-links");
     const menuLabel = document.getElementById("mobile-menu-label");
@@ -116,7 +141,7 @@ const navItems = navItems_ES;
       menuToggle?.setAttribute("aria-expanded", "false");
     };
 
-    menuToggle?.addEventListener("click", (event) => {
+    addManagedListener(menuToggle, "click", (event) => {
       event.stopPropagation();
       themesMenu?.classList.remove("open");
       themeButton?.setAttribute("aria-expanded", "false");
@@ -124,9 +149,9 @@ const navItems = navItems_ES;
       menuToggle.setAttribute("aria-expanded", String(Boolean(isOpen)));
     });
 
-    navItems.forEach((item) => item.addEventListener("click", closeMenu));
-    document.addEventListener("click", closeMenu);
-    document.addEventListener("keydown", (event) => {
+    navItems.forEach((item) => addManagedListener(item, "click", closeMenu));
+    addManagedListener(document, "click", closeMenu);
+    addManagedListener(document, "keydown", (event) => {
       if (event.key === "Escape") closeMenu();
     });
 
@@ -136,7 +161,7 @@ const navItems = navItems_ES;
     };
 
     updateMenuLabel();
-    window.addEventListener("languageChanged", updateMenuLabel);
+    addManagedListener(window, "languageChanged", updateMenuLabel);
 
     const callback = (entries) => {
       entries.forEach((entry) => {
@@ -161,9 +186,10 @@ const navItems = navItems_ES;
     sections.forEach((section) => {
       observer.observe(section);
     });
+    window[cleanupsKey]?.push(() => observer.disconnect());
 
     // Cleanup function
-    document.onvisibilitychange = () => {
+    const handleVisibilityChange = () => {
       if (document.visibilityState === "hidden") {
         observer.disconnect();
       } else {
@@ -172,6 +198,7 @@ const navItems = navItems_ES;
         });
       }
     };
+    addManagedListener(document, "visibilitychange", handleVisibilityChange);
   });
 </script>
 
