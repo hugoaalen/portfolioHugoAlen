@@ -107,7 +107,7 @@ const navItems = isAdminRoute
 
     <div class:list={["w-px h-6 mx-1 bg-black/25 md:hidden", isAdminRoute ? "hidden" : ""]} aria-hidden="true"></div>
     <ThemeToggle />
-    <LanguageToggle />
+    {!isAdminRoute && <LanguageToggle />}
   </nav>
 </header>
 

@@ -14,6 +14,7 @@ const { description, title } = Astro.props;
 const canonicalURL = Astro.site
   ? new URL(Astro.url.pathname, Astro.site)
   : Astro.url;
+const isAdminRoute = Astro.url.pathname.startsWith("/admin");
 ---
 
 <!doctype html>
@@ -32,7 +33,7 @@ const canonicalURL = Astro.site
     <meta property="og:image" content={new URL("/portfolio.webp", canonicalURL)} />
     <meta name="twitter:card" content="summary_large_image" />
     <title id="page-title">{title}</title>
-    <ViewTransitions />
+    {!isAdminRoute && <ViewTransitions />}
   </head>
 
   <body class="relative overflow-x-hidden text-black dark:text-white">
