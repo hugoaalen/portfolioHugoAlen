@@ -60,71 +60,77 @@ const THEMES = ["Light", "Dark", "System"]
 </style>
 
 <script is:inline>
-  const cleanupsKey = "__portfolioThemeToggleCleanups"
-  window[cleanupsKey]?.forEach((cleanup) => cleanup())
-  window[cleanupsKey] = []
+  (() => {
+    const cleanupsKey = "__portfolioThemeToggleCleanups";
 
-  const addManagedListener = (target, event, handler, options) => {
-    target?.addEventListener(event, handler, options)
-    window[cleanupsKey]?.push(() => {
-      target?.removeEventListener(event, handler, options)
-    })
-  }
+    const initializeThemeToggle = () => {
+      window[cleanupsKey]?.forEach((cleanup) => cleanup());
+      window[cleanupsKey] = [];
 
-  const matchMedia = window.matchMedia("(prefers-color-scheme: dark)")
-  const themesMenu = document.getElementById("themes-menu")
-  const themeButton = document.getElementById("theme-toggle-btn")
+      const addManagedListener = (target, event, handler, options) => {
+        target?.addEventListener(event, handler, options);
+        window[cleanupsKey]?.push(() => {
+          target?.removeEventListener(event, handler, options);
+        });
+      };
 
-  const getThemePreference = () => {
-    if (typeof localStorage !== "undefined") {
-      return localStorage.getItem("theme") ?? "system"
-    }
+      const matchMedia = window.matchMedia("(prefers-color-scheme: dark)");
+      const themesMenu = document.getElementById("themes-menu");
+      const themeButton = document.getElementById("theme-toggle-btn");
+      if (!themesMenu || !themeButton) return;
 
-    return window.matchMedia("(prefers-color-scheme: dark)").matches
-      ? "dark"
-      : "light"
-  }
+      const getThemePreference = () => {
+        return localStorage.getItem("theme") ?? "system";
+      };
 
-  const updateIcon = (themePreference) => {
-    document.querySelectorAll(".theme-toggle-icon").forEach((element) => {
-      element.style.scale = element.id === themePreference ? "1" : "0"
-    })
-  }
+      const updateIcon = (themePreference) => {
+        document.querySelectorAll(".theme-toggle-icon").forEach((element) => {
+          element.style.scale = element.id === themePreference ? "1" : "0";
+        });
+      };
 
-  const updateTheme = () => {
-    const themePreference = getThemePreference()
-    const isDark =
-      themePreference === "dark" ||
-      (themePreference === "system" && matchMedia.matches)
+      const updateTheme = () => {
+        const themePreference = getThemePreference();
+        const isDark =
+          themePreference === "dark" ||
+          (themePreference === "system" && matchMedia.matches);
 
-    updateIcon(themePreference)
-    document.documentElement.classList[isDark ? "add" : "remove"]("dark")
-  }
+        updateIcon(themePreference);
+        document.documentElement.classList[isDark ? "add" : "remove"]("dark");
+      };
 
-  updateTheme()
-  addManagedListener(matchMedia, "change", updateTheme)
+      const closeThemesMenu = () => {
+        themesMenu.classList.remove("open");
+        themeButton.setAttribute("aria-expanded", "false");
+      };
 
-  const closeThemesMenu = () => {
-    themesMenu?.classList.remove("open")
-    themeButton?.setAttribute("aria-expanded", "false")
-  }
+      addManagedListener(matchMedia, "change", updateTheme);
+      addManagedListener(document, "click", closeThemesMenu);
+      addManagedListener(window, "hashchange", closeThemesMenu);
+      addManagedListener(document, "astro:before-swap", closeThemesMenu);
 
-  addManagedListener(document, "click", closeThemesMenu)
-  addManagedListener(window, "hashchange", closeThemesMenu)
-  addManagedListener(document, "astro:before-swap", closeThemesMenu)
+      addManagedListener(themeButton, "click", (event) => {
+        event.stopPropagation();
+        const isClosed = !themesMenu.classList.contains("open");
+        themesMenu.classList[isClosed ? "add" : "remove"]("open");
+        themeButton.setAttribute("aria-expanded", String(isClosed));
+      });
 
-  addManagedListener(themeButton, "click", (e) => {
-    e.stopPropagation()
-    const isClosed = !themesMenu?.classList.contains("open")
-    themesMenu?.classList[isClosed ? "add" : "remove"]("open")
-    themeButton.setAttribute("aria-expanded", String(isClosed))
-  })
+      document.querySelectorAll(".themes-menu-option").forEach((element) => {
+        addManagedListener(element, "click", (event) => {
+          localStorage.setItem(
+            "theme",
+            event.currentTarget.innerText.toLowerCase().trim(),
+          );
+          updateTheme();
+          closeThemesMenu();
+        });
+      });
 
-  document.querySelectorAll(".themes-menu-option").forEach((element) => {
-    addManagedListener(element, "click", (e) => {
-      localStorage.setItem("theme", e.currentTarget.innerText.toLowerCase().trim())
-      updateTheme()
-      closeThemesMenu()
-    })
-  })
+      updateTheme();
+    };
+
+    initializeThemeToggle();
+    document.addEventListener("astro:page-load", initializeThemeToggle);
+  })();
 </script>
