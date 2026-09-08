@@ -3,21 +3,21 @@
     "id": "intro",
     "order": 10,
     "visible": true,
-    "es": "Me llamo <strong>Hugo Alén</strong>, soy Software & Systems Engineer afincado en Vigo. <br>Mi experiencia en entornos industriales internacionales gestionando infraestructuras críticas y optimizando bases de datos empresariales me ha dado una visión analítica e integral del software. Enfoque centrado en la creación de soluciones backend robustas con .NET, la automatización de procesos mediante scripting y el despliegue eficiente con tecnologías de contenedores.",
-    "en": "My name is <strong>Hugo Alén</strong>, a Software & Systems Engineer based in Vigo. <br>My experience in international industrial environments managing critical infrastructure and optimizing enterprise databases has provided me with a comprehensive, analytical view of software development. I focus on building robust backend solutions with .NET, process automation through scripting, and efficient deployment using container technologies."
+    "es": "Soy <strong>Software & Systems Engineer</strong>, especializado en desarrollo backend, automatización e infraestructura. Actualmente trabajo en entornos industriales internacionales desarrollando y manteniendo soluciones con .NET, Python, SQL Server y Docker.",
+    "en": "I am a <strong>Software & Systems Engineer</strong> specializing in backend development, automation, and infrastructure. I currently build and maintain solutions with .NET, Python, SQL Server, and Docker in international industrial environments."
   },
   {
     "id": "studies",
     "order": 20,
     "visible": true,
-    "es": "Actualmente curso el grado en <strong>Ingeniería Informática</strong> en la UOC junto con el <strong>Curso de Especialización en Ciberseguridad</strong>, consolidando mi trayectoria práctica con bases sólidas en arquitectura de software, sistemas distribuidos y protección de entornos de la información (DevSecOps, hardening y seguridad en APIs).",
-    "en": "I am currently pursuing a degree in <strong>Computer Engineering</strong> at UOC alongside a <strong>Specialization Course in Cybersecurity</strong>, bridging my practical experience with deep foundations in software architecture, distributed systems, and information environment security (DevSecOps, hardening, and API security)."
+    "es": "Compagino mi experiencia profesional con el <strong>Grado en Ingeniería Informática</strong> en la UOC y formación especializada en ciberseguridad, con especial interés en Cloud, DevOps, DevSecOps y seguridad del software.",
+    "en": "I combine my professional experience with a <strong>Computer Engineering degree</strong> at UOC and specialized cybersecurity training, with a particular interest in Cloud, DevOps, DevSecOps, and software security."
   },
   {
     "id": "personal",
     "order": 30,
     "visible": true,
-    "es": "<strong>Fuera de la pantalla</strong>, soy un apasionado del deporte —especialmente el fútbol—, disfruto del tiempo con mis amigos y sigo de cerca el ecosistema de la ciberseguridad y el desarrollo Cloud. <br>Si buscas a un profesional versátil, analítico y con ganas de aportar valor real y soluciones seguras a tu equipo, ¡me encantaría que hablásemos!",
-    "en": "<strong>Beyond the screen</strong>, I'm passionate about sports—especially football—enjoying time with friends, and closely following the cybersecurity and Cloud development ecosystems. <br>If you're looking for a versatile, analytical professional eager to add real value and secure solutions to your team, I'd love to connect!"
+    "es": "Me gusta construir <strong>productos de principio a fin</strong> y experimentar con nuevas tecnologías mediante proyectos personales orientados a resolver problemas reales.",
+    "en": "I enjoy building <strong>end-to-end products</strong> and exploring new technologies through personal projects designed to solve real problems."
   }
 ]

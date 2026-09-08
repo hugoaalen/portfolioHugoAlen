@@ -6,6 +6,7 @@ interface Props {
   company: string;
   link?: string;
   date: I18nText;
+  variant?: "primary" | "secondary";
 }
 
 interface I18nText {
@@ -13,26 +14,37 @@ interface I18nText {
   en: string;
 }
 
-const { title, company, link, date } = Astro.props;
+const { title, company, link, date, variant = "primary" } = Astro.props;
 ---
 
 <div
-  class="relative h-full p-6 transition border-2 border-black bg-[#c5ff4a] shadow-[7px_7px_0_#111] hover:-translate-y-1 dark:border-white"
+  class:list={[
+    "relative h-full transition border-2 border-black shadow-[7px_7px_0_#111] hover:-translate-y-1 dark:border-white",
+    variant === "primary"
+      ? "p-6 bg-[#c5ff4a]"
+      : "p-5 bg-white dark:bg-[#111] dark:shadow-[7px_7px_0_#c5ff4a]",
+  ]}
 >
   <div class="relative">
     <div>
       <h3
-        class="text-lg font-black leading-tight text-black uppercase i18n"
+        class:list={[
+          "font-black leading-tight uppercase i18n",
+          variant === "primary" ? "text-lg text-black" : "text-base text-black dark:text-white",
+        ]}
         data-es={title.es}
         data-en={title.en}
       >
         {title.es}
       </h3>
-      <h4 class="mt-2 font-bold text-gray-800">
+      <h4 class:list={["mt-2 font-bold", variant === "primary" ? "text-gray-800" : "text-gray-700 dark:text-gray-300"]}>
         {company}
       </h4>
       <time
-        class="inline-block p-1 mt-4 text-xs font-black tracking-wide text-white uppercase bg-black i18n"
+        class:list={[
+          "inline-block p-1 mt-4 text-xs font-black tracking-wide uppercase i18n",
+          variant === "primary" ? "text-white bg-black" : "text-black bg-[#c5ff4a]",
+        ]}
         data-es={date.es}
         data-en={date.en}
         >{date.es}</time

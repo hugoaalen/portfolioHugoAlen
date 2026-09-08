@@ -2,7 +2,7 @@
   "name": "Hugo Alén",
   "image": "/yo-256.jpg",
   "imageAlt": "Hugo Alén",
-  "kicker": "Software Engineer · Cloud & DevOps · Cybersecurity",
+  "kicker": "Backend · Cloud · DevOps · Security",
   "location": "Vigo, ES",
   "email": "hugoaalen@gmail.com",
   "social": {
@@ -15,17 +15,17 @@
       "en": "Available to work"
     },
     "title": {
-      "es": "Hola, soy Hugo Alén",
-      "en": "Hi, I'm Hugo Alén"
+      "es": "Software & Systems Engineer",
+      "en": "Software & Systems Engineer"
     },
     "description": [
       {
-        "es": "Soy un <strong>Software & Systems Engineer</strong> enfocado en el desarrollo .NET, la optimización de infraestructuras y la seguridad del software.",
-        "en": "I'm a <strong>Software & Systems Engineer</strong> focused on .NET development, infrastructure optimization, and software security."
+        "es": "Desarrollo y mantengo <strong>soluciones backend, automatizaciones e infraestructura</strong> para entornos industriales e internacionales.",
+        "en": "I build and maintain <strong>backend solutions, automation, and infrastructure</strong> for international industrial environments."
       },
       {
-        "es": "Actualmente trabajo en <em class=\"italic\">Grupo Marsan</em> desarrollando soluciones críticas e industriales internacionales. Compagino mi rol profesional con el grado en <strong>Ingeniería Informática</strong> en la <em class=\"italic\">UOC</em> y el <strong>Curso de Especialización en Ciberseguridad</strong>.",
-        "en": "I currently work at <em class=\"italic\">Grupo Marsan</em> developing critical and international industrial solutions. I combine my professional role with my <strong>Computer Engineering</strong> degree at <em class=\"italic\">UOC</em> and a <strong>Specialization Course in Cybersecurity</strong>."
+        "es": "Trabajo principalmente con <strong>.NET, Python, SQL Server y Docker</strong>, con especial interés en Cloud, DevOps y seguridad del software.",
+        "en": "I mainly work with <strong>.NET, Python, SQL Server, and Docker</strong>, with a strong interest in Cloud, DevOps, and software security."
       }
     ],
     "buttons": {

@@ -1,17 +1,44 @@
 ---
 import EducationItem from "./EducationItem.astro";
 import { education } from "@/data/content";
+
+const primaryEducation = education.filter((item) => item.order < 100);
+const additionalEducation = education.filter((item) => item.order >= 100);
 ---
 
-<ol class="grid gap-4 md:grid-cols-2" id="education-container">
+<div id="education-container">
+  <ol class="grid gap-4 md:grid-cols-2">
+    {
+      primaryEducation.map((item, index) => (
+        <li class:list={{ "md:col-span-2": index === 2 }}>
+          <EducationItem {...item} />
+        </li>
+      ))
+    }
+  </ol>
+
   {
-    education.map((item) => (
-      <li class="">
-        <EducationItem {...item} />
-      </li>
-    ))
+    additionalEducation.length > 0 && (
+      <section class="mt-10" aria-labelledby="additional-education-title">
+        <h3
+          id="additional-education-title"
+          class="mb-5 text-sm font-black tracking-[0.16em] text-gray-700 uppercase dark:text-gray-300 i18n"
+          data-es="Certificaciones y formación adicional"
+          data-en="Certifications and additional training"
+        >
+          Certificaciones y formación adicional
+        </h3>
+        <ol class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {additionalEducation.map((item) => (
+            <li>
+              <EducationItem {...item} variant="secondary" />
+            </li>
+          ))}
+        </ol>
+      </section>
+    )
   }
-</ol>
+</div>
 
 <script>
   import { collection, getDocs, query, where } from "firebase/firestore/lite";
@@ -42,10 +69,18 @@ import { education } from "@/data/content";
 	      .replaceAll("'", "&#039;");
 	  }
 
-	  function renderEducationItem(item: any) {
+	  function renderEducationItem(item: any, variant: "primary" | "secondary", index = 0) {
+	    const isPrimary = variant === "primary";
+	    const itemClass = isPrimary && index === 2 ? " class=\"md:col-span-2\"" : "";
+	    const cardClass = isPrimary
+	      ? "p-6 bg-[#c5ff4a]"
+	      : "p-5 bg-white dark:bg-[#111] dark:shadow-[7px_7px_0_#c5ff4a]";
+	    const titleClass = isPrimary ? "text-lg text-black" : "text-base text-black dark:text-white";
+	    const companyClass = isPrimary ? "text-gray-800" : "text-gray-700 dark:text-gray-300";
+	    const dateClass = isPrimary ? "text-white bg-black" : "text-black bg-[#c5ff4a]";
 	    const link = item.link
 	      ? `<a href="${escapeHtml(item.link)}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 font-semibold underline decoration-black decoration-2 underline-offset-4">
-	          Saber más
+	          <span class="i18n" data-es="Saber más" data-en="Learn more">Saber más</span>
 	          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 icon icon-tabler icon-tabler-chevron-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
 	            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
 	            <path d="M9 6l6 6l-6 6" />
@@ -54,17 +89,17 @@ import { education } from "@/data/content";
 	      : "";
 
 	    return `
-	      <li>
-	        <div class="relative h-full p-6 transition border-2 border-black bg-[#c5ff4a] shadow-[7px_7px_0_#111] hover:-translate-y-1 dark:border-white">
+	      <li${itemClass}>
+	        <div class="relative h-full ${cardClass} transition border-2 border-black shadow-[7px_7px_0_#111] hover:-translate-y-1 dark:border-white">
 	          <div class="relative">
 	            <div>
-	              <h3 class="text-lg font-black leading-tight text-black uppercase i18n" data-es="${escapeHtml(item.title?.es)}" data-en="${escapeHtml(item.title?.en)}">
+	              <h3 class="${titleClass} font-black leading-tight uppercase i18n" data-es="${escapeHtml(item.title?.es)}" data-en="${escapeHtml(item.title?.en)}">
 	                ${escapeHtml(item.title?.es)}
 	              </h3>
-	              <h4 class="mt-2 font-bold text-gray-800">
+	              <h4 class="mt-2 font-bold ${companyClass}">
 	                ${escapeHtml(item.company)}
 	              </h4>
-	              <time class="inline-block p-1 mt-4 text-xs font-black tracking-wide text-white uppercase bg-black i18n" data-es="${escapeHtml(item.date?.es)}" data-en="${escapeHtml(item.date?.en)}">
+	              <time class="inline-block p-1 mt-4 text-xs font-black tracking-wide uppercase ${dateClass} i18n" data-es="${escapeHtml(item.date?.es)}" data-en="${escapeHtml(item.date?.en)}">
 	                ${escapeHtml(item.date?.es)}
 	              </time>
 	            </div>
@@ -75,6 +110,21 @@ import { education } from "@/data/content";
 	        </div>
 	      </li>
 	    `;
+	  }
+
+	  function renderEducationGroups(items: any[]) {
+	    const primary = items.filter((item) => Number(item.order ?? 0) < 100);
+	    const additional = items.filter((item) => Number(item.order ?? 0) >= 100);
+	    const additionalSection = additional.length > 0
+	      ? `<section class="mt-10" aria-labelledby="additional-education-title">
+	          <h3 id="additional-education-title" class="mb-5 text-sm font-black tracking-[0.16em] text-gray-700 uppercase dark:text-gray-300 i18n" data-es="Certificaciones y formación adicional" data-en="Certifications and additional training">Certificaciones y formación adicional</h3>
+	          <ol class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+	            ${additional.map((item) => renderEducationItem(item, "secondary")).join("")}
+	          </ol>
+	        </section>`
+	      : "";
+
+	    return `<ol class="grid gap-4 md:grid-cols-2">${primary.map((item, index) => renderEducationItem(item, "primary", index)).join("")}</ol>${additionalSection}`;
 	  }
 
 	  async function hydrateEducationFromFirestore() {
@@ -88,7 +138,7 @@ import { education } from "@/data/content";
 	        .sort((a, b) => Number(a.order ?? 0) - Number(b.order ?? 0));
 	      if (items.length === 0) return;
 
-	      container.innerHTML = items.map(renderEducationItem).join("");
+	      container.innerHTML = renderEducationGroups(items);
 	      updateEducationLanguage();
 	    } catch (error) {
 	      console.error("No se pudo cargar Formación desde Firestore.", error);

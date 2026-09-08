@@ -59,6 +59,7 @@ const TAGS = {
   JAVA: { name: "Java", class: "bg-[#E76F00] text-white", icon: Java, iconColor: "#E76F00" },
   SQLITE: { name: "SQLite", class: "bg-[#003B57] text-white", icon: SQLite, iconColor: "#003B57" },
 };
+const PRIORITY_PROJECT_IDS = new Set(["futpath", "zaizen", "senda"]);
 
 const PROJECTS = projects.map((project) => ({
   ...project,
@@ -71,13 +72,14 @@ const PROJECTS = projects.map((project) => ({
 
 <div class="grid gap-7 md:grid-cols-2" id="projects-container">
   {
-    PROJECTS.map(({ image, title, description, tags, link, github, featured }) => (
+    PROJECTS.map(({ id, image, title, description, tags, link, github, featured }) => (
       <article class:list={[
         "project-card flex flex-col overflow-hidden transition duration-200 border-2 border-black bg-white shadow-[8px_8px_0_#111] group hover:-translate-y-1 hover:shadow-[12px_12px_0_#111] dark:border-white dark:bg-[#111] dark:shadow-[8px_8px_0_#c5ff4a] dark:hover:shadow-[12px_12px_0_#c5ff4a]",
         { "project-card-featured": featured },
+        { "project-card-priority": PRIORITY_PROJECT_IDS.has(id) },
       ]}>
         <div class="w-full">
-          <div class="relative flex flex-col items-center overflow-hidden">
+          <div class="relative flex h-full flex-col items-center overflow-hidden">
             <img
               alt={`Thumbnail de ${title.es}`}
               class="object-cover object-top w-full h-56 transition duration-500 grayscale-[20%] group-hover:grayscale-0 group-hover:scale-[1.03]"
@@ -91,6 +93,15 @@ const PROJECTS = projects.map((project) => ({
         </div>
 
         <div class="flex flex-col flex-1 w-full p-6 border-t-2 border-black dark:border-white">
+          {PRIORITY_PROJECT_IDS.has(id) && (
+            <p
+              class="mb-3 w-fit bg-[#c5ff4a] px-2 py-1 text-[10px] font-black tracking-[0.14em] text-black uppercase i18n"
+              data-es={featured ? "Proyecto principal" : "Producto destacado"}
+              data-en={featured ? "Main project" : "Featured product"}
+            >
+              {featured ? "Proyecto principal" : "Producto destacado"}
+            </p>
+          )}
           <h3 
             class="text-xl font-black leading-tight tracking-tight text-black uppercase dark:text-white i18n"
             data-es={title.es}
@@ -231,6 +242,14 @@ const PROJECTS = projects.map((project) => ({
     const descriptionEn = project.description?.en ?? descriptionEs;
     const tags = Array.isArray(project.tags) ? project.tags : [];
     const featuredClass = project.featured ? " project-card-featured" : "";
+    const priority = ["futpath", "zaizen", "senda"].includes(String(project.id));
+    const priorityClass = priority ? " project-card-priority" : "";
+    const priorityLabel = project.featured
+      ? { es: "Proyecto principal", en: "Main project" }
+      : { es: "Producto destacado", en: "Featured product" };
+    const priorityBadge = priority
+      ? `<p class="mb-3 w-fit bg-[#c5ff4a] px-2 py-1 text-[10px] font-black tracking-[0.14em] text-black uppercase i18n" data-es="${priorityLabel.es}" data-en="${priorityLabel.en}">${priorityLabel.es}</p>`
+      : "";
     const githubLink = project.github
       ? `<a href="${escapeHtml(project.github)}" role="link" class="${linkButtonClass}">
           ${iconHtml('[data-project-action-icon="github"]')}
@@ -245,9 +264,9 @@ const PROJECTS = projects.map((project) => ({
       : "";
 
     return `
-      <article class="project-card flex flex-col overflow-hidden transition duration-200 border-2 border-black bg-white shadow-[8px_8px_0_#111] group hover:-translate-y-1 hover:shadow-[12px_12px_0_#111] dark:border-white dark:bg-[#111] dark:shadow-[8px_8px_0_#c5ff4a] dark:hover:shadow-[12px_12px_0_#c5ff4a]${featuredClass}">
+      <article class="project-card flex flex-col overflow-hidden transition duration-200 border-2 border-black bg-white shadow-[8px_8px_0_#111] group hover:-translate-y-1 hover:shadow-[12px_12px_0_#111] dark:border-white dark:bg-[#111] dark:shadow-[8px_8px_0_#c5ff4a] dark:hover:shadow-[12px_12px_0_#c5ff4a]${featuredClass}${priorityClass}">
         <div class="w-full">
-          <div class="relative flex flex-col items-center overflow-hidden">
+          <div class="relative flex h-full flex-col items-center overflow-hidden">
             <img
               alt="Thumbnail de ${escapeHtml(titleEs)}"
               class="object-cover object-top w-full h-56 transition duration-500 grayscale-[20%] group-hover:grayscale-0 group-hover:scale-[1.03]"
@@ -261,6 +280,7 @@ const PROJECTS = projects.map((project) => ({
         </div>
 
         <div class="flex flex-col flex-1 w-full p-6 border-t-2 border-black dark:border-white">
+          ${priorityBadge}
           <h3
             class="text-xl font-black leading-tight tracking-tight text-black uppercase dark:text-white i18n"
             data-es="${escapeHtml(titleEs)}"
@@ -334,7 +354,7 @@ const PROJECTS = projects.map((project) => ({
   window.addEventListener('languageChanged', updateProjectsLanguage);
 </script>
 
-<style>
+<style is:global>
   @media (min-width: 768px) {
     .project-card-featured {
       grid-column: span 2;

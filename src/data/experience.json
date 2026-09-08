@@ -13,8 +13,8 @@
     },
     "company": "Grupo Marsan",
     "description": {
-      "es": "Desarrollo de soluciones de software para plantas industriales internacionales y administración de plataformas críticas. Especializado en la automatización de flujos y procesos internos mediante scripts avanzados en Python y Bash, gestión y tuning de rendimiento en bases de datos relacionales empresariales sobre SQL Server (T-SQL), contenerización con Docker y soporte técnico de alta disponibilidad sobre ecosistemas ERP (Microsoft Dynamics NAV).",
-      "en": "Development of software solutions for international industrial plants and critical platform administration. Specialized in workflow automation using advanced Python and Bash scripting, database management and performance tuning on enterprise SQL Server (T-SQL) databases, containerization with Docker, and high-availability support on ERP ecosystems (Microsoft Dynamics NAV)."
+      "es": "Diseño, desarrollo y mantenimiento de soluciones de software para plantas industriales internacionales. Automatizo procesos e integraciones internas con Python y Bash para reducir tareas manuales y mejorar la fiabilidad de los flujos entre sistemas. Trabajo con SQL Server/T-SQL, Docker e infraestructura crítica, además de optimizar y dar soporte a entornos ERP basados en Microsoft Dynamics NAV.",
+      "en": "Design, development, and maintenance of software solutions for international industrial plants. I automate internal processes and integrations with Python and Bash to reduce manual work and improve the reliability of cross-system workflows. I work with SQL Server/T-SQL, Docker, and critical infrastructure while optimizing and supporting Microsoft Dynamics NAV ERP environments."
     }
   },
   {

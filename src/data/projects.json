@@ -11,8 +11,8 @@
       "en": "FutPath - Football Career Tracker"
     },
     "description": {
-      "es": "PWA para registrar partidos y seguir la evolución de una carrera futbolística. Incluye temporadas y competiciones configurables, estadísticas adaptadas por posición, funcionamiento sin conexión, exportación de datos y sincronización segura con Firebase.",
-      "en": "PWA for logging matches and tracking a football career. It includes configurable seasons and competitions, position-specific statistics, offline support, data export, and secure Firebase synchronization."
+      "es": "Aplicación para registrar y analizar la carrera deportiva de futbolistas mediante temporadas, competiciones, partidos y estadísticas adaptadas por posición. Incluye autenticación, exportación de datos y experiencia PWA con soporte offline, construida con Next.js, TypeScript y Firebase.",
+      "en": "Application for recording and analyzing a footballer's career through seasons, competitions, matches, and position-specific statistics. It includes authentication, data export, and an offline-capable PWA experience built with Next.js, TypeScript, and Firebase."
     },
     "link": "https://futpath.vercel.app",
     "github": "https://github.com/hugoaalen/FutPath",
@@ -23,7 +23,7 @@
     "id": "zaizen",
     "order": 10,
     "visible": true,
-    "featured": true,
+    "featured": false,
     "status": "published",
     "category": "app",
     "title": {
@@ -31,13 +31,13 @@
       "en": "ZaiZen - Expense Tracking and Personal Finance Management"
     },
     "description": {
-      "es": "Aplicación web para el control de gastos y finanzas personales. Permite a los usuarios registrar sus ingresos y gastos, categorizar sus transacciones y visualizar gráficos de su situación financiera.",
-      "en": "Web application for expense tracking and personal finance management. It allows users to record their income and expenses, categorize their transactions, and visualize charts of their financial situation."
+      "es": "Aplicación instalable para entender ingresos, gastos y objetivos de ahorro desde una visión mensual y anual. Permite gestionar presupuestos, movimientos recurrentes e importaciones bancarias, con autenticación, exportación y sincronización mediante Supabase.",
+      "en": "Installable application for understanding income, expenses, and savings goals through monthly and annual views. It manages budgets, recurring transactions, and bank imports, with authentication, exports, and Supabase synchronization."
     },
     "link": "https://zaizen.vercel.app",
     "github": "https://github.com/hugoaalen/zaizen",
     "image": "/projects/zaizen-1200.jpg",
-    "tags": ["REACT", "SUPABASE", "TAILWIND"]
+    "tags": ["REACT", "SUPABASE", "VITE"]
   },
   {
     "id": "senda",
@@ -51,8 +51,8 @@
       "en": "Senda - Academic Progress Planner"
     },
     "description": {
-      "es": "Aplicación personal para seguir el avance de una carrera universitaria, gestionar asignaturas por estado, planificar escenarios de matrícula y guardar datos en local o sincronizarlos con Firebase Auth y Firestore.",
-      "en": "Personal app for tracking university degree progress, managing subjects by status, planning enrollment scenarios, and storing data locally or syncing it with Firebase Auth and Firestore."
+      "es": "Aplicación para sustituir hojas de cálculo al seguir el progreso de una carrera universitaria. Permite gestionar asignaturas y créditos, probar escenarios de matrícula y trabajar en local o sincronizar los datos entre dispositivos con Firebase.",
+      "en": "Application designed to replace spreadsheets when tracking university degree progress. It manages subjects and credits, tests enrollment scenarios, and works locally or synchronizes data across devices with Firebase."
     },
     "github": "https://github.com/hugoaalen/Senda",
     "image": "/projects/senda-window-1200.jpg",
@@ -66,12 +66,12 @@
     "status": "published",
     "category": "app",
     "title": {
-      "es": "oNoSoAlMaNaQuE - Organizador de calendario de eventos",
-      "en": "oNoSoAlMaNaQuE - Event Calendar Organizer"
+      "es": "oNoSoAlMaNaQuE - Planificador colaborativo de vacaciones",
+      "en": "oNoSoAlMaNaQuE - Collaborative Vacation Planner"
     },
     "description": {
-      "es": "Aplicación web para organizar calendarios de eventos. Permite a los usuarios crear un link desde el cuál los diferentes usuarios pueden marcar los días que les vienen bien para un evento, facilitando la coordinación de fechas entre grupos de personas.",
-      "en": "Web application for organizing event calendars. It allows users to create a link from which different users can mark the days that work for them for an event, facilitating date coordination between groups of people."
+      "es": "Calendario colaborativo para que grupos de amigos encuentren fechas compatibles para sus vacaciones. Combina disponibilidad por rangos, propuestas y votaciones, recomendaciones de mejores ventanas y exportación a calendario, con acceso seguro mediante enlaces y Supabase.",
+      "en": "Collaborative calendar that helps groups of friends find compatible vacation dates. It combines range-based availability, proposals and voting, best-window recommendations, and calendar export, with secure link-based access and Supabase."
     },
     "link": "https://onosoalmanaque.vercel.app",
     "github": "https://github.com/hugoaalen/onosoalmanaque",
@@ -109,8 +109,8 @@
       "en": "BPKeepers - Coaching and goalkeeper training"
     },
     "description": {
-      "es": "Sitio web de la escuela de porteros de Brais Pereiro, BPKeepers. Entrenamientos para porteros de todas las edades y niveles.",
-      "en": "Website of Brais Pereiro's goalkeeper school, BPKeepers. Training for goalkeepers of all ages and levels."
+      "es": "Sitio web de BPKeepers que presenta su oferta de entrenamientos y mentoría para porteros de distintas edades y niveles, facilitando el acceso a la información de la escuela.",
+      "en": "BPKeepers website presenting its training and mentoring services for goalkeepers of different ages and levels, making the school's information easy to access."
     },
     "github": "https://github.com/hugoaalen/bpkeepers",
     "image": "/projects/bpkeepers-1200.jpg",
@@ -128,8 +128,8 @@
       "en": "TaskFlow - Task Management REST API"
     },
     "description": {
-      "es": "Demo de API REST en PHP 8.1 con tipado estricto, PDO, migraciones SQL, tests de integración con PHPUnit y una estructura por capas inspirada en arquitectura hexagonal.",
-      "en": "PHP 8.1 REST API demo with strict typing, PDO, SQL migrations, PHPUnit integration tests, and a layered structure inspired by hexagonal architecture."
+      "es": "API REST para gestionar tareas con una base backend mantenible y desacoplada. Implementa PHP 8.1 con tipado estricto, PDO, migraciones SQL, pruebas de integración y una arquitectura por capas inspirada en principios hexagonales.",
+      "en": "REST API for task management with a maintainable, decoupled backend foundation. It uses strictly typed PHP 8.1, PDO, SQL migrations, integration tests, and a layered architecture inspired by hexagonal principles."
     },
     "github": "https://github.com/hugoaalen/TaskFlow",
     "image": "/projects/taskflow.svg",
@@ -147,8 +147,8 @@
       "en": "VehixHub - Vehicle Inventory Dashboard"
     },
     "description": {
-      "es": "MVP para gestionar inventario de coches con frontend Angular y TypeScript, formularios reactivos con filtros dinámicos, backend PHP 8, MySQL y consultas PDO preparadas.",
-      "en": "MVP for managing vehicle inventory with an Angular and TypeScript frontend, reactive filtering forms, a PHP 8 backend, MySQL, and prepared PDO queries."
+      "es": "MVP para consultar y filtrar un inventario de vehículos desde un panel web. Conecta una interfaz Angular con formularios reactivos a una API PHP 8 y MySQL que valida filtros y ejecuta consultas PDO preparadas.",
+      "en": "MVP for browsing and filtering a vehicle inventory from a web dashboard. It connects an Angular interface with reactive forms to a PHP 8 and MySQL API that validates filters and runs prepared PDO queries."
     },
     "github": "https://github.com/hugoaalen/VehixHub",
     "image": "/projects/vehixhub.svg",

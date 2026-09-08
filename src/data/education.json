@@ -1,7 +1,7 @@
 [
   {
     "id": "ce-ciberseguridad-ti",
-    "order": 5,
+    "order": 20,
     "visible": true,
     "date": {
       "es": "Septiembre 2026 - Actualmente",
@@ -29,7 +29,7 @@
   },
   {
     "id": "tizen-smart-tv-samsung",
-    "order": 20,
+    "order": 100,
     "visible": true,
     "date": {
       "es": "Febrero 2025 (50h)",
@@ -43,7 +43,7 @@
   },
   {
     "id": "ia-productividad-google",
-    "order": 30,
+    "order": 110,
     "visible": true,
     "date": {
       "es": "Enero 2025 (2h)",
@@ -57,7 +57,7 @@
   },
   {
     "id": "cs-daw",
-    "order": 40,
+    "order": 30,
     "visible": true,
     "date": {
       "es": "Septiembre 2022 - Junio 2024",
@@ -71,7 +71,7 @@
   },
   {
     "id": "cm-preimpresion-digital",
-    "order": 50,
+    "order": 120,
     "visible": true,
     "date": {
       "es": "Septiembre 2020 - Junio 2022",
