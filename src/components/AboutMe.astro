@@ -24,8 +24,8 @@ import { about } from "@/data/content";
 </article>
 
 <script>
-  import { collection, getDocs, query, where } from "firebase/firestore";
-  import { db } from "@/lib/firebase";
+  import { collection, getDocs, query, where } from "firebase/firestore/lite";
+  import { publicDb } from "@/lib/firebase-public";
 
   function updateAboutLanguage() {
     const lang = localStorage.getItem('language') || 'es';
@@ -54,7 +54,7 @@ import { about } from "@/data/content";
       const container = document.getElementById("about-content");
       if (!container) return;
 
-      const snapshot = await getDocs(query(collection(db, "about"), where("visible", "==", true)));
+      const snapshot = await getDocs(query(collection(publicDb, "about"), where("visible", "==", true)));
       const items = snapshot.docs
         .map((item) => item.data())
         .sort((a, b) => Number(a.order ?? 0) - Number(b.order ?? 0));

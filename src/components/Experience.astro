@@ -14,8 +14,8 @@ import { experience } from "@/data/content";
 </ol>
 
 <script>
-  import { collection, getDocs, query, where } from "firebase/firestore";
-  import { db } from "@/lib/firebase";
+  import { collection, getDocs, query, where } from "firebase/firestore/lite";
+  import { publicDb } from "@/lib/firebase-public";
 
   function updateExperienceLanguage() {
     const lang = localStorage.getItem('language') || 'es';
@@ -86,7 +86,7 @@ import { experience } from "@/data/content";
 	      const container = document.getElementById("experience-container");
 	      if (!container) return;
 
-	      const snapshot = await getDocs(query(collection(db, "experience"), where("visible", "==", true)));
+	      const snapshot = await getDocs(query(collection(publicDb, "experience"), where("visible", "==", true)));
 	      const items = snapshot.docs
 	        .map((item) => item.data())
 	        .sort((a, b) => Number(a.order ?? 0) - Number(b.order ?? 0));

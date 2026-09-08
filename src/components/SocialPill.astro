@@ -1,8 +1,13 @@
+---
+const { href, ...props } = Astro.props;
+const opensNewTab = typeof href === "string" && /^https?:\/\//.test(href);
+---
+
 <a
-  {...Astro.props}
-  target="_blank"
-  rel="noopener noreferrer"
-  role="link"
+  {...props}
+  href={href}
+  target={opensNewTab ? "_blank" : undefined}
+  rel={opensNewTab ? "noopener noreferrer" : undefined}
   class="inline-flex items-center justify-center gap-2 px-4 py-2 text-sm font-bold text-black uppercase transition duration-200 bg-[#c5ff4a] border-2 border-black shadow-[4px_4px_0_#111] group max-w-fit hover:-translate-y-1 hover:shadow-[6px_6px_0_#111] focus:outline-none active:translate-y-0 dark:border-white dark:shadow-[4px_4px_0_#fff] dark:hover:shadow-[6px_6px_0_#fff]"
 >
   <slot />

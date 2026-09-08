@@ -29,6 +29,7 @@ import Python from "./icons/Python.astro";
 import SQLite from "./icons/SQLite.astro";
 import SqlServer from "./icons/SqlServer.astro";
 import { projects } from "@/data/content";
+import { getOptimizedImagePath } from "@/lib/public-assets";
 
 const TAGS = {
   NEXT: { name: "Next.js", class: "bg-black text-white", icon: NextJS, iconColor: "#000000" },
@@ -61,6 +62,7 @@ const TAGS = {
 
 const PROJECTS = projects.map((project) => ({
   ...project,
+  image: getOptimizedImagePath(project.image),
   tags: project.tags
     .map((tag) => TAGS[tag as keyof typeof TAGS])
     .filter(Boolean),
@@ -81,6 +83,9 @@ const PROJECTS = projects.map((project) => ({
               class="object-cover object-top w-full h-56 transition duration-500 grayscale-[20%] group-hover:grayscale-0 group-hover:scale-[1.03]"
               loading="lazy"
               src={image}
+              width="1200"
+              height="675"
+              decoding="async"
             />
           </div>
         </div>
@@ -154,8 +159,9 @@ const PROJECTS = projects.map((project) => ({
 </div>
 
 <script>
-  import { collection, getDocs, query, where } from "firebase/firestore";
-  import { db } from "@/lib/firebase";
+  import { collection, getDocs, query, where } from "firebase/firestore/lite";
+  import { publicDb } from "@/lib/firebase-public";
+  import { getOptimizedImagePath } from "@/lib/public-assets";
 
   const PROJECT_TAGS = {
     NEXT: { name: "Next.js", className: "bg-black text-white", iconColor: "#000000" },
@@ -246,7 +252,10 @@ const PROJECTS = projects.map((project) => ({
               alt="Thumbnail de ${escapeHtml(titleEs)}"
               class="object-cover object-top w-full h-56 transition duration-500 grayscale-[20%] group-hover:grayscale-0 group-hover:scale-[1.03]"
               loading="lazy"
-              src="${escapeHtml(project.image)}"
+              src="${escapeHtml(getOptimizedImagePath(project.image))}"
+              width="1200"
+              height="675"
+              decoding="async"
             />
           </div>
         </div>
@@ -288,7 +297,7 @@ const PROJECTS = projects.map((project) => ({
 
     try {
       const snapshot = await getDocs(query(
-        collection(db, "projects"),
+        collection(publicDb, "projects"),
         where("visible", "==", true),
         where("status", "==", "published"),
       ));

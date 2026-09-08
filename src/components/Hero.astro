@@ -5,6 +5,7 @@ import MailIcon from "@/components/icons/Mail.astro";
 import GitHub from "@/components/icons/GitHub.astro";
 import SocialPill from "@/components/SocialPill.astro";
 import { profile } from "@/data/content";
+import { getOptimizedImagePath } from "@/lib/public-assets";
 
 const { hero, social } = profile;
 ---
@@ -16,8 +17,12 @@ const { hero, social } = profile;
         <img
           id="hero-profile-image"
           class="object-cover border-2 border-black rounded-full shadow-[4px_4px_0_#111] size-20 dark:border-white dark:shadow-[4px_4px_0_#c5ff4a]"
-          src={profile.image}
+          src={getOptimizedImagePath(profile.image)}
           alt={profile.imageAlt}
+          width="256"
+          height="255"
+          decoding="async"
+          fetchpriority="high"
         />
         <div>
           <p id="hero-kicker" class="text-[10px] font-black tracking-[0.18em] text-black uppercase dark:text-[#c5ff4a] sm:text-xs sm:tracking-[0.24em]">
@@ -99,8 +104,9 @@ const { hero, social } = profile;
 </div>
 
 <script>
-  import { doc, getDoc } from "firebase/firestore";
-  import { db } from "@/lib/firebase";
+  import { doc, getDoc } from "firebase/firestore/lite";
+  import { publicDb } from "@/lib/firebase-public";
+  import { getOptimizedImagePath } from "@/lib/public-assets";
 
   function updateLanguage() {
     const lang = localStorage.getItem('language') || 'es';
@@ -118,7 +124,7 @@ const { hero, social } = profile;
 
   async function hydrateProfileFromFirestore() {
     try {
-      const snapshot = await getDoc(doc(db, "content", "profile"));
+      const snapshot = await getDoc(doc(publicDb, "content", "profile"));
       if (!snapshot.exists()) return;
 
       const profile = snapshot.data();
@@ -137,7 +143,9 @@ const { hero, social } = profile;
       const linkedInLink = document.getElementById("hero-linkedin-link") as HTMLAnchorElement | null;
       const githubLink = document.getElementById("hero-github-link") as HTMLAnchorElement | null;
 
-      if (image && typeof profile.image === "string") image.src = profile.image;
+      if (image && typeof profile.image === "string") {
+        image.src = getOptimizedImagePath(profile.image);
+      }
       if (image && typeof profile.imageAlt === "string") image.alt = profile.imageAlt;
       if (kicker && typeof profile.kicker === "string") kicker.textContent = profile.kicker;
       if (location && typeof profile.location === "string") location.textContent = profile.location;

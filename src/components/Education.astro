@@ -14,8 +14,8 @@ import { education } from "@/data/content";
 </ol>
 
 <script>
-  import { collection, getDocs, query, where } from "firebase/firestore";
-  import { db } from "@/lib/firebase";
+  import { collection, getDocs, query, where } from "firebase/firestore/lite";
+  import { publicDb } from "@/lib/firebase-public";
 
   function updateEducationLanguage() {
     const lang = localStorage.getItem('language') || 'es';
@@ -82,7 +82,7 @@ import { education } from "@/data/content";
 	      const container = document.getElementById("education-container");
 	      if (!container) return;
 
-	      const snapshot = await getDocs(query(collection(db, "education"), where("visible", "==", true)));
+	      const snapshot = await getDocs(query(collection(publicDb, "education"), where("visible", "==", true)));
 	      const items = snapshot.docs
 	        .map((item) => item.data())
 	        .sort((a, b) => Number(a.order ?? 0) - Number(b.order ?? 0));

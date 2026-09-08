@@ -69,6 +69,7 @@ const navItems = isAdminRoute
   >
     <button
       id="mobile-menu-toggle"
+      type="button"
       class:list={[
         "items-center gap-2 px-2.5 py-2.5 transition hover:bg-black hover:text-white md:hidden",
         isAdminRoute ? "hidden" : "flex",
@@ -95,7 +96,6 @@ const navItems = isAdminRoute
         navItems.map((link) => (
           <a
             class="relative block px-3 py-3 transition hover:bg-black hover:text-white nav-link md:px-2.5 md:py-2.5"
-            aria-label={link.label}
             href={link.url}
             data-label={link.label}
           >
@@ -167,10 +167,12 @@ const navItems = isAdminRoute
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
           navItems.forEach((item) => {
-            if (item.getAttribute("aria-label") == entry.target.id) {
-              item.classList.add("text-yellow-500");
+            if (item.getAttribute("data-label") == entry.target.id) {
+              item.classList.add("bg-black", "text-white");
+              item.setAttribute("aria-current", "true");
             } else {
-              item.classList.remove("text-yellow-500");
+              item.classList.remove("bg-black", "text-white");
+              item.removeAttribute("aria-current");
             }
           });
         }

@@ -14,58 +14,58 @@ import Hero from "@/components/Hero.astro";
 ---
 
 <Layout
-  title="Hugo Alén | Desarrollador web y diseñador gráfico"
-  description="Contrata a Hugo para crear tu aplicación web o móvil. Desarrollador Web y Diseñador Gráfico. Especializado en llevar a cabo proyectos únicos."
+  title="Hugo Alén | Software & Systems Engineer"
+  description="Portfolio de Hugo Alén, Software & Systems Engineer especializado en .NET, Cloud, DevOps, automatización y ciberseguridad."
 >
   <main>
     <SectionContainer id="hero" class="pt-28 pb-20 md:pt-36 md:pb-28">
       <Hero />
     </SectionContainer>
+    <div class="space-y-28 pb-6 md:space-y-40" id="main-sections">
+      <SectionContainer id="experiencia">
+        <h2
+          class="section-title flex items-center mb-10 text-3xl font-semibold gap-x-3 text-black/90 dark:text-white"
+          data-section="experience"
+        >
+          <Briefcase class="size-8" />
+          Experiencia laboral
+        </h2>
+        <Experience />
+      </SectionContainer>
+      <SectionContainer id="proyectos">
+        <h2
+          class="section-title flex items-center mb-10 text-3xl font-semibold gap-x-3 text-black/90 dark:text-white"
+          data-section="projects"
+        >
+          <CodeIcon class="size-7" />
+          Proyectos
+        </h2>
+        <Projects />
+      </SectionContainer>
+
+      <SectionContainer id="formacion">
+        <h2
+          class="section-title flex items-center mb-10 text-3xl font-semibold gap-x-3 text-black/90 dark:text-white"
+          data-section="education"
+        >
+          <Books class="size-8" />
+          Formación
+        </h2>
+        <Education />
+      </SectionContainer>
+
+      <SectionContainer id="sobre-mi">
+        <h2
+          class="section-title flex items-center mb-10 text-3xl font-semibold gap-x-3 text-black/90 dark:text-white"
+          data-section="about"
+        >
+          <ProfileCheck class="size-8" />
+          Sobre mí
+        </h2>
+        <AboutMe />
+      </SectionContainer>
+    </div>
   </main>
-  <div class="space-y-28 pb-6 md:space-y-40" id="main-sections">
-    <SectionContainer id="experiencia">
-      <h2
-        class="section-title flex items-center mb-10 text-3xl font-semibold gap-x-3 text-black/90 dark:text-white"
-        data-section="experience"
-      >
-        <Briefcase class="size-8" />
-        Experiencia laboral
-      </h2>
-      <Experience />
-    </SectionContainer>
-    <SectionContainer id="proyectos">
-      <h2
-        class="section-title flex items-center mb-10 text-3xl font-semibold gap-x-3 text-black/90 dark:text-white"
-        data-section="projects"
-      >
-        <CodeIcon class="size-7" />
-        Proyectos
-      </h2>
-      <Projects />
-    </SectionContainer>
-
-    <SectionContainer id="formacion">
-      <h2
-        class="section-title flex items-center mb-10 text-3xl font-semibold gap-x-3 text-black/90 dark:text-white"
-        data-section="education"
-      >
-        <Books class="size-8" />
-        Formación
-      </h2>
-      <Education />
-    </SectionContainer>
-
-    <SectionContainer id="sobre-mi">
-      <h2
-        class="section-title flex items-center mb-10 text-3xl font-semibold gap-x-3 text-black/90 dark:text-white"
-        data-section="about"
-      >
-        <ProfileCheck class="size-8" />
-        Sobre mí
-      </h2>
-      <AboutMe />
-    </SectionContainer>
-  </div>
 
 <script>
   /* @ts-nocheck */

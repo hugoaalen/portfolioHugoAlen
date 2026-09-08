@@ -1,5 +1,25 @@
 [
   {
+    "id": "futpath",
+    "order": 5,
+    "visible": true,
+    "featured": true,
+    "status": "published",
+    "category": "app",
+    "title": {
+      "es": "FutPath - Seguimiento de carrera futbolística",
+      "en": "FutPath - Football Career Tracker"
+    },
+    "description": {
+      "es": "PWA para registrar partidos y seguir la evolución de una carrera futbolística. Incluye temporadas y competiciones configurables, estadísticas adaptadas por posición, funcionamiento sin conexión, exportación de datos y sincronización segura con Firebase.",
+      "en": "PWA for logging matches and tracking a football career. It includes configurable seasons and competitions, position-specific statistics, offline support, data export, and secure Firebase synchronization."
+    },
+    "link": "https://futpath.vercel.app",
+    "github": "https://github.com/hugoaalen/FutPath",
+    "image": "/projects/futpath.svg",
+    "tags": ["NEXT", "REACT", "TYPESCRIPT", "TAILWIND", "FIREBASE"]
+  },
+  {
     "id": "zaizen",
     "order": 10,
     "visible": true,
@@ -16,7 +36,7 @@
     },
     "link": "https://zaizen.vercel.app",
     "github": "https://github.com/hugoaalen/zaizen",
-    "image": "/projects/zaizen.png",
+    "image": "/projects/zaizen-1200.jpg",
     "tags": ["REACT", "SUPABASE", "TAILWIND"]
   },
   {
@@ -35,7 +55,7 @@
       "en": "Personal app for tracking university degree progress, managing subjects by status, planning enrollment scenarios, and storing data locally or syncing it with Firebase Auth and Firestore."
     },
     "github": "https://github.com/hugoaalen/Senda",
-    "image": "/projects/senda-window.png",
+    "image": "/projects/senda-window-1200.jpg",
     "tags": ["REACT", "TYPESCRIPT", "FIREBASE", "VITE"]
   },
   {
@@ -55,7 +75,7 @@
     },
     "link": "https://onosoalmanaque.vercel.app",
     "github": "https://github.com/hugoaalen/onosoalmanaque",
-    "image": "/projects/onosoalmanaque.webp",
+    "image": "/projects/onosoalmanaque-1200.jpg",
     "tags": ["ASTRO", "REACT", "SUPABASE", "TAILWIND"]
   },
   {
@@ -74,7 +94,7 @@
       "en": "Local party game designed to be played from a single phone. It lets users configure players and impostors, choose categories, reveal roles turn by turn, use hints or decoy words, and avoid repeated words between rounds."
     },
     "github": "https://github.com/hugoaalen/Impostor",
-    "image": "/projects/impostor-window.png",
+    "image": "/projects/impostor-window-1200.jpg",
     "tags": ["REACT", "TYPESCRIPT", "VITE"]
   },
   {
@@ -93,7 +113,7 @@
       "en": "Website of Brais Pereiro's goalkeeper school, BPKeepers. Training for goalkeepers of all ages and levels."
     },
     "github": "https://github.com/hugoaalen/bpkeepers",
-    "image": "/projects/bpkeepers.webp",
+    "image": "/projects/bpkeepers-1200.jpg",
     "tags": ["HTML", "CSS"]
   },
   {

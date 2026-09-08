@@ -3,7 +3,11 @@ import SunIcon from "./icons/Sun.astro"
 import MoonIcon from "./icons/Moon.astro"
 import SystemIcon from "./icons/System.astro"
 
-const THEMES = ["Light", "Dark", "System"]
+const THEMES = [
+  { value: "light", es: "Claro", en: "Light" },
+  { value: "dark", es: "Oscuro", en: "Dark" },
+  { value: "system", es: "Sistema", en: "System" },
+]
 ---
 
 <div id="theme-toggle-root" class="relative ml-1 mr-1">
@@ -13,7 +17,9 @@ const THEMES = ["Light", "Dark", "System"]
     aria-expanded="false"
     class="flex p-2 text-black transition appearance-none border-none hover:bg-black hover:text-white"
   >
-    <span class="sr-only">Elige el tema</span>
+    <span class="sr-only i18n" data-es="Seleccionar tema" data-en="Choose theme">
+      Seleccionar tema
+    </span>
     <SunIcon id="light" class="theme-toggle-icon size-5 transition-all" />
     <MoonIcon
       id="dark"
@@ -31,8 +37,15 @@ const THEMES = ["Light", "Dark", "System"]
     <ul>
       {
         THEMES.map((theme) => (
-          <li class="themes-menu-option px-3 py-2 cursor-pointer hover:bg-[#c5ff4a] hover:text-black">
-            {theme}
+          <li>
+            <button
+              type="button"
+              class="themes-menu-option w-full px-3 py-2 text-left hover:bg-[#c5ff4a] hover:text-black focus-visible:bg-[#c5ff4a] focus-visible:text-black"
+              data-theme={theme.value}
+              aria-pressed="false"
+            >
+              <span class="i18n" data-es={theme.es} data-en={theme.en}>{theme.es}</span>
+            </button>
           </li>
         ))
       }
@@ -87,6 +100,12 @@ const THEMES = ["Light", "Dark", "System"]
         document.querySelectorAll(".theme-toggle-icon").forEach((element) => {
           element.style.scale = element.id === themePreference ? "1" : "0";
         });
+        document.querySelectorAll("[data-theme]").forEach((element) => {
+          element.setAttribute(
+            "aria-pressed",
+            String(element.getAttribute("data-theme") === themePreference),
+          );
+        });
       };
 
       const updateTheme = () => {
@@ -120,7 +139,7 @@ const THEMES = ["Light", "Dark", "System"]
         addManagedListener(element, "click", (event) => {
           localStorage.setItem(
             "theme",
-            event.currentTarget.innerText.toLowerCase().trim(),
+            event.currentTarget.getAttribute("data-theme"),
           );
           updateTheme();
           closeThemesMenu();
