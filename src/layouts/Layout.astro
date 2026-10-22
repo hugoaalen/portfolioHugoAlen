@@ -25,7 +25,7 @@ const robots = isAdminRoute ? "noindex, nofollow" : "index, follow";
     <meta charset="UTF-8" />
     <meta name="description" content={description} id="meta-description" />
     <meta name="robots" content={robots} />
-    <meta name="viewport" content="width=device-width" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="theme-color" content="#c5ff4a" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="canonical" href={canonicalURL} />
@@ -80,8 +80,28 @@ const robots = isAdminRoute ? "noindex, nofollow" : "index, follow";
         display: flex;
         flex-direction: column;
         min-height: 100vh;
-        overscroll-behavior: none;
+        min-height: 100dvh;
+        isolation: isolate;
         background: transparent;
+      }
+
+      body > main {
+        flex: 1 0 auto;
+        min-width: 0;
+      }
+
+      .admin-main {
+        padding-top: calc(7rem + env(safe-area-inset-top, 0px));
+        padding-left: max(0.75rem, env(safe-area-inset-left, 0px));
+        padding-right: max(0.75rem, env(safe-area-inset-right, 0px));
+      }
+
+      @media (min-width: 40rem) {
+        .admin-main {
+          padding-top: calc(8rem + env(safe-area-inset-top, 0px));
+          padding-left: max(1rem, env(safe-area-inset-left, 0px));
+          padding-right: max(1rem, env(safe-area-inset-right, 0px));
+        }
       }
 
       html.dark {
@@ -97,7 +117,7 @@ const robots = isAdminRoute ? "noindex, nofollow" : "index, follow";
       .site-background {
         position: fixed;
         inset: 0;
-        z-index: -2;
+        z-index: -1;
         pointer-events: none;
         background:
           radial-gradient(circle at 88% 8%, rgb(197 255 74 / 0.32), transparent 24rem),
