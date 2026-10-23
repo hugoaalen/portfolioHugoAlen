@@ -33,12 +33,13 @@ const currentYear = new Date().getFullYear();
   footer {
     padding-left: max(1rem, env(safe-area-inset-left, 0px));
     padding-right: max(1rem, env(safe-area-inset-right, 0px));
-    padding-bottom: max(2.5rem, env(safe-area-inset-bottom, 0px));
+    padding-bottom: env(safe-area-inset-bottom, 0px);
     flex-shrink: 0;
   }
 
   @media (min-width: 48rem) {
     footer {
+      padding-bottom: max(2.5rem, env(safe-area-inset-bottom, 0px));
       padding-left: env(safe-area-inset-left, 0px);
       padding-right: env(safe-area-inset-right, 0px);
     }
