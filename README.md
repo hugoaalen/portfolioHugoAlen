@@ -22,6 +22,8 @@ Reúne mi experiencia, proyectos personales, formación y vías de contacto. Inc
 
 Astro, TypeScript y Tailwind CSS para la web; Firebase Authentication y Cloud Firestore para el CMS. Despliegue estático en Vercel.
 
+Las decisiones visuales y las referencias del rediseño están documentadas en [DESIGN.md](./DESIGN.md).
+
 ## Desarrollo local
 
 Requisitos: **Node.js 22.12 o superior** y **pnpm 10.28.2**, según la configuración del proyecto.

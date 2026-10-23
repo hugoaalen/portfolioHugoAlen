@@ -11,7 +11,7 @@ const { hero, social } = profile;
 ---
 
 <div class="relative max-w-5xl" id="hero-content">
-  <div class="relative z-10 p-6 border-2 border-black bg-white/90 shadow-[10px_10px_0_#111] dark:border-white dark:bg-[#111] dark:shadow-[10px_10px_0_#c5ff4a] sm:p-9">
+  <div class="hero-panel relative z-10 p-6 border-2 border-black bg-white/90 shadow-[10px_10px_0_#111] dark:border-white dark:bg-[#111] dark:shadow-[10px_10px_0_#c5ff4a] sm:p-9">
     <header class="flex flex-col gap-5 pb-6 mb-7 border-b-2 border-black dark:border-white sm:flex-row sm:items-center sm:justify-between">
       <div class="flex items-center gap-4">
         <img
@@ -25,7 +25,7 @@ const { hero, social } = profile;
           fetchpriority="high"
         />
         <div>
-          <p class="text-lg font-black leading-none text-black dark:text-white">{profile.name}</p>
+          <p id="hero-name" class="text-lg font-black leading-none text-black dark:text-white">{profile.name}</p>
           <p id="hero-kicker" class="mt-2 text-[10px] font-black tracking-[0.14em] text-black uppercase dark:text-[#c5ff4a] sm:text-xs sm:tracking-[0.18em]">
             {profile.kicker}
           </p>
@@ -77,12 +77,10 @@ const { hero, social } = profile;
     </div>
 
     <nav class="flex flex-wrap gap-3 mt-9">
-    <!--
-    <SocialPill href="/CV-Hugo-Alen.pdf" download="CV-Hugo-Alen.pdf">
-      <DownloadIcon class="size-4" />
-      <span id="btn-cv">Descargar CV</span>
-    </SocialPill>
-    -->
+    <a href="#proyectos" class="hero-project-link">
+      <span class="i18n" data-es="Explorar proyectos" data-en="Explore projects">Explorar proyectos</span>
+      <span aria-hidden="true">↗</span>
+    </a>
     <SocialPill href={`mailto:${profile.email}`} id="hero-email-link">
       <MailIcon class="size-4" />
       <span class="i18n" id="btn-contact" data-es={hero.buttons.contact.es} data-en={hero.buttons.contact.en}>
@@ -134,6 +132,7 @@ const { hero, social } = profile;
       const image = document.getElementById("hero-profile-image") as HTMLImageElement | null;
       const kicker = document.getElementById("hero-kicker");
       const location = document.getElementById("hero-location");
+      const name = document.getElementById("hero-name");
       const badge = document.getElementById("badge-available");
       const title = document.getElementById("hero-title");
       const desc1 = document.getElementById("hero-desc1");
@@ -150,6 +149,7 @@ const { hero, social } = profile;
       if (image && typeof profile.imageAlt === "string") image.alt = profile.imageAlt;
       if (kicker && typeof profile.kicker === "string") kicker.textContent = profile.kicker;
       if (location && typeof profile.location === "string") location.textContent = profile.location;
+      if (name && typeof profile.name === "string") name.textContent = profile.name;
       if (emailLink && typeof profile.email === "string") emailLink.href = `mailto:${profile.email}`;
       if (badgeLink && typeof social.linkedin === "string") badgeLink.href = social.linkedin;
       if (linkedInLink && typeof social.linkedin === "string") linkedInLink.href = social.linkedin;

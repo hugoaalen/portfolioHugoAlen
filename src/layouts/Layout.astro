@@ -1,6 +1,7 @@
 ---
 import "@fontsource-variable/onest";
 import "@/styles/global.css";
+import "@/styles/portfolio.css";
 
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
@@ -65,7 +66,7 @@ const robots = isAdminRoute ? "noindex, nofollow" : "index, follow";
     {!isAdminRoute && <ClientRouter />}
   </head>
 
-  <body class="relative overflow-x-hidden text-black dark:text-white">
+  <body data-page={isAdminRoute ? "admin" : "portfolio"} class="relative overflow-x-hidden text-black dark:text-white">
     <div class="site-background" aria-hidden="true"></div>
     <Header />
     <slot />
