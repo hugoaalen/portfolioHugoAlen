@@ -116,6 +116,9 @@ const THEMES = [
 
         updateIcon(themePreference);
         document.documentElement.classList[isDark ? "add" : "remove"]("dark");
+        document.querySelector('meta[name="theme-color"]')?.setAttribute(
+          "content", isDark ? "#080808" : "#ecece7",
+        );
       };
 
       const closeThemesMenu = () => {
