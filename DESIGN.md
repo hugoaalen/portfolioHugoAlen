@@ -1,12 +1,14 @@
 # Dirección visual
 
-Portfolio editorial para presentar experiencia de ingeniería y productos personales. Conserva la identidad lima/carbón, la cuadrícula y la tipografía Onest existente.
+Portfolio gráfico y animado para presentar experiencia de ingeniería y productos personales. Conserva la identidad lima/carbón, la cuadrícula y la tipografía Onest existente.
 
 ## Decisiones
 
-- Hero abierto, título en caja normal y una acción principal hacia proyectos.
+- Hero sobre una superficie lima, título de gran tamaño y una acción principal hacia proyectos.
 - Una línea de lectura clara: identidad, especialidad, propuesta y contacto.
-- Superficies y bordes discretos; el acento se reserva para acciones y selección.
+- Composición de cartel técnico: bordes rectos, alto contraste y secciones numeradas.
+- Experiencia en filas cronológicas y proyectos con capturas enmarcadas.
+- Cierre con una invitación directa a contactar.
 - Capturas de proyectos contenidas para evitar recortar las interfaces.
 - Tipografía, espaciado y colores definidos para ambos temas.
 - Navegación acotada al ancho del contenido, con objetivos táctiles de al menos 44 px.
@@ -19,7 +21,20 @@ Portfolio editorial para presentar experiencia de ingeniería y productos person
 - [Anthropic: frontend-design](https://github.com/anthropics/skills/tree/main/skills/frontend-design): dirección propia, jerarquía tipográfica, contención y revisión visual.
 - [UI UX Pro Max](https://github.com/nextlevelbuilder/ui-ux-pro-max-skill): consulta de sistema de diseño para `software engineer portfolio editorial` y guías Astro de responsive y accesibilidad.
 
-La consulta propuso una dirección Swiss/minimalista. Se adaptó a la identidad existente: se conserva el lima y Onest en lugar de adoptar el azul y las fuentes sugeridas. No se incorporan dependencias ni scripts de estos repositorios a la aplicación.
+La primera consulta propuso una dirección Swiss/minimalista. La revisión posterior adopta una composición más gráfica, conservando lima y Onest.
+
+- [GSAP Skills oficiales](https://github.com/greensock/gsap-skills): guías core, timeline, ScrollTrigger y rendimiento. GSAP se incorpora como dependencia de la web pública.
+
+## Movimiento
+
+- Entrada secuenciada de identidad, título, descripción y acciones.
+- Emblema SVG decorativo con entrada y rotación vinculada al scroll.
+- Revelado de secciones y tarjetas, incluidas las añadidas por Firestore.
+- Indicador de progreso de lectura.
+- Scroll nativo: sin secuestro de rueda, pinning ni desplazamiento horizontal forzado.
+- `gsap.matchMedia()` desactiva las animaciones con movimiento reducido.
+- Los contextos se revierten antes de las transiciones de Astro. La carga de fuentes, imágenes y contenido remoto actualiza ScrollTrigger.
+- El contenido sigue visible sin JavaScript.
 
 ## Comprobaciones
 

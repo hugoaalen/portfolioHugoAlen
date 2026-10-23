@@ -20,7 +20,7 @@ Reúne mi experiencia, proyectos personales, formación y vías de contacto. Inc
 
 ## Tecnologías
 
-Astro, TypeScript y Tailwind CSS para la web; Firebase Authentication y Cloud Firestore para el CMS. Despliegue estático en Vercel.
+Astro, TypeScript y Tailwind CSS para la web; GSAP y ScrollTrigger para las animaciones; Firebase Authentication y Cloud Firestore para el CMS. Despliegue estático en Vercel.
 
 Las decisiones visuales y las referencias del rediseño están documentadas en [DESIGN.md](./DESIGN.md).
 

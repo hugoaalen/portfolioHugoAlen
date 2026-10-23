@@ -50,6 +50,16 @@ const { hero, social } = profile;
       </a>
     </header>
 
+    <svg class="hero-symbol" viewBox="0 0 320 320" fill="none" aria-hidden="true">
+      <g class="hero-symbol-orbit" stroke="currentColor" stroke-width="1.5">
+        <circle cx="160" cy="160" r="140" />
+        <ellipse cx="160" cy="160" rx="65" ry="140" />
+        <ellipse cx="160" cy="160" rx="140" ry="65" />
+        <path d="M20 160h280M160 20v280M61 61l198 198M61 259 259 61" />
+      </g>
+      <circle cx="160" cy="20" r="7" fill="currentColor" />
+    </svg>
+
     <h1
       class="max-w-4xl text-[2.6rem] font-black leading-[0.9] tracking-[-0.055em] text-black uppercase sm:text-6xl md:text-[4.8rem] dark:text-white i18n"
       id="hero-title"
@@ -151,6 +161,11 @@ const { hero, social } = profile;
       if (location && typeof profile.location === "string") location.textContent = profile.location;
       if (name && typeof profile.name === "string") name.textContent = profile.name;
       if (emailLink && typeof profile.email === "string") emailLink.href = `mailto:${profile.email}`;
+      if (typeof profile.email === "string") {
+        document.querySelectorAll<HTMLAnchorElement>(".footer-invitation").forEach((link) => {
+          link.href = `mailto:${profile.email}`;
+        });
+      }
       if (badgeLink && typeof social.linkedin === "string") badgeLink.href = social.linkedin;
       if (linkedInLink && typeof social.linkedin === "string") linkedInLink.href = social.linkedin;
       if (githubLink && typeof social.github === "string") githubLink.href = social.github;

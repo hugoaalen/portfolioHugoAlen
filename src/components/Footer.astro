@@ -1,11 +1,19 @@
 ---
+import { profile } from "@/data/content";
 const currentYear = new Date().getFullYear();
+const isAdminRoute = Astro.url.pathname.startsWith("/admin");
 ---
 
 <footer
   class="mt-12 md:mt-24 w-full mx-auto container lg:max-w-4xl md:max-w-2xl flex justify-center border-t-2 border-black dark:border-white"
   id="footer-container"
 >
+  {!isAdminRoute && (
+    <a class="footer-invitation" href={`mailto:${profile.email}`}>
+      <span class="i18n" data-es="¿Construimos algo?" data-en="Let's build something.">¿Construimos algo?</span>
+      <span aria-hidden="true">↗</span>
+    </a>
+  )}
   <div
     class="rounded-lg w-full max-w-screen-xl mx-auto md:flex md:items-center md:justify-between py-4"
   >
