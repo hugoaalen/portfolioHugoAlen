@@ -13,25 +13,15 @@ const items = [
 ---
 
 <header class="public-navigation" id="public-navigation">
-  <a class="portfolio-identity" href="/#hero">{profile.name}</a>
   <button class="navigation-trigger" id="navigation-trigger" type="button" aria-haspopup="dialog" aria-controls="navigation-dialog" aria-expanded="false">
-    <span class="sr-only i18n" data-es="Abrir menú" data-en="Open menu">Abrir menú</span>
-    <span aria-hidden="true"></span><span aria-hidden="true"></span>
+    <span class="i18n" data-es="Menú" data-en="Menu">Menú</span>
+    <span class="trigger-lines" aria-hidden="true"><span></span><span></span></span>
   </button>
-
-  <nav class="navigation-rail" aria-label="Secciones">
-    {items.map((item, index) => (
-      <a href={`/#${item.id}`} data-section-link={item.id} aria-label={item.es} data-es-label={item.es} data-en-label={item.en}>
-        <span class="rail-number" aria-hidden="true">{String(index).padStart(2, "0")}</span>
-        <span class="rail-label i18n" data-es={item.es} data-en={item.en}>{item.es}</span>
-      </a>
-    ))}
-  </nav>
 
   <dialog class="navigation-dialog" id="navigation-dialog" aria-labelledby="navigation-title">
     <div class="navigation-sheet">
       <div class="navigation-sheet-top">
-        <p id="navigation-title"><span class="i18n" data-es="Índice" data-en="Index">Índice</span><span aria-hidden="true"> / </span><span>{profile.name}</span></p>
+        <p id="navigation-title"><span class="i18n" data-es="Menú" data-en="Menu">Menú</span></p>
         <button class="navigation-close" type="button" id="navigation-close" autofocus>
           <span class="sr-only i18n" data-es="Cerrar menú" data-en="Close menu">Cerrar menú</span>
           <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5"><path d="m6 6 12 12M18 6 6 18" /></svg>
@@ -56,18 +46,12 @@ const items = [
 
 <style>
   .public-navigation { position: fixed; inset: 0 0 auto; z-index: 40; pointer-events: none; }
-  .public-navigation .portfolio-identity { position: absolute; top: calc(1.5rem + env(safe-area-inset-top, 0px)); left: max(1.5rem, env(safe-area-inset-left, 0px)); min-height: 44px; padding: 0.5rem; background: var(--p-paper); color: var(--p-ink); border: 0; border-radius: 0; font-weight: 600; font-size: 0.875rem; letter-spacing: 0.02em; pointer-events: auto; }
   .navigation-trigger, .navigation-close { display: grid; place-content: center; width: 48px; height: 48px; border: 1px solid var(--p-line); border-radius: 50%; cursor: pointer; }
-  .navigation-trigger { position: absolute; right: max(1.5rem, env(safe-area-inset-right, 0px)); top: calc(1.5rem + env(safe-area-inset-top, 0px)); gap: 6px; background: var(--p-paper); color: var(--p-ink); pointer-events: auto; transition: border-color 180ms ease; }
-  .navigation-trigger span[aria-hidden] { width: 18px; height: 1px; background: currentColor; }
+  .navigation-trigger { position: absolute; right: max(1.5rem, env(safe-area-inset-right, 0px)); top: calc(1.5rem + env(safe-area-inset-top, 0px)); display: flex; align-items: center; justify-content: center; width: auto; height: 56px; padding-inline: 1.25rem; gap: 1rem; border-radius: 999px; background: var(--p-paper); color: var(--p-ink); font-size: 1rem; font-weight: 600; pointer-events: auto; transition: border-color 180ms ease; }
+  .trigger-lines { display: grid; gap: 6px; }
+  .trigger-lines span { width: 22px; height: 2px; background: currentColor; }
+  .navigation-trigger:focus-visible { outline: 2px solid var(--p-ink); outline-offset: 4px; }
   .navigation-trigger:hover { border-color: var(--p-ink); }
-  .navigation-rail { position: fixed; top: 50%; left: max(1.25rem, calc((100vw - 88rem) / 2), env(safe-area-inset-left, 0px)); transform: translateY(-50%); display: grid; gap: 0.3rem; pointer-events: auto; }
-  .navigation-rail a { display: flex; align-items: center; min-height: 44px; gap: 0.65rem; padding-inline: 0.3rem; color: var(--p-muted); }
-  .rail-number { font-family: ui-monospace, monospace; font-size: 0.6875rem; }
-  .rail-label { max-width: 0; overflow: hidden; white-space: nowrap; opacity: 0; font-size: 0.6875rem; transition: opacity 180ms ease; }
-  .navigation-rail a:hover .rail-label, .navigation-rail a:focus-visible .rail-label, .navigation-rail a[aria-current] .rail-label { max-width: 8rem; opacity: 1; }
-  .navigation-rail a[aria-current] { color: var(--p-ink); }
-  .navigation-rail a[aria-current] .rail-number { text-decoration: underline; text-decoration-color: #739b1b; text-decoration-thickness: 2px; text-underline-offset: 0.4rem; }
   .navigation-dialog { position: fixed; inset: 0 0 0 auto; margin: 0; width: min(72rem, 72vw); max-width: none; height: 100vh; height: 100dvh; max-height: none; padding: 0; border: 0; color: #f4f2e9; background: #10130ff5; pointer-events: auto; overflow-y: auto; overscroll-behavior: contain; }
   .navigation-dialog::backdrop { background: #0009; }
   .navigation-sheet { position: relative; min-height: 100%; display: flex; flex-direction: column; padding: max(1.5rem, env(safe-area-inset-top, 0px)) max(2.5rem, env(safe-area-inset-right, 0px)) max(1.5rem, env(safe-area-inset-bottom, 0px)) 2.5rem; background-image: repeating-linear-gradient(90deg, transparent 0, transparent calc(25% - 1px), #c5ff4a0c calc(25% - 1px), #c5ff4a0c 25%); }
@@ -91,10 +75,8 @@ const items = [
   .navigation-preferences :global(#theme-toggle-btn:hover), .navigation-preferences :global(#language-toggle:hover) { color: #151714; background: #c5ff4a; }
   .navigation-preferences :global(#themes-menu) { top: auto; bottom: calc(100% + 0.75rem); }
   .navigation-dialog :focus-visible { outline: 2px solid #c5ff4a; outline-offset: 4px; }
-  @media (max-width: 1279px) { .navigation-rail { display: none; } }
   @media (max-width: 767px) {
-    .public-navigation .portfolio-identity { top: calc(0.75rem + env(safe-area-inset-top, 0px)); left: max(0.75rem, env(safe-area-inset-left, 0px)); }
-    .navigation-trigger { top: calc(0.75rem + env(safe-area-inset-top, 0px)); right: max(0.75rem, env(safe-area-inset-right, 0px)); }
+    .navigation-trigger { top: calc(0.75rem + env(safe-area-inset-top, 0px)); right: max(0.75rem, env(safe-area-inset-right, 0px)); height: 48px; padding-inline: 1rem; }
     .navigation-dialog { width: 100%; }
     .navigation-sheet { padding: max(1rem, env(safe-area-inset-top, 0px)) max(1.25rem, env(safe-area-inset-right, 0px)) max(1rem, env(safe-area-inset-bottom, 0px)) max(1.25rem, env(safe-area-inset-left, 0px)); }
     .index-label { font-size: clamp(1.75rem, 8.5vw, 3.5rem); line-height: 1.15; }
@@ -196,7 +178,7 @@ const items = [
       header.querySelectorAll<HTMLElement>("[data-es][data-en]").forEach((element) => { element.textContent = element.getAttribute(`data-${lang}`) || element.getAttribute("data-es"); });
       header.querySelectorAll<HTMLElement>("[data-es-label]").forEach((element) => { element.setAttribute("aria-label", element.getAttribute(`data-${lang}-label`) || ""); });
     };
-    const sections = Array.from(header.querySelectorAll<HTMLAnchorElement>(".navigation-rail a")).map((link) => document.getElementById(link.dataset.sectionLink || "")).filter((section): section is HTMLElement => Boolean(section));
+    const sections = Array.from(header.querySelectorAll<HTMLAnchorElement>(".navigation-index a")).map((link) => document.getElementById(link.dataset.sectionLink || "")).filter((section): section is HTMLElement => Boolean(section));
     let currentId = "";
     let scrollFrame = 0;
     const updateCurrent = () => {

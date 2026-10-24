@@ -11,7 +11,7 @@ Portfolio gráfico y animado para presentar experiencia de ingeniería y product
 - Cierre con una invitación directa a contactar.
 - Capturas de proyectos contenidas para evitar recortar las interfaces.
 - Tipografía, espaciado y colores definidos para ambos temas.
-- Navegación inspirada en [Mina Massoud](https://mina-massoud.com/): botón circular, panel lateral con enlaces grandes en cursiva y rail de secciones en pantallas amplias. Se adapta a la identidad lima del portfolio, sin copiar sus recursos gráficos.
+- Navegación simple: botón «Menú» fijo arriba a la derecha y panel lateral con enlaces grandes en cursiva. Sin nombre superior ni índice lateral junto al contenido. Se adapta a la identidad lima del portfolio.
 - Hero de borde limpio, sin sombra desplazada.
 - Cabecera con el nombre real, sin monograma ni barra horizontal. El panel usa un diálogo modal nativo para gestionar foco y Escape; incluye controles de tema e idioma y respeta Safe Areas.
 - Los estilos públicos usan `body[data-page="portfolio"]`; el CMS mantiene sus controles.
