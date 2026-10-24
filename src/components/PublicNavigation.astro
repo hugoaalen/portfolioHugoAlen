@@ -1,0 +1,252 @@
+---
+import { profile } from "@/data/content";
+import ThemeToggle from "./ThemeToggle.astro";
+import LanguageToggle from "./LanguageToggle.astro";
+const items = [
+  { id: "hero", es: "Inicio", en: "Home" },
+  { id: "proyectos", es: "Proyectos", en: "Projects" },
+  { id: "experiencia", es: "Experiencia", en: "Experience" },
+  { id: "formacion", es: "Formación", en: "Education" },
+  { id: "sobre-mi", es: "Sobre mí", en: "About" },
+  { id: "footer-container", es: "Contacto", en: "Contact" },
+];
+---
+
+<header class="public-navigation" id="public-navigation">
+  <a class="portfolio-identity" href="/#hero">{profile.name}</a>
+  <button class="navigation-trigger" id="navigation-trigger" type="button" aria-haspopup="dialog" aria-controls="navigation-dialog" aria-expanded="false">
+    <span class="sr-only i18n" data-es="Abrir menú" data-en="Open menu">Abrir menú</span>
+    <span aria-hidden="true"></span><span aria-hidden="true"></span>
+  </button>
+
+  <nav class="navigation-rail" aria-label="Secciones">
+    {items.map((item, index) => (
+      <a href={`/#${item.id}`} data-section-link={item.id} aria-label={item.es} data-es-label={item.es} data-en-label={item.en}>
+        <span class="rail-number" aria-hidden="true">{String(index).padStart(2, "0")}</span>
+        <span class="rail-label i18n" data-es={item.es} data-en={item.en}>{item.es}</span>
+      </a>
+    ))}
+  </nav>
+
+  <dialog class="navigation-dialog" id="navigation-dialog" aria-labelledby="navigation-title">
+    <div class="navigation-sheet">
+      <div class="navigation-sheet-top">
+        <p id="navigation-title"><span class="i18n" data-es="Índice" data-en="Index">Índice</span><span aria-hidden="true"> / </span><span>{profile.name}</span></p>
+        <button class="navigation-close" type="button" id="navigation-close" autofocus>
+          <span class="sr-only i18n" data-es="Cerrar menú" data-en="Close menu">Cerrar menú</span>
+          <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5"><path d="m6 6 12 12M18 6 6 18" /></svg>
+        </button>
+      </div>
+      <nav class="navigation-index" aria-labelledby="navigation-title">
+        {items.map((item, index) => (
+          <a href={`/#${item.id}`} data-section-link={item.id}>
+            <span class="index-marker" aria-hidden="true">{index === 0 ? "·" : "/"}</span>
+            <span class="index-label i18n" data-es={item.es} data-en={item.en}>{item.es}</span>
+            <span class="index-number" aria-hidden="true">{String(index).padStart(2, "0")}</span>
+          </a>
+        ))}
+      </nav>
+      <div class="navigation-sheet-bottom">
+        <a class="navigation-contact" id="navigation-contact" href={`mailto:${profile.email}`}><span class="i18n" data-es="Hablemos" data-en="Let's talk">Hablemos</span><span aria-hidden="true">↗</span></a>
+        <div class="navigation-preferences"><ThemeToggle /><LanguageToggle /></div>
+      </div>
+    </div>
+  </dialog>
+</header>
+
+<style>
+  .public-navigation { position: fixed; inset: 0 0 auto; z-index: 40; pointer-events: none; }
+  .public-navigation .portfolio-identity { position: absolute; top: calc(1.5rem + env(safe-area-inset-top, 0px)); left: max(1.5rem, env(safe-area-inset-left, 0px)); min-height: 44px; padding: 0.5rem; background: var(--p-paper); color: var(--p-ink); border: 0; border-radius: 0; font-weight: 600; font-size: 0.875rem; letter-spacing: 0.02em; pointer-events: auto; }
+  .navigation-trigger, .navigation-close { display: grid; place-content: center; width: 48px; height: 48px; border: 1px solid var(--p-line); border-radius: 50%; cursor: pointer; }
+  .navigation-trigger { position: absolute; right: max(1.5rem, env(safe-area-inset-right, 0px)); top: calc(1.5rem + env(safe-area-inset-top, 0px)); gap: 6px; background: var(--p-paper); color: var(--p-ink); pointer-events: auto; transition: border-color 180ms ease; }
+  .navigation-trigger span[aria-hidden] { width: 18px; height: 1px; background: currentColor; }
+  .navigation-trigger:hover { border-color: var(--p-ink); }
+  .navigation-rail { position: fixed; top: 50%; left: max(1.25rem, calc((100vw - 88rem) / 2), env(safe-area-inset-left, 0px)); transform: translateY(-50%); display: grid; gap: 0.3rem; pointer-events: auto; }
+  .navigation-rail a { display: flex; align-items: center; min-height: 44px; gap: 0.65rem; padding-inline: 0.3rem; color: var(--p-muted); }
+  .rail-number { font-family: ui-monospace, monospace; font-size: 0.6875rem; }
+  .rail-label { max-width: 0; overflow: hidden; white-space: nowrap; opacity: 0; font-size: 0.6875rem; transition: opacity 180ms ease; }
+  .navigation-rail a:hover .rail-label, .navigation-rail a:focus-visible .rail-label, .navigation-rail a[aria-current] .rail-label { max-width: 8rem; opacity: 1; }
+  .navigation-rail a[aria-current] { color: var(--p-ink); }
+  .navigation-rail a[aria-current] .rail-number { text-decoration: underline; text-decoration-color: #739b1b; text-decoration-thickness: 2px; text-underline-offset: 0.4rem; }
+  .navigation-dialog { position: fixed; inset: 0 0 0 auto; margin: 0; width: min(72rem, 72vw); max-width: none; height: 100vh; height: 100dvh; max-height: none; padding: 0; border: 0; color: #f4f2e9; background: #10130ff5; pointer-events: auto; overflow-y: auto; overscroll-behavior: contain; }
+  .navigation-dialog::backdrop { background: #0009; }
+  .navigation-sheet { position: relative; min-height: 100%; display: flex; flex-direction: column; padding: max(1.5rem, env(safe-area-inset-top, 0px)) max(2.5rem, env(safe-area-inset-right, 0px)) max(1.5rem, env(safe-area-inset-bottom, 0px)) 2.5rem; background-image: repeating-linear-gradient(90deg, transparent 0, transparent calc(25% - 1px), #c5ff4a0c calc(25% - 1px), #c5ff4a0c 25%); }
+  .navigation-sheet-top { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+  .navigation-sheet-top p { color: #b7bcad; font-family: ui-monospace, monospace; font-size: 0.6875rem; }
+  .navigation-sheet-top p > span:first-child { color: #c5ff4a; }
+  .navigation-close { flex-shrink: 0; color: #f4f2e9; background: transparent; border-color: #626b57; }
+  .navigation-close svg { width: 20px; height: 20px; }
+  .navigation-close:hover { background: #c5ff4a; color: #151714; }
+  .navigation-index { display: grid; margin-block: auto; padding-block: 2rem; }
+  .navigation-index a { display: grid; grid-template-columns: 1.5rem minmax(0, 1fr) 2rem; align-items: center; gap: 1rem; min-height: 44px; padding-block: 0.2rem; color: #f4f2e9; }
+  .index-marker { color: #c5ff4a; font-size: 1.5rem; }
+  .index-label { width: fit-content; font-family: Georgia, "Times New Roman", serif; font-style: italic; font-weight: 600; text-transform: uppercase; letter-spacing: -0.065em; font-size: clamp(2.2rem, 5vw, 5.5rem); line-height: 1; transition: color 180ms ease, transform 180ms ease; }
+  .navigation-index a:hover .index-label { color: #c5ff4a; transform: translateX(0.5rem); }
+  .index-number { justify-self: end; color: #b7bcad; font-family: ui-monospace, monospace; font-size: 0.6875rem; }
+  .navigation-index a[aria-current] .index-label { color: #c5ff4a; }
+  .navigation-sheet-bottom { display: flex; justify-content: space-between; align-items: center; gap: 1rem; border-top: 1px solid #626b57; padding-top: 1rem; }
+  .navigation-contact { display: flex; align-items: center; gap: 1rem; min-height: 44px; font-size: 0.8125rem; }
+  .navigation-preferences { display: flex; align-items: center; gap: 0.5rem; }
+  .navigation-preferences :global(#theme-toggle-btn), .navigation-preferences :global(#language-toggle) { color: #f4f2e9; min-width: 44px; min-height: 44px; }
+  .navigation-preferences :global(#theme-toggle-btn:hover), .navigation-preferences :global(#language-toggle:hover) { color: #151714; background: #c5ff4a; }
+  .navigation-preferences :global(#themes-menu) { top: auto; bottom: calc(100% + 0.75rem); }
+  .navigation-dialog :focus-visible { outline: 2px solid #c5ff4a; outline-offset: 4px; }
+  @media (max-width: 1279px) { .navigation-rail { display: none; } }
+  @media (max-width: 767px) {
+    .public-navigation .portfolio-identity { top: calc(0.75rem + env(safe-area-inset-top, 0px)); left: max(0.75rem, env(safe-area-inset-left, 0px)); }
+    .navigation-trigger { top: calc(0.75rem + env(safe-area-inset-top, 0px)); right: max(0.75rem, env(safe-area-inset-right, 0px)); }
+    .navigation-dialog { width: 100%; }
+    .navigation-sheet { padding: max(1rem, env(safe-area-inset-top, 0px)) max(1.25rem, env(safe-area-inset-right, 0px)) max(1rem, env(safe-area-inset-bottom, 0px)) max(1.25rem, env(safe-area-inset-left, 0px)); }
+    .index-label { font-size: clamp(1.75rem, 8.5vw, 3.5rem); line-height: 1.15; }
+    .navigation-index a { gap: 0.5rem; grid-template-columns: 1rem minmax(0, 1fr) 1.5rem; }
+  }
+  @media (prefers-reduced-motion: reduce) { .index-label { transition: none; } }
+</style>
+
+<script>
+  import { gsap } from "gsap";
+  let cleanup: (() => void) | undefined;
+  let activeHeader: HTMLElement | null = null;
+
+  function initializeNavigation() {
+    const header = document.getElementById("public-navigation");
+    if (header === activeHeader) return;
+    cleanup?.();
+    activeHeader = header;
+    if (!header) return;
+    const trigger = header.querySelector<HTMLButtonElement>("#navigation-trigger")!;
+    const close = header.querySelector<HTMLButtonElement>("#navigation-close")!;
+    const dialog = header.querySelector<HTMLDialogElement>("#navigation-dialog")!;
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)");
+    let animation: gsap.core.Timeline | undefined;
+    let previousOverflow = "";
+    let closing = false;
+    const finishClose = () => {
+      dialog.close();
+      document.documentElement.style.overflow = previousOverflow;
+      trigger.setAttribute("aria-expanded", "false");
+    };
+    const closeMenu = (immediate = false) => {
+      if (!dialog.open || closing) return;
+      closing = true;
+      animation?.kill();
+      dialog.querySelector("#themes-menu")?.classList.remove("open");
+      dialog.querySelector("#theme-toggle-btn")?.setAttribute("aria-expanded", "false");
+      if (immediate || reduce.matches) finishClose();
+      else animation = gsap.timeline({ onComplete: finishClose }).to(dialog, { xPercent: 100, opacity: 0, duration: 0.3, ease: "power2.in" });
+    };
+    const onOpen = () => {
+      if (dialog.open) return;
+      closing = false;
+      previousOverflow = document.documentElement.style.overflow;
+      document.documentElement.style.overflow = "hidden";
+      dialog.showModal();
+      trigger.setAttribute("aria-expanded", "true");
+      gsap.set([dialog, ...dialog.querySelectorAll(".navigation-index a")], { clearProps: "transform,opacity" });
+      if (!reduce.matches) {
+        animation = gsap.timeline()
+          .fromTo(dialog, { xPercent: 100, opacity: 0 }, { xPercent: 0, opacity: 1, duration: 0.65, ease: "power4.out", clearProps: "transform,opacity" })
+          .fromTo(dialog.querySelectorAll(".navigation-index a"), { x: 42, opacity: 0 }, { x: 0, opacity: 1, stagger: 0.055, duration: 0.55, ease: "power3.out", clearProps: "transform,opacity" }, "-=0.35");
+      }
+    };
+    const onClose = () => {
+      document.documentElement.style.overflow = previousOverflow;
+      trigger.setAttribute("aria-expanded", "false");
+      closing = false;
+    };
+    const onCancel = (event: Event) => { event.preventDefault(); closeMenu(); };
+    const onKeydown = (event: KeyboardEvent) => {
+      if (event.key !== "Tab") return;
+      const targets = Array.from(dialog.querySelectorAll<HTMLElement>('a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'))
+        .filter((element) => element.getClientRects().length > 0 && getComputedStyle(element).visibility !== "hidden");
+      const first = targets[0];
+      const last = targets.at(-1);
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault(); last?.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault(); first?.focus();
+      }
+    };
+    const onDialogClick = (event: MouseEvent) => {
+      if (event.target === dialog) {
+        const bounds = dialog.getBoundingClientRect();
+        if (event.clientX < bounds.left || event.clientX > bounds.right || event.clientY < bounds.top || event.clientY > bounds.bottom) closeMenu();
+      }
+    };
+    const onLink = (event: MouseEvent) => {
+      if (!(event.target instanceof Element)) return;
+      const link = event.target.closest<HTMLAnchorElement>("a[data-section-link]");
+      if (!link) return;
+      event.preventDefault();
+      closeMenu(true);
+      const target = document.getElementById(link.dataset.sectionLink || "");
+      if (!target) return;
+      history.pushState(null, "", link.hash);
+      target.scrollIntoView({ behavior: reduce.matches ? "instant" : "smooth", block: "start" });
+      const previousTabIndex = target.getAttribute("tabindex");
+      target.setAttribute("tabindex", "-1");
+      target.focus({ preventScroll: true });
+      target.addEventListener("blur", () => {
+        if (previousTabIndex === null) target.removeAttribute("tabindex");
+        else target.setAttribute("tabindex", previousTabIndex);
+      }, { once: true });
+    };
+    const updateLabels = () => {
+      const lang = localStorage.getItem("language") || "es";
+      header.querySelectorAll<HTMLElement>("[data-es][data-en]").forEach((element) => { element.textContent = element.getAttribute(`data-${lang}`) || element.getAttribute("data-es"); });
+      header.querySelectorAll<HTMLElement>("[data-es-label]").forEach((element) => { element.setAttribute("aria-label", element.getAttribute(`data-${lang}-label`) || ""); });
+    };
+    const sections = Array.from(header.querySelectorAll<HTMLAnchorElement>(".navigation-rail a")).map((link) => document.getElementById(link.dataset.sectionLink || "")).filter((section): section is HTMLElement => Boolean(section));
+    let currentId = "";
+    let scrollFrame = 0;
+    const updateCurrent = () => {
+      const atBottom = scrollY + innerHeight >= document.documentElement.scrollHeight - 4;
+      const current = atBottom ? sections.find((section) => section.id === "footer-container") : sections
+        .map((section) => ({ section, top: section.getBoundingClientRect().top }))
+        .filter((item) => item.top <= innerHeight * 0.4)
+        .sort((a, b) => b.top - a.top)[0]?.section || sections[0];
+      if (currentId === current?.id) return;
+      currentId = current?.id || "";
+      header.querySelectorAll<HTMLElement>("[data-section-link]").forEach((link) => {
+        if (link.dataset.sectionLink === current?.id) link.setAttribute("aria-current", "location");
+        else link.removeAttribute("aria-current");
+      });
+    };
+    const onScroll = () => {
+      if (scrollFrame) return;
+      scrollFrame = requestAnimationFrame(() => { scrollFrame = 0; updateCurrent(); });
+    };
+    const observer = new IntersectionObserver(updateCurrent, { rootMargin: "-10% 0px -50% 0px", threshold: 0 });
+    sections.forEach((section) => observer.observe(section));
+    const beforeSwap = () => { animation?.kill(); if (dialog.open) finishClose(); };
+    trigger.addEventListener("click", onOpen);
+    const onCloseClick = () => closeMenu();
+    close.addEventListener("click", onCloseClick);
+    dialog.addEventListener("cancel", onCancel);
+    dialog.addEventListener("keydown", onKeydown);
+    dialog.addEventListener("close", onClose);
+    dialog.addEventListener("click", onDialogClick);
+    header.addEventListener("click", onLink);
+    window.addEventListener("languageChanged", updateLabels);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    document.addEventListener("astro:before-swap", beforeSwap);
+    updateLabels(); updateCurrent();
+    cleanup = () => {
+      beforeSwap(); observer.disconnect();
+      trigger.removeEventListener("click", onOpen);
+      close.removeEventListener("click", onCloseClick);
+      dialog.removeEventListener("cancel", onCancel);
+      dialog.removeEventListener("keydown", onKeydown);
+      dialog.removeEventListener("close", onClose);
+      dialog.removeEventListener("click", onDialogClick);
+      header.removeEventListener("click", onLink);
+      window.removeEventListener("languageChanged", updateLabels);
+      window.removeEventListener("scroll", onScroll);
+      cancelAnimationFrame(scrollFrame);
+      document.removeEventListener("astro:before-swap", beforeSwap);
+      activeHeader = null;
+    };
+  }
+  initializeNavigation();
+  document.addEventListener("astro:page-load", initializeNavigation);
+</script>

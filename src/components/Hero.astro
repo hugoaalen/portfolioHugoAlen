@@ -166,7 +166,7 @@ const { hero, social } = profile;
       }
       if (emailLink && typeof profile.email === "string") emailLink.href = `mailto:${profile.email}`;
       if (typeof profile.email === "string") {
-        document.querySelectorAll<HTMLAnchorElement>(".footer-invitation").forEach((link) => {
+        document.querySelectorAll<HTMLAnchorElement>(".footer-invitation, #navigation-contact").forEach((link) => {
           link.href = `mailto:${profile.email}`;
         });
       }

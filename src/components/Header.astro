@@ -1,7 +1,7 @@
 ---
 import ThemeToggle from "./ThemeToggle.astro";
 import LanguageToggle from "./LanguageToggle.astro";
-import { profile } from "@/data/content";
+import PublicNavigation from "./PublicNavigation.astro";
 
 const navItems_ES = [
   {
@@ -61,18 +61,14 @@ const navItems = isAdminRoute
   : navItems_ES;
 ---
 
-<header
+{!isAdminRoute && <PublicNavigation />}
+{isAdminRoute && (<header
   class:list={[
     "fixed top-0 left-0 right-0 z-20 flex items-start justify-end w-full max-w-full px-3 mx-auto mt-3 md:px-6 lg:px-8",
     isAdminRoute ? "md:left-1/2 md:max-w-2xl md:-translate-x-1/2 lg:max-w-4xl" : "",
   ]}
   id="header-container"
 >
-  {!isAdminRoute && (
-    <a class="portfolio-identity" href="/#hero">
-      {profile.name}
-    </a>
-  )}
   <nav
     class="relative flex items-center max-w-[calc(100vw-1.5rem)] px-1 text-xs font-bold tracking-wide text-black uppercase border-2 border-black bg-[#c5ff4a] shadow-[5px_5px_0_#111] dark:border-white dark:shadow-[5px_5px_0_#fff] sm:text-sm md:max-w-full md:px-2"
   >
@@ -118,13 +114,14 @@ const navItems = isAdminRoute
     <ThemeToggle />
     {!isAdminRoute && <LanguageToggle />}
   </nav>
-</header>
+</header>)}
 
 <script is:inline define:vars={{ navItems_ES, navItems_EN }}>
   // El Header es actualizado directamente por LanguageToggle
   // Este script solo maneja el IntersectionObserver para el highlight
   
   document.addEventListener("astro:page-load", () => {
+    if (!document.getElementById("header-container")) return;
     const cleanupsKey = "__portfolioHeaderCleanups"
     window[cleanupsKey]?.forEach((cleanup) => cleanup())
     window[cleanupsKey] = []

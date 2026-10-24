@@ -65,22 +65,6 @@
       };
 
       revealNewContent();
-      const menuToggle = root.querySelector("#mobile-menu-toggle");
-      const menu = root.querySelector("#header-links");
-      const menuObserver = new MutationObserver(() => {
-        if (!menuToggle || !menu) return;
-        context.add(() => {
-          gsap.killTweensOf([menu, ...menu.children]);
-          if (menuToggle.getAttribute("aria-expanded") === "true") {
-            gsap.timeline()
-              .fromTo(menu, { clipPath: "inset(0 0 100% 0)" }, { clipPath: "inset(0 0 0% 0)", duration: 0.4, ease: "power3.out", clearProps: "clipPath" })
-              .fromTo(menu.children, { y: 18, opacity: 0 }, { y: 0, opacity: 1, stagger: 0.055, duration: 0.35, clearProps: "transform,opacity" }, "-=0.2");
-          } else {
-            gsap.set([menu, ...menu.children], { clearProps: "clipPath,transform,opacity" });
-          }
-        });
-      });
-      if (menuToggle) menuObserver.observe(menuToggle, { attributes: true, attributeFilter: ["aria-expanded"] });
       // Firestore replaces cards after initial render; register the new elements too.
       const observer = new MutationObserver(revealNewContent);
       const content = root.querySelector("#main-sections");
@@ -92,7 +76,6 @@
         disposed = true;
         cancelAnimationFrame(refreshFrame);
         observer.disconnect();
-        menuObserver.disconnect();
         root.removeEventListener("load", refresh, true);
         context.revert();
       };
