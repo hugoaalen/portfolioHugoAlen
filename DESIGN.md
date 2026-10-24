@@ -11,7 +11,8 @@ Portfolio gráfico y animado para presentar experiencia de ingeniería y product
 - Cierre con una invitación directa a contactar.
 - Capturas de proyectos contenidas para evitar recortar las interfaces.
 - Tipografía, espaciado y colores definidos para ambos temas.
-- Navegación en una cabecera continua, con objetivos táctiles de al menos 44 px y márgenes seguros.
+- Navegación compacta sobre fondo transparente, alineada al contenido, con objetivos táctiles de al menos 44 px y márgenes seguros.
+- Hero de borde limpio, sin sombra desplazada.
 - Cabecera con el nombre real, sin monograma; desplegable móvil de enlaces grandes y apertura animada.
 - Los estilos públicos usan `body[data-page="portfolio"]`; el CMS mantiene sus controles.
 - Las tarjetas locales y las generadas por Firestore comparten los mismos selectores.

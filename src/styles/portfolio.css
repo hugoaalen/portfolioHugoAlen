@@ -19,23 +19,27 @@ body[data-page="portfolio"] {
 body[data-page="portfolio"] .section,
 body[data-page="portfolio"] #footer-container { max-width: 78rem; padding-inline: clamp(1.25rem, 4vw, 3rem); }
 body[data-page="portfolio"] #header-container {
-  max-width: none;
+  max-width: 78rem;
   left: 0;
   right: 0;
   top: 0;
   transform: none;
   translate: none;
   margin-top: 0;
-  padding: calc(0.6rem + env(safe-area-inset-top, 0px)) max(clamp(1.25rem, 5vw, 4rem), env(safe-area-inset-right, 0px)) 0.6rem max(clamp(1.25rem, 5vw, 4rem), env(safe-area-inset-left, 0px));
+  padding: calc(0.6rem + env(safe-area-inset-top, 0px)) max(clamp(1.25rem, 4vw, 3rem), env(safe-area-inset-right, 0px)) 0.6rem max(clamp(1.25rem, 4vw, 3rem), env(safe-area-inset-left, 0px));
   align-items: center;
   justify-content: space-between;
-  background: var(--p-paper);
-  border-bottom: 1px solid var(--p-line);
+  background: transparent;
+  border: 0;
 }
 .portfolio-identity {
   display: inline-flex;
   align-items: center;
   min-height: 48px;
+  padding-inline: 0.875rem;
+  background: var(--p-paper);
+  border: 1px solid var(--p-line);
+  border-radius: 0.35rem;
   color: var(--p-ink);
   font-weight: 650;
   font-size: 0.9375rem;
@@ -49,6 +53,10 @@ body[data-page="portfolio"] #header-links {
   border: 0;
   box-shadow: none;
   text-transform: none;
+}
+body[data-page="portfolio"] #header-container > nav {
+  border: 1px solid var(--p-line);
+  border-radius: 0.35rem;
 }
 body[data-page="portfolio"] #header-container a.nav-link { font-size: 0.8125rem; font-weight: 500; }
 body[data-page="portfolio"] #header-container a.nav-link:hover,
@@ -67,7 +75,7 @@ body[data-page="portfolio"] .hero-panel {
   border: 1px solid #151714;
   background: #c5ff4a;
   color: #151714;
-  box-shadow: 10px 10px 0 var(--p-ink);
+  box-shadow: none;
 }
 body[data-page="portfolio"] .hero-panel > header { position: relative; z-index: 1; border-color: #15171480; border-width: 0 0 1px; padding-bottom: 1.5rem; margin-bottom: 2.5rem; }
 body[data-page="portfolio"] #hero-profile-image { width: 64px; height: 64px; border: 2px solid #151714; box-shadow: none; }
