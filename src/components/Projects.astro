@@ -73,7 +73,7 @@ const PROJECTS = projects.map((project) => ({
 <div class="grid gap-7 md:grid-cols-2" id="projects-container">
   {
     PROJECTS.map(({ id, image, title, description, tags, link, github, featured }) => (
-      <article class:list={[
+      <article id={`project-${id}`} data-project-id={id} class:list={[
         "project-card flex flex-col overflow-hidden transition duration-200 border-2 border-black bg-white shadow-[8px_8px_0_#111] group hover:-translate-y-1 hover:shadow-[12px_12px_0_#111] dark:border-white dark:bg-[#111] dark:shadow-[8px_8px_0_#c5ff4a] dark:hover:shadow-[12px_12px_0_#c5ff4a]",
         { "project-card-featured": featured },
         { "project-card-priority": PRIORITY_PROJECT_IDS.has(id) },
@@ -264,7 +264,7 @@ const PROJECTS = projects.map((project) => ({
       : "";
 
     return `
-      <article class="project-card flex flex-col overflow-hidden transition duration-200 border-2 border-black bg-white shadow-[8px_8px_0_#111] group hover:-translate-y-1 hover:shadow-[12px_12px_0_#111] dark:border-white dark:bg-[#111] dark:shadow-[8px_8px_0_#c5ff4a] dark:hover:shadow-[12px_12px_0_#c5ff4a]${featuredClass}${priorityClass}">
+      <article id="project-${escapeHtml(project.id)}" data-project-id="${escapeHtml(project.id)}" class="project-card flex flex-col overflow-hidden transition duration-200 border-2 border-black bg-white shadow-[8px_8px_0_#111] group hover:-translate-y-1 hover:shadow-[12px_12px_0_#111] dark:border-white dark:bg-[#111] dark:shadow-[8px_8px_0_#c5ff4a] dark:hover:shadow-[12px_12px_0_#c5ff4a]${featuredClass}${priorityClass}">
         <div class="w-full">
           <div class="relative flex h-full flex-col items-center overflow-hidden">
             <img
@@ -330,6 +330,7 @@ const PROJECTS = projects.map((project) => ({
       projectsContainer.innerHTML = remoteProjects.map(renderProject).join("");
       projectsContainer.dataset.source = "firestore";
       updateProjectsLanguage();
+      window.dispatchEvent(new Event("portfolio:projects-updated"));
     } catch (error) {
       console.error(error);
     }

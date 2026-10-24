@@ -14,6 +14,7 @@ Reúne mi experiencia, proyectos personales, formación y vías de contacto. Inc
 - Contenido en español e inglés.
 - Tema claro, oscuro y según el sistema, con preferencia guardada.
 - Diseño responsive, navegación móvil y protección del contenido mediante Safe Areas.
+- Galería de productos con tarjetas animadas mediante GSAP en escritorio y navegación táctil en móvil; respeta la preferencia de movimiento reducido.
 - Panel privado con inicio de sesión de Google y edición mediante formularios.
 - Contenido inicial en JSON y actualizaciones desde Cloud Firestore.
 - Metadatos SEO, Open Graph y tarjetas para compartir enlaces.

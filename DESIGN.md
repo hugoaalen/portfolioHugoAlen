@@ -11,7 +11,8 @@ Portfolio gráfico y animado para presentar experiencia de ingeniería y product
 - Cierre con una invitación directa a contactar.
 - Capturas de proyectos contenidas para evitar recortar las interfaces.
 - Tipografía, espaciado y colores definidos para ambos temas.
-- Navegación acotada al ancho del contenido, con objetivos táctiles de al menos 44 px.
+- Navegación en una cabecera continua, con objetivos táctiles de al menos 44 px y márgenes seguros.
+- Cabecera con el nombre real, sin monograma; desplegable móvil de enlaces grandes y apertura animada.
 - Los estilos públicos usan `body[data-page="portfolio"]`; el CMS mantiene sus controles.
 - Las tarjetas locales y las generadas por Firestore comparten los mismos selectores.
 - Se mantienen Safe Areas, reducción de movimiento y contenido editable.
@@ -31,7 +32,9 @@ La primera consulta propuso una dirección Swiss/minimalista. La revisión poste
 - Emblema SVG decorativo con entrada y rotación vinculada al scroll.
 - Revelado de secciones y tarjetas, incluidas las añadidas por Firestore.
 - Indicador de progreso de lectura.
-- Scroll nativo: sin secuestro de rueda, pinning ni desplazamiento horizontal forzado.
+- Galería de productos con tarjetas superpuestas, perspectiva y relevos vinculados al scroll mediante una timeline con pinning. Se activa solo en escritorio con puntero preciso, altura suficiente y movimiento permitido.
+- La galería refleja los proyectos destacados visibles que carga el CMS; sus enlaces llevan a las fichas completas.
+- Scroll nativo sin secuestro de rueda; móvil y movimiento reducido usan una galería horizontal táctil sin pinning.
 - `gsap.matchMedia()` desactiva las animaciones con movimiento reducido.
 - Los contextos se revierten antes de las transiciones de Astro. La carga de fuentes, imágenes y contenido remoto actualiza ScrollTrigger.
 - El contenido sigue visible sin JavaScript.

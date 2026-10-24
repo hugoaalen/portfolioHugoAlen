@@ -1,6 +1,7 @@
 ---
 import ThemeToggle from "./ThemeToggle.astro";
 import LanguageToggle from "./LanguageToggle.astro";
+import { profile } from "@/data/content";
 
 const navItems_ES = [
   {
@@ -61,12 +62,15 @@ const navItems = isAdminRoute
 ---
 
 <header
-  class="fixed top-0 left-0 right-0 z-20 flex items-start justify-end w-full max-w-full px-3 mx-auto mt-3 md:left-1/2 md:max-w-2xl md:-translate-x-1/2 md:px-6 lg:max-w-4xl lg:px-8"
+  class:list={[
+    "fixed top-0 left-0 right-0 z-20 flex items-start justify-end w-full max-w-full px-3 mx-auto mt-3 md:px-6 lg:px-8",
+    isAdminRoute ? "md:left-1/2 md:max-w-2xl md:-translate-x-1/2 lg:max-w-4xl" : "",
+  ]}
   id="header-container"
 >
   {!isAdminRoute && (
-    <a class="portfolio-brand" href="/#hero" aria-label="Hugo Alén, inicio">
-      ha<span aria-hidden="true">.</span>
+    <a class="portfolio-identity" href="/#hero">
+      {profile.name}
     </a>
   )}
   <nav
@@ -144,6 +148,7 @@ const navItems = isAdminRoute
       themesMenu?.classList.remove("open");
       themeButton?.setAttribute("aria-expanded", "false");
       menuToggle?.setAttribute("aria-expanded", "false");
+      updateMenuLabel();
     };
 
     addManagedListener(menuToggle, "click", (event) => {
@@ -152,6 +157,7 @@ const navItems = isAdminRoute
       themeButton?.setAttribute("aria-expanded", "false");
       const isOpen = menu?.classList.toggle("mobile-menu-open");
       menuToggle.setAttribute("aria-expanded", String(Boolean(isOpen)));
+      updateMenuLabel();
     });
 
     navItems.forEach((item) => addManagedListener(item, "click", closeMenu));
@@ -162,7 +168,8 @@ const navItems = isAdminRoute
 
     const updateMenuLabel = () => {
       const lang = localStorage.getItem("language") || "es";
-      if (menuLabel) menuLabel.textContent = lang === "en" ? "Menu" : "Menú";
+      const isOpen = menuToggle?.getAttribute("aria-expanded") === "true";
+      if (menuLabel) menuLabel.textContent = isOpen ? (lang === "en" ? "Close" : "Cerrar") : (lang === "en" ? "Menu" : "Menú");
     };
 
     updateMenuLabel();

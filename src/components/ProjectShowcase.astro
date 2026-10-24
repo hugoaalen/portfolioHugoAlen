@@ -1,0 +1,149 @@
+---
+import { projects } from "@/data/content";
+import { getOptimizedImagePath } from "@/lib/public-assets";
+const selection = projects.filter((project) => ["futpath", "zaizen", "senda"].includes(project.id));
+---
+
+<section id="project-showcase" aria-labelledby="showcase-title">
+  <div class="showcase-pin">
+    <div class="showcase-heading">
+      <div>
+        <p class="i18n" data-es="Una selección de mi trabajo" data-en="A selection of my work">Una selección de mi trabajo</p>
+        <h2 id="showcase-title" class="i18n" data-es="De la idea al producto." data-en="From idea to product.">De la idea al producto.</h2>
+      </div>
+      <p class="showcase-hint i18n" data-es="Explora los proyectos" data-en="Explore the projects">Explora los proyectos</p>
+    </div>
+    <div class="showcase-deck">
+      {selection.map((project, index) => (
+        <a class="showcase-panel" href={`#project-${project.id}`}>
+          <span class="showcase-image"><img src={getOptimizedImagePath(project.image)} alt={project.title.es} width="1200" height="675" loading="lazy" decoding="async" /></span>
+          <span class="showcase-caption">
+            <span class="showcase-number">0{index + 1}</span>
+            <span class="showcase-name i18n" data-es={project.title.es} data-en={project.title.en}>{project.title.es}</span>
+            <span aria-hidden="true">↗</span>
+          </span>
+        </a>
+      ))}
+    </div>
+    <div class="showcase-track" aria-hidden="true"><span></span></div>
+  </div>
+</section>
+
+<script>
+  import { gsap } from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+  gsap.registerPlugin(ScrollTrigger);
+  let activeSection: HTMLElement | null = null;
+  let dispose: (() => void) | undefined;
+
+  function initializeShowcase() {
+    const section = document.getElementById("project-showcase");
+    if (section === activeSection) return;
+    dispose?.();
+    activeSection = section;
+    if (!section) return;
+    const deck = section.querySelector<HTMLElement>(".showcase-deck")!;
+    let media = gsap.matchMedia();
+    let disposed = false;
+
+    const animate = () => {
+      media.add("(min-width: 1024px) and (min-height: 650px) and (prefers-reduced-motion: no-preference) and (pointer: fine)", () => {
+        const panels = Array.from(deck.querySelectorAll<HTMLElement>(".showcase-panel"));
+        if (panels.length < 2) return;
+        section.classList.add("showcase-enhanced");
+        gsap.set(panels, { transformPerspective: 1200, transformOrigin: "50% 100%" });
+        panels.forEach((panel, index) => {
+          gsap.set(panel, { zIndex: index + 1 });
+          if (index > 0) gsap.set(panel, { yPercent: 130, rotation: index % 2 ? 12 : -12, scale: 0.9 });
+        });
+        const timeline = gsap.timeline({
+          scrollTrigger: {
+            id: "portfolio-project-showcase",
+            trigger: section, pin: section.querySelector(".showcase-pin"),
+            start: "top top", end: () => `+=${window.innerHeight * panels.length * 0.75}`,
+            scrub: 0.75, invalidateOnRefresh: true, refreshPriority: 1,
+          },
+        });
+        timeline.from(panels[0], { scale: 0.82, rotationX: 12, duration: 0.6, ease: "none" });
+        panels.slice(1).forEach((panel, index) => {
+          timeline.to(panels[index], { scale: 0.88, yPercent: -8, rotation: index % 2 ? 4 : -4, duration: 1, ease: "none" })
+            .to(panel, { yPercent: 0, rotation: 0, scale: 1, duration: 1, ease: "power2.inOut" }, "<");
+        });
+        timeline.to({}, { duration: 0.3 });
+        gsap.fromTo(section.querySelector(".showcase-track span"), { scaleX: 0 }, {
+          scaleX: 1, ease: "none", scrollTrigger: {
+            trigger: section, start: "top top", end: () => `+=${window.innerHeight * panels.length * 0.75}`, scrub: true,
+          },
+        });
+
+        // Keyboard focus must reveal the selected card instead of leaving it under the stack.
+        const onFocus = (event: FocusEvent) => {
+          const panel = panels.find((item) => item === event.target);
+          const trigger = timeline.scrollTrigger;
+          if (!panel || !trigger) return;
+          const index = panels.indexOf(panel);
+          const progress = index === 0 ? 0.6 / timeline.duration() : (0.6 + index) / timeline.duration();
+          window.scrollTo({ top: trigger.start + (trigger.end - trigger.start) * progress, behavior: "instant" });
+        };
+        deck.addEventListener("focusin", onFocus);
+        return () => {
+          deck.removeEventListener("focusin", onFocus);
+          section.classList.remove("showcase-enhanced");
+        };
+      }, section);
+    };
+
+    const syncProjects = () => {
+      media.revert();
+      media = gsap.matchMedia();
+      const cards = document.querySelectorAll<HTMLElement>("#projects-container .project-card-priority");
+      const fragment = document.createDocumentFragment();
+      const lang = localStorage.getItem("language") || "es";
+      cards.forEach((card, index) => {
+        const image = card.querySelector("img");
+        const title = card.querySelector("h3");
+        if (!image || !title) return;
+        const panel = document.createElement("a");
+        panel.className = "showcase-panel";
+        panel.href = `#${card.id}`;
+        const frame = document.createElement("span");
+        frame.className = "showcase-image";
+        const clone = image.cloneNode(true) as HTMLImageElement;
+        clone.removeAttribute("class");
+        frame.append(clone);
+        const caption = document.createElement("span");
+        caption.className = "showcase-caption";
+        const number = document.createElement("span");
+        number.className = "showcase-number";
+        number.textContent = String(index + 1).padStart(2, "0");
+        const name = document.createElement("span");
+        name.className = "showcase-name i18n";
+        ["es", "en"].forEach((language) => name.setAttribute(`data-${language}`, title.getAttribute(`data-${language}`) || title.textContent || ""));
+        name.textContent = name.getAttribute(`data-${lang}`);
+        const arrow = document.createElement("span");
+        arrow.textContent = "↗";
+        arrow.setAttribute("aria-hidden", "true");
+        caption.append(number, name, arrow);
+        panel.append(frame, caption);
+        fragment.append(panel);
+      });
+      deck.replaceChildren(fragment);
+      section.hidden = !deck.children.length;
+      animate();
+      ScrollTrigger.refresh();
+    };
+
+    syncProjects();
+    window.addEventListener("portfolio:projects-updated", syncProjects);
+    document.fonts.ready.then(() => { if (!disposed) ScrollTrigger.refresh(); });
+    dispose = () => {
+      disposed = true;
+      window.removeEventListener("portfolio:projects-updated", syncProjects);
+      media.revert();
+      activeSection = null;
+    };
+  }
+  initializeShowcase();
+  document.addEventListener("astro:page-load", initializeShowcase);
+  document.addEventListener("astro:before-swap", () => { dispose?.(); dispose = undefined; });
+</script>

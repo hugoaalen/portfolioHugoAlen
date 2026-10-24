@@ -160,6 +160,10 @@ const { hero, social } = profile;
       if (kicker && typeof profile.kicker === "string") kicker.textContent = profile.kicker;
       if (location && typeof profile.location === "string") location.textContent = profile.location;
       if (name && typeof profile.name === "string") name.textContent = profile.name;
+      if (typeof profile.name === "string") {
+        const identity = document.querySelector(".portfolio-identity");
+        if (identity) identity.textContent = profile.name;
+      }
       if (emailLink && typeof profile.email === "string") emailLink.href = `mailto:${profile.email}`;
       if (typeof profile.email === "string") {
         document.querySelectorAll<HTMLAnchorElement>(".footer-invitation").forEach((link) => {
