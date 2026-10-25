@@ -26,6 +26,7 @@ import PostgreSQL from "@/components/icons/PostgreSQL.astro";
 import Python from "@/components/icons/Python.astro";
 import SQLite from "@/components/icons/SQLite.astro";
 import SqlServer from "@/components/icons/SqlServer.astro";
+import Kotlin from "@/components/icons/Kotlin.astro";
 
 const ADMIN_PROJECT_TAGS = {
   NEXT: { icon: NextJS, iconColor: "#000000" },
@@ -54,6 +55,7 @@ const ADMIN_PROJECT_TAGS = {
   BASH: { icon: Bash, iconColor: "#293137" },
   JAVA: { icon: Java, iconColor: "#E76F00" },
   SQLITE: { icon: SQLite, iconColor: "#003B57" },
+  KOTLIN: { icon: Kotlin, iconColor: "#7F52FF" },
 };
 ---
 
@@ -91,7 +93,7 @@ const ADMIN_PROJECT_TAGS = {
             class="px-4 py-3 text-sm font-black text-black uppercase transition border-2 border-black bg-[#c5ff4a] hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black"
             type="button"
           >
-            Importar JSON
+            Añadir proyectos que faltan
           </button>
         </div>
       </div>
@@ -336,6 +338,7 @@ const ADMIN_PROJECT_TAGS = {
     getDocs,
     orderBy,
     query,
+    runTransaction,
     setDoc,
   } from "firebase/firestore";
   import seedProjects from "@/data/projects.json";
@@ -391,6 +394,7 @@ const ADMIN_PROJECT_TAGS = {
     BASH: "Bash",
     JAVA: "Java",
     SQLITE: "SQLite",
+    KOTLIN: "Kotlin",
   };
 
   const PROJECT_TAG_COLORS = {
@@ -420,6 +424,7 @@ const ADMIN_PROJECT_TAGS = {
     BASH: "#293137",
     JAVA: "#E76F00",
     SQLITE: "#003B57",
+    KOTLIN: "#7F52FF",
   };
 
   const fields = {
@@ -618,12 +623,20 @@ const ADMIN_PROJECT_TAGS = {
   }
 
   async function seedCurrentProjects() {
-    setMessage("Importando proyectos actuales del JSON...");
-    await Promise.all(seedProjects.map((project) => {
-      return setDoc(doc(db, "projects", project.id), project);
-    }));
+    setMessage("Añadiendo proyectos que faltan, sin sobrescribir los existentes...");
+    const added = await runTransaction(db, async (transaction) => {
+      const references = seedProjects.map((project) => doc(db, "projects", project.id));
+      const snapshots = await Promise.all(references.map((reference) => transaction.get(reference)));
+      let count = 0;
+      snapshots.forEach((snapshot, index) => {
+        if (snapshot.exists()) return;
+        transaction.set(references[index], seedProjects[index]);
+        count += 1;
+      });
+      return count;
+    });
     await loadProjects();
-    setMessage("Proyectos importados correctamente.", "success");
+    setMessage(`${added} proyectos añadidos. Los proyectos existentes no se han modificado.`, "success");
   }
 
   fillSelect(fields.status, PROJECT_STATUSES);

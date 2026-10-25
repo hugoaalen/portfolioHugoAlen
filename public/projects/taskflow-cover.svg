@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="900" viewBox="0 0 1440 900" fill="none">
+  <rect width="1440" height="900" fill="#12141c"/>
+  <path d="M0 180H1440M0 360H1440M0 540H1440M0 720H1440M240 0V900M480 0V900M720 0V900M960 0V900M1200 0V900" stroke="#ffffff08"/>
+  <text x="100" y="128" fill="#b4aff1" font-family="monospace" font-size="20" letter-spacing="4">PHP / REST API</text>
+  <text x="95" y="260" fill="#f4f2ef" font-family="Arial, sans-serif" font-size="104" font-weight="700" letter-spacing="-6">TaskFlow</text>
+  <text x="100" y="324" fill="#a6a9bc" font-family="Arial, sans-serif" font-size="28">Domain. Application. Infrastructure.</text>
+  <rect x="100" y="406" width="1240" height="386" rx="16" fill="#1b1e2a" stroke="#ffffff20"/>
+  <path d="M100 478H1340" stroke="#ffffff20"/>
+  <text x="134" y="451" fill="#b4aff1" font-family="monospace" font-size="23">GET</text>
+  <text x="220" y="451" fill="#e9e9f1" font-family="monospace" font-size="23">/tasks</text>
+  <text x="132" y="542" fill="#a6a9bc" font-family="monospace" font-size="22">Presentation</text>
+  <text x="132" y="594" fill="#ecebf6" font-family="monospace" font-size="25">TaskController</text>
+  <path d="M480 550H570M554 538L570 550L554 562" stroke="#b4aff1" stroke-width="2"/>
+  <text x="610" y="542" fill="#a6a9bc" font-family="monospace" font-size="22">Domain</text>
+  <text x="610" y="594" fill="#ecebf6" font-family="monospace" font-size="25">TaskRepository</text>
+  <path d="M922 550H1012M996 538L1012 550L996 562" stroke="#b4aff1" stroke-width="2"/>
+  <text x="1050" y="542" fill="#a6a9bc" font-family="monospace" font-size="22">Storage</text>
+  <text x="1050" y="594" fill="#ecebf6" font-family="monospace" font-size="25">PDO / SQL</text>
+  <text x="132" y="731" fill="#a6a9bc" font-family="monospace" font-size="20">STRICT TYPES</text>
+  <text x="480" y="731" fill="#a6a9bc" font-family="monospace" font-size="20">DEPENDENCY INVERSION</text>
+  <text x="1050" y="731" fill="#a6a9bc" font-family="monospace" font-size="20">PHPUNIT</text>
+</svg>

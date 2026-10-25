@@ -1,6 +1,7 @@
 ---
 import { projects } from "@/data/content";
-import { getOptimizedImagePath } from "@/lib/public-assets";
+import { renderProjectPreview } from "@/lib/project-preview";
+import "@/styles/project-preview.css";
 const selection = projects.filter((project) => ["futpath", "zaizen", "senda"].includes(project.id));
 ---
 
@@ -16,7 +17,7 @@ const selection = projects.filter((project) => ["futpath", "zaizen", "senda"].in
     <div class="showcase-deck">
       {selection.map((project, index) => (
         <a class="showcase-panel" href={`#project-${project.id}`}>
-          <span class="showcase-image"><img src={getOptimizedImagePath(project.image)} alt={project.title.es} width="1200" height="675" loading="lazy" decoding="async" /></span>
+          <span class="showcase-image" set:html={renderProjectPreview(project)} />
           <span class="showcase-caption">
             <span class="showcase-number">0{index + 1}</span>
             <span class="showcase-name i18n" data-es={project.title.es} data-en={project.title.en}>{project.title.es}</span>
@@ -100,7 +101,7 @@ const selection = projects.filter((project) => ["futpath", "zaizen", "senda"].in
       const fragment = document.createDocumentFragment();
       const lang = localStorage.getItem("language") || "es";
       cards.forEach((card, index) => {
-        const image = card.querySelector("img");
+        const image = card.querySelector(".project-preview");
         const title = card.querySelector("h3");
         if (!image || !title) return;
         const panel = document.createElement("a");
@@ -108,8 +109,7 @@ const selection = projects.filter((project) => ["futpath", "zaizen", "senda"].in
         panel.href = `#${card.id}`;
         const frame = document.createElement("span");
         frame.className = "showcase-image";
-        const clone = image.cloneNode(true) as HTMLImageElement;
-        clone.removeAttribute("class");
+        const clone = image.cloneNode(true);
         frame.append(clone);
         const caption = document.createElement("span");
         caption.className = "showcase-caption";

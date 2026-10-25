@@ -31,6 +31,7 @@ export const AVAILABLE_PROJECT_TAGS = [
   "BASH",
   "JAVA",
   "SQLITE",
+  "KOTLIN",
 ] as const;
 
 export const PROJECT_STATUSES = ["published", "draft", "archived"] as const;

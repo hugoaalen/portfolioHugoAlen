@@ -53,6 +53,14 @@ El panel se encuentra en `/admin`:
 
 Los formularios guardan en Firestore. Los JSON de `src/data/` proporcionan el contenido de la compilación y pueden importarse desde el panel como datos iniciales. Cambiar un JSON no sustituye automáticamente el contenido que ya existe en Firestore.
 
+En `/admin/projects`, **Añadir proyectos que faltan** incorpora solo los identificadores del JSON que todavía no existen en Firestore. Una transacción conserva los proyectos existentes, incluidos borradores y archivados. Tras desplegar nuevas incorporaciones al catálogo, usa este botón para publicarlas también en el CMS.
+
+### Previews de proyectos
+
+Las tarjetas y la galería animada comparten `src/lib/project-preview.ts` y `src/styles/project-preview.css`: misma proporción, marco y espaciado, con acento por proyecto. Las capturas son archivos locales en `public/projects`; no se generan ni descargan en cada visita. Las rutas antiguas del CMS se resuelven en `src/lib/public-assets.ts`, sin reescribir documentos remotos ni impedir imágenes personalizadas.
+
+FutPath, ZaiZen, Senda, SFit y ¿Quién finge? usan capturas locales nuevas, sin sesiones personales. PadelTime y Moto TV usan capturas incluidas en sus repositorios. BPKeepers y oNoSoAlMaNaQuE conservan sus imágenes originales y eliminan el marco antiguo mediante presentación CSS. TaskFlow y VehixHub tienen portadas vectoriales de arquitectura, no capturas ficticias de producto.
+
 Para habilitar el CMS en otra instalación, configura el acceso con Google, los dominios autorizados y las reglas de [firestore.rules](./firestore.rules). Las reglas autorizan las escrituras; configurar `PUBLIC_ADMIN_EMAIL` por sí solo no concede permisos. Si usas otro administrador, actualiza también el correo autorizado en las reglas.
 
 Las imágenes locales se almacenan en `public/projects/`. La subida de archivos desde el CMS queda pendiente; actualmente se edita su referencia.

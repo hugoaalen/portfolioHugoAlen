@@ -28,8 +28,11 @@ import PostgreSQL from "./icons/PostgreSQL.astro";
 import Python from "./icons/Python.astro";
 import SQLite from "./icons/SQLite.astro";
 import SqlServer from "./icons/SqlServer.astro";
+import Kotlin from "./icons/Kotlin.astro";
 import { projects } from "@/data/content";
 import { getOptimizedImagePath } from "@/lib/public-assets";
+import { renderProjectPreview } from "@/lib/project-preview";
+import "@/styles/project-preview.css";
 
 const TAGS = {
   NEXT: { name: "Next.js", class: "bg-black text-white", icon: NextJS, iconColor: "#000000" },
@@ -58,6 +61,7 @@ const TAGS = {
   BASH: { name: "Bash", class: "bg-[#293137] text-white", icon: Bash, iconColor: "#293137" },
   JAVA: { name: "Java", class: "bg-[#E76F00] text-white", icon: Java, iconColor: "#E76F00" },
   SQLITE: { name: "SQLite", class: "bg-[#003B57] text-white", icon: SQLite, iconColor: "#003B57" },
+  KOTLIN: { name: "Kotlin", class: "bg-[#7F52FF] text-white", icon: Kotlin, iconColor: "#7F52FF" },
 };
 const PRIORITY_PROJECT_IDS = new Set(["futpath", "zaizen", "senda"]);
 
@@ -79,17 +83,7 @@ const PROJECTS = projects.map((project) => ({
         { "project-card-priority": PRIORITY_PROJECT_IDS.has(id) },
       ]}>
         <div class="w-full">
-          <div class="relative flex h-full flex-col items-center overflow-hidden">
-            <img
-              alt={`Thumbnail de ${title.es}`}
-              class="object-cover object-top w-full h-56 transition duration-500 grayscale-[20%] group-hover:grayscale-0 group-hover:scale-[1.03]"
-              loading="lazy"
-              src={image}
-              width="1200"
-              height="675"
-              decoding="async"
-            />
-          </div>
+          <Fragment set:html={renderProjectPreview({ id, image, title })} />
         </div>
 
         <div class="flex flex-col flex-1 w-full p-6 border-t-2 border-black dark:border-white">
@@ -172,7 +166,7 @@ const PROJECTS = projects.map((project) => ({
 <script>
   import { collection, getDocs, query, where } from "firebase/firestore/lite";
   import { publicDb } from "@/lib/firebase-public";
-  import { getOptimizedImagePath } from "@/lib/public-assets";
+  import { renderProjectPreview } from "@/lib/project-preview";
 
   const PROJECT_TAGS = {
     NEXT: { name: "Next.js", className: "bg-black text-white", iconColor: "#000000" },
@@ -201,6 +195,7 @@ const PROJECTS = projects.map((project) => ({
     BASH: { name: "Bash", className: "bg-[#293137] text-white", iconColor: "#293137" },
     JAVA: { name: "Java", className: "bg-[#E76F00] text-white", iconColor: "#E76F00" },
     SQLITE: { name: "SQLite", className: "bg-[#003B57] text-white", iconColor: "#003B57" },
+    KOTLIN: { name: "Kotlin", className: "bg-[#7F52FF] text-white", iconColor: "#7F52FF" },
   };
   const projectsContainer = document.getElementById("projects-container");
   const iconLibrary = document.getElementById("project-tag-icons");
@@ -266,17 +261,7 @@ const PROJECTS = projects.map((project) => ({
     return `
       <article id="project-${escapeHtml(project.id)}" data-project-id="${escapeHtml(project.id)}" class="project-card flex flex-col overflow-hidden transition duration-200 border-2 border-black bg-white shadow-[8px_8px_0_#111] group hover:-translate-y-1 hover:shadow-[12px_12px_0_#111] dark:border-white dark:bg-[#111] dark:shadow-[8px_8px_0_#c5ff4a] dark:hover:shadow-[12px_12px_0_#c5ff4a]${featuredClass}${priorityClass}">
         <div class="w-full">
-          <div class="relative flex h-full flex-col items-center overflow-hidden">
-            <img
-              alt="Thumbnail de ${escapeHtml(titleEs)}"
-              class="object-cover object-top w-full h-56 transition duration-500 grayscale-[20%] group-hover:grayscale-0 group-hover:scale-[1.03]"
-              loading="lazy"
-              src="${escapeHtml(getOptimizedImagePath(project.image))}"
-              width="1200"
-              height="675"
-              decoding="async"
-            />
-          </div>
+          ${renderProjectPreview({ id: String(project.id), image: project.image, title: { es: titleEs, en: titleEn } })}
         </div>
 
         <div class="flex flex-col flex-1 w-full p-6 border-t-2 border-black dark:border-white">

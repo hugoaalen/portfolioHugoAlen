@@ -13,7 +13,8 @@ Portfolio gráfico y animado para presentar experiencia de ingeniería y product
 - Tipografía, espaciado y colores definidos para ambos temas.
 - Navegación simple: botón «Menú» fijo arriba a la derecha y panel lateral con enlaces grandes en cursiva. Sin nombre superior ni índice lateral junto al contenido. Se adapta a la identidad lima del portfolio.
 - Hero de borde limpio, sin sombra desplazada.
-- Cabecera con el nombre real, sin monograma ni barra horizontal. El panel usa un diálogo modal nativo para gestionar foco y Escape; incluye controles de tema e idioma y respeta Safe Areas.
+- Cabecera sin nombre ni monograma, con un único botón de menú. El panel usa un diálogo modal nativo para gestionar foco y Escape; incluye controles de tema e idioma y respeta Safe Areas.
+- Previews de proyectos con lienzo 16:10, marco compartido y acento propio. Capturas sin datos personales; portadas de arquitectura para proyectos sin captura de interfaz. El mismo renderizador sirve tarjetas estáticas, Firestore y galería animada.
 - Los estilos públicos usan `body[data-page="portfolio"]`; el CMS mantiene sus controles.
 - Las tarjetas locales y las generadas por Firestore comparten los mismos selectores.
 - Se mantienen Safe Areas, reducción de movimiento y contenido editable.

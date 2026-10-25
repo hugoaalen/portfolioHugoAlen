@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="900" viewBox="0 0 1440 900" fill="none">
+  <rect width="1440" height="900" fill="#111923"/>
+  <circle cx="1310" cy="160" r="320" stroke="#b6c9de12"/>
+  <circle cx="1310" cy="160" r="250" stroke="#b6c9de12"/>
+  <text x="100" y="128" fill="#b6c9de" font-family="monospace" font-size="20" letter-spacing="4">VEHICLE INVENTORY / MVP</text>
+  <text x="95" y="260" fill="#f4f2ef" font-family="Arial, sans-serif" font-size="104" font-weight="700" letter-spacing="-6">VehixHub</text>
+  <text x="100" y="324" fill="#9cabbc" font-family="Arial, sans-serif" font-size="28">Angular interface. PHP API. MySQL storage.</text>
+  <rect x="100" y="406" width="1240" height="386" rx="16" fill="#182330" stroke="#ffffff20"/>
+  <text x="140" y="470" fill="#b6c9de" font-family="monospace" font-size="21">REQUEST FLOW</text>
+  <rect x="140" y="518" width="310" height="168" rx="10" stroke="#5c7189"/>
+  <text x="170" y="570" fill="#94a6bb" font-family="monospace" font-size="18">01 / FRONTEND</text>
+  <text x="170" y="625" fill="#f4f2ef" font-family="Arial, sans-serif" font-size="32">Reactive forms</text>
+  <path d="M478 602H542M526 590L542 602L526 614" stroke="#b6c9de" stroke-width="2"/>
+  <rect x="566" y="518" width="310" height="168" rx="10" stroke="#5c7189"/>
+  <text x="596" y="570" fill="#94a6bb" font-family="monospace" font-size="18">02 / BACKEND</text>
+  <text x="596" y="625" fill="#f4f2ef" font-family="Arial, sans-serif" font-size="32">Validated filters</text>
+  <path d="M904 602H968M952 590L968 602L952 614" stroke="#b6c9de" stroke-width="2"/>
+  <rect x="992" y="518" width="310" height="168" rx="10" stroke="#5c7189"/>
+  <text x="1022" y="570" fill="#94a6bb" font-family="monospace" font-size="18">03 / DATABASE</text>
+  <text x="1022" y="625" fill="#f4f2ef" font-family="Arial, sans-serif" font-size="32">Prepared queries</text>
+  <text x="140" y="748" fill="#94a6bb" font-family="monospace" font-size="20">TYPESCRIPT + PHP 8 + PDO</text>
+</svg>

@@ -98,6 +98,62 @@
     "tags": ["REACT", "TYPESCRIPT", "VITE"]
   },
   {
+    "id": "sfit",
+    "order": 42,
+    "visible": true,
+    "featured": false,
+    "status": "published",
+    "category": "app",
+    "title": {
+      "es": "SFit - Registro de entrenamientos",
+      "en": "SFit - Workout Tracker"
+    },
+    "description": {
+      "es": "PWA en desarrollo para registrar entrenamientos y series, reutilizar plantillas y consultar el progreso. Construida con Next.js, TypeScript y Firebase, con acceso mediante Google y datos privados por usuario en Firestore.",
+      "en": "PWA in development for logging workouts and sets, reusing templates, and reviewing progress. Built with Next.js, TypeScript, and Firebase, with Google sign-in and private per-user Firestore data."
+    },
+    "github": "https://github.com/hugoaalen/SFit",
+    "image": "/projects/sfit-capture.jpg",
+    "tags": ["NEXT", "REACT", "TYPESCRIPT", "FIREBASE"]
+  },
+  {
+    "id": "padeltime",
+    "order": 44,
+    "visible": true,
+    "featured": false,
+    "status": "published",
+    "category": "app",
+    "title": {
+      "es": "PadelTime - Seguimiento de torneos de pádel",
+      "en": "PadelTime - Padel Tournament Companion"
+    },
+    "description": {
+      "es": "Prototipo mobile-first para consultar torneos, partidos y jugadores favoritos. Combina React y TypeScript con una API Python/FastAPI. Incluye modo demo y un recolector experimental de resultados públicos con información de origen y antigüedad; no es un servicio de resultados en directo en producción.",
+      "en": "Mobile-first prototype for browsing tournaments, matches, and favorite players. It combines React and TypeScript with a Python/FastAPI API. Includes demo mode and an experimental public-results collector with source and freshness labels; it is not a production live-score service."
+    },
+    "github": "https://github.com/hugoaalen/PadelTime",
+    "image": "/projects/padeltime-capture.png",
+    "tags": ["REACT", "TYPESCRIPT", "PYTHON", "VITE"]
+  },
+  {
+    "id": "mototv",
+    "order": 46,
+    "visible": true,
+    "featured": false,
+    "status": "published",
+    "category": "app",
+    "title": {
+      "es": "Moto TV - Centro web para Android TV",
+      "en": "Moto TV - Android TV Web Hub"
+    },
+    "description": {
+      "es": "Aplicación nativa para Android TV y Google TV desarrollada con Kotlin y Compose for TV. Reúne plataformas configurables, navegación WebView con mando y administración desde el móvil mediante QR en la red local. Guarda los datos en Room/SQLite, sin backend externo.",
+      "en": "Native Android TV and Google TV application built with Kotlin and Compose for TV. Combines configurable platforms, remote-controlled WebView navigation, and QR-based mobile administration over the local network. Data is stored in Room/SQLite without an external backend."
+    },
+    "image": "/projects/mototv-capture.png",
+    "tags": ["KOTLIN", "SQLITE"]
+  },
+  {
     "id": "bpkeepers",
     "order": 50,
     "visible": true,
