@@ -1,11 +1,11 @@
 ---
-import { profile } from "@/data/content";
 import ThemeToggle from "./ThemeToggle.astro";
 import LanguageToggle from "./LanguageToggle.astro";
 const items = [
   { id: "hero", es: "Inicio", en: "Home" },
-  { id: "proyectos", es: "Proyectos", en: "Projects" },
+  { id: "project-showcase", es: "Selección", en: "Selected work" },
   { id: "experiencia", es: "Experiencia", en: "Experience" },
+  { id: "proyectos", es: "Proyectos", en: "Projects" },
   { id: "formacion", es: "Formación", en: "Education" },
   { id: "sobre-mi", es: "Sobre mí", en: "About" },
   { id: "footer-container", es: "Contacto", en: "Contact" },
@@ -13,223 +13,266 @@ const items = [
 ---
 
 <header class="public-navigation" id="public-navigation">
-  <button class="navigation-trigger" id="navigation-trigger" type="button" aria-haspopup="dialog" aria-controls="navigation-dialog" aria-expanded="false">
-    <span class="i18n" data-es="Menú" data-en="Menu">Menú</span>
-    <span class="trigger-lines" aria-hidden="true"><span></span><span></span></span>
-  </button>
-
-  <dialog class="navigation-dialog" id="navigation-dialog" aria-labelledby="navigation-title">
-    <div class="navigation-sheet">
-      <div class="navigation-sheet-top">
-        <p id="navigation-title"><span class="i18n" data-es="Menú" data-en="Menu">Menú</span></p>
-        <button class="navigation-close" type="button" id="navigation-close" autofocus>
-          <span class="sr-only i18n" data-es="Cerrar menú" data-en="Close menu">Cerrar menú</span>
-          <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5"><path d="m6 6 12 12M18 6 6 18" /></svg>
-        </button>
-      </div>
-      <nav class="navigation-index" aria-labelledby="navigation-title">
-        {items.map((item, index) => (
-          <a href={`/#${item.id}`} data-section-link={item.id}>
-            <span class="index-marker" aria-hidden="true">{index === 0 ? "·" : "/"}</span>
-            <span class="index-label i18n" data-es={item.es} data-en={item.en}>{item.es}</span>
-            <span class="index-number" aria-hidden="true">{String(index).padStart(2, "0")}</span>
-          </a>
+    <label class="section-picker">
+      <span class="sr-only i18n" data-es="Ir a sección" data-en="Go to section">Ir a sección</span>
+      <select id="section-picker">
+        {items.map((item) => <option value={item.id} class="i18n" data-es={item.es} data-en={item.en}>{item.es}</option>)}
+      </select>
+    </label>
+  <div class="ruler-utilities" role="group" aria-label="Preferencias" data-es-label="Preferencias" data-en-label="Preferences">
+    <ThemeToggle /><LanguageToggle />
+  </div>
+  <nav class="reading-ruler" id="reading-ruler" aria-label="Secciones" data-es-label="Secciones" data-en-label="Sections">
+    <div class="ruler-track" role="scrollbar" tabindex="0" aria-controls="portfolio-main" aria-orientation="vertical" aria-label="Posición de página" data-es-label="Posición de página" data-en-label="Page position" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+      <div class="ruler-scale" aria-hidden="true">
+        {Array.from({ length: 41 }, (_, index) => (
+          <span class:list={["ruler-tick", { "ruler-tick-major": index % 10 === 0 }]}>
+            {index % 10 === 0 && <span>{index * 2.5}</span>}
+          </span>
         ))}
-      </nav>
-      <div class="navigation-sheet-bottom">
-        <a class="navigation-contact" id="navigation-contact" href={`mailto:${profile.email}`}><span class="i18n" data-es="Hablemos" data-en="Let's talk">Hablemos</span><span aria-hidden="true">↗</span></a>
-        <div class="navigation-preferences"><ThemeToggle /><LanguageToggle /></div>
       </div>
+      <span class="ruler-cursor" aria-hidden="true"><span data-ruler-value>0</span><i></i></span>
     </div>
-  </dialog>
+    <div class="ruler-links">
+      {items.map((item, index) => (
+        <a href={`/#${item.id}`} data-section-link={item.id} aria-current={index === 0 ? "location" : undefined}>
+          <span class="ruler-section-number" aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
+          <span class="ruler-label" data-es={item.es} data-en={item.en}>{item.es}</span>
+        </a>
+      ))}
+    </div>
+  </nav>
+  <span class="navigation-mobile-progress" aria-hidden="true"></span>
 </header>
 
 <style>
   .public-navigation { position: fixed; inset: 0 0 auto; z-index: 40; pointer-events: none; }
-  .navigation-trigger, .navigation-close { display: grid; place-content: center; width: 48px; height: 48px; border: 1px solid var(--p-line); border-radius: 50%; cursor: pointer; }
-  .navigation-trigger { position: absolute; right: max(1.5rem, env(safe-area-inset-right, 0px)); top: calc(1.5rem + env(safe-area-inset-top, 0px)); display: flex; align-items: center; justify-content: center; width: auto; height: 56px; padding-inline: 1.25rem; gap: 1rem; border-radius: 999px; background: var(--p-paper); color: var(--p-ink); font-size: 1rem; font-weight: 600; pointer-events: auto; transition: border-color 180ms ease; }
-  .trigger-lines { display: grid; gap: 6px; }
-  .trigger-lines span { width: 22px; height: 2px; background: currentColor; }
-  .navigation-trigger:focus-visible { outline: 2px solid var(--p-ink); outline-offset: 4px; }
-  .navigation-trigger:hover { border-color: var(--p-ink); }
-  .navigation-dialog { position: fixed; inset: 0 0 0 auto; margin: 0; width: min(72rem, 72vw); max-width: none; height: 100vh; height: 100dvh; max-height: none; padding: 0; border: 0; color: #f1f0e9; background: #11151af5; pointer-events: auto; overflow-y: auto; overscroll-behavior: contain; }
-  .navigation-dialog::backdrop { background: #0009; }
-  .navigation-sheet { position: relative; min-height: 100%; display: flex; flex-direction: column; padding: max(1.5rem, env(safe-area-inset-top, 0px)) max(2.5rem, env(safe-area-inset-right, 0px)) max(1.5rem, env(safe-area-inset-bottom, 0px)) 2.5rem; background-image: repeating-linear-gradient(90deg, transparent 0, transparent calc(25% - 1px), #a7bcd90c calc(25% - 1px), #a7bcd90c 25%); }
-  .navigation-sheet-top { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
-  .navigation-sheet-top p { color: #b4bbc5; font-family: ui-monospace, monospace; font-size: 0.6875rem; }
-  .navigation-sheet-top p > span:first-child { color: var(--p-accent); }
-  .navigation-close { flex-shrink: 0; color: #f1f0e9; background: transparent; border-color: #596473; }
-  .navigation-close svg { width: 20px; height: 20px; }
-  .navigation-close:hover { background: var(--p-accent); color: var(--p-accent-ink); }
-  .navigation-index { display: grid; margin-block: auto; padding-block: 2rem; }
-  .navigation-index a { display: grid; grid-template-columns: 1.5rem minmax(0, 1fr) 2rem; align-items: center; gap: 1rem; min-height: 44px; padding-block: 0.2rem; color: #f4f2e9; }
-  .index-marker { color: var(--p-accent); font-size: 1.5rem; }
-  .index-label { width: fit-content; font-family: Georgia, "Times New Roman", serif; font-style: italic; font-weight: 600; text-transform: uppercase; letter-spacing: -0.065em; font-size: clamp(2.2rem, 5vw, 5.5rem); line-height: 1; transition: color 180ms ease, transform 180ms ease; }
-  .navigation-index a:hover .index-label { color: var(--p-accent); transform: translateX(0.5rem); }
-  .index-number { justify-self: end; color: #b4bbc5; font-family: ui-monospace, monospace; font-size: 0.6875rem; }
-  .navigation-index a[aria-current] .index-label { color: var(--p-accent); }
-  .navigation-sheet-bottom { display: flex; justify-content: space-between; align-items: center; gap: 1rem; border-top: 1px solid #596473; padding-top: 1rem; }
-  .navigation-contact { display: flex; align-items: center; gap: 1rem; min-height: 44px; font-size: 0.8125rem; }
-  .navigation-preferences { display: flex; align-items: center; gap: 0.5rem; }
-  .navigation-preferences :global(#theme-toggle-btn), .navigation-preferences :global(#language-toggle) { color: #f4f2e9; min-width: 44px; min-height: 44px; }
-  .navigation-preferences :global(#theme-toggle-btn:hover), .navigation-preferences :global(#language-toggle:hover) { color: var(--p-accent-ink); background: var(--p-accent); }
-  .navigation-preferences :global(#themes-menu) { top: auto; bottom: calc(100% + 0.75rem); color: #f1f0e9; background: #1c232c; border-color: #596473; box-shadow: 0 8px 24px #0005; }
-  .navigation-preferences :global(.themes-menu-option:hover), .navigation-preferences :global(.themes-menu-option:focus-visible), .navigation-preferences :global(.themes-menu-option[aria-pressed="true"]) { background: var(--p-accent); color: var(--p-accent-ink); }
-  .navigation-dialog :focus-visible { outline: 2px solid var(--p-accent); outline-offset: 4px; }
+  .ruler-utilities { position: fixed; top: calc(1rem + env(safe-area-inset-top, 0px)); right: max(0.5rem, env(safe-area-inset-right, 0px)); display: flex; align-items: center; gap: 0.25rem; pointer-events: auto; }
+  .ruler-utilities :global(#theme-toggle-btn), .ruler-utilities :global(#language-toggle) { display: grid; place-content: center; min-width: 44px; min-height: 44px; background: var(--p-paper); color: var(--p-ink); border: 1px solid transparent; }
+  .ruler-utilities :global(#theme-toggle-btn:hover), .ruler-utilities :global(#language-toggle:hover) { border-color: var(--p-line); color: var(--p-accent-text); }
+  .ruler-utilities :global(#themes-menu) { top: calc(100% + 0.5rem); bottom: auto; color: var(--p-ink); background: var(--p-panel); border: 1px solid var(--p-line); box-shadow: 0 8px 24px #0003; }
+  .ruler-utilities :global(.themes-menu-option:hover), .ruler-utilities :global(.themes-menu-option:focus-visible), .ruler-utilities :global(.themes-menu-option[aria-pressed="true"]) { background: var(--p-accent); color: var(--p-accent-ink); }
+  .section-picker { display: none; position: fixed; top: calc(1rem + env(safe-area-inset-top, 0px)); right: max(1rem, env(safe-area-inset-right, 0px)); pointer-events: auto; }
+  .section-picker select { max-width: 8.25rem; min-height: 44px; padding: 0.5rem; border: 1px solid var(--p-line); color: var(--p-ink); background: var(--p-paper); font: inherit; font-size: 0.875rem; }
+  .reading-ruler { position: fixed; top: calc(5.5rem + env(safe-area-inset-top, 0px)); right: max(0.5rem, env(safe-area-inset-right, 0px)); bottom: max(1.5rem, env(safe-area-inset-bottom, 0px)); width: clamp(8.5rem, calc((100vw - 78rem) / 2), 15rem); color: var(--p-muted); pointer-events: none; }
+  .ruler-track { position: absolute; inset: 0 0 0 auto; width: 2rem; pointer-events: auto; touch-action: none; cursor: ns-resize; }
+  .ruler-track:focus-visible { outline: 2px solid var(--p-focus); outline-offset: 3px; }
+  .ruler-scale { position: absolute; inset: 0 0 0 auto; width: 1.5rem; display: flex; flex-direction: column; justify-content: space-between; }
+  .ruler-tick { position: relative; display: block; height: 1px; width: 0.4rem; margin-left: auto; background: var(--p-line); }
+  .ruler-tick-major { width: 0.8rem; }
+  .ruler-tick > span { position: absolute; right: calc(100% + 0.3rem); top: 50%; transform: translateY(-50%); font: 0.625rem/1 ui-monospace, monospace; }
+  .ruler-cursor { position: absolute; top: calc(var(--reading-progress, 0) * 100%); right: 0; display: flex; align-items: center; gap: 0.2rem; transform: translateY(-50%); color: var(--p-accent-text); }
+  .ruler-cursor > span { padding: 0.2rem; font: 0.625rem/1 ui-monospace, monospace; font-variant-numeric: tabular-nums; }
+  .ruler-cursor > i { height: 2px; width: 1rem; background: currentColor; }
+  .ruler-links { position: absolute; inset: 0 2.5rem 0 0; }
+  .ruler-links a { position: absolute; inset: 0 0 auto; display: flex; justify-content: flex-end; align-items: center; min-height: 32px; color: var(--p-muted); text-align: right; text-transform: uppercase; font-size: 0.6875rem; font-weight: 600; line-height: 1.15; pointer-events: auto; }
+  .ruler-links a { gap: 0.25rem; transform-origin: right center; white-space: nowrap; }
+  .ruler-links a { width: max-content; left: auto; font-size: 1.5rem; }
+  .ruler-section-number { font: 0.625rem/1 ui-monospace, monospace; font-variant-numeric: tabular-nums; }
+  .ruler-links a[aria-current] { color: var(--p-accent-text); font-weight: 750; letter-spacing: -0.025em; }
+  .ruler-links a > span { padding: 0.25rem 0.35rem; background: transparent; }
+  .ruler-links a { text-shadow: 0 0 4px var(--p-paper), 0 0 10px var(--p-paper); }
+  .ruler-links :global(.ruler-letter) { display: inline-block; white-space: pre; transform-origin: center; pointer-events: none; }
+  .ruler-links a { pointer-events: none; }
+  .ruler-links a::after { content: ""; position: absolute; inset: 0; pointer-events: auto; transform: rotate(var(--label-angle, 0deg)) scale(var(--label-scale, 1)); transform-origin: right center; }
+  .ruler-section-number { pointer-events: none; }
+  .ruler-links a:hover { color: var(--p-ink); }
+  .navigation-mobile-progress { display: none; }
+  .ruler-utilities { top: auto; right: auto; left: max(1.25rem, env(safe-area-inset-left, 0px)); bottom: calc(1.25rem + env(safe-area-inset-bottom, 0px)); padding: 0.2rem; gap: 0; border: 1px solid var(--p-line); border-radius: 999px; background: color-mix(in srgb, var(--p-panel) 95%, transparent); box-shadow: 0 4px 20px #0001; backdrop-filter: blur(16px); }
+  .ruler-utilities :global(#theme-toggle-root) { margin: 0; padding-right: 0.2rem; border-right: 1px solid var(--p-line); }
+  .ruler-utilities :global(#theme-toggle-btn) { position: relative; display: flex; align-items: center; justify-content: center; width: 44px; height: 44px; flex-shrink: 0; padding: 0; }
+  .ruler-utilities :global(.theme-toggle-icon) { position: absolute; inset: 0; margin: auto; width: 20px; height: 20px; }
+  .ruler-utilities :global(#theme-toggle-btn), .ruler-utilities :global(#language-toggle) { border-radius: 999px; background: transparent; border: 0; transition: background-color 180ms, color 180ms; }
+  .ruler-utilities :global(#theme-toggle-btn:hover), .ruler-utilities :global(#language-toggle:hover), .ruler-utilities :global(#theme-toggle-btn[aria-expanded="true"]) { background: var(--p-accent); color: var(--p-accent-ink); }
+  .ruler-utilities :global(#language-toggle) { display: flex; align-items: center; justify-content: center; width: auto; padding-inline: 0.8rem; gap: 0.45rem; font-size: 0.75rem; font-weight: 650; }
+  .ruler-utilities :global([data-language-flag]) { width: 20px; height: 14px; }
+  .ruler-utilities :global(#themes-menu) { top: auto; bottom: calc(100% + 0.75rem); left: -0.2rem; right: auto; min-width: 10rem; padding: 0.35rem; border-radius: 1rem; box-shadow: 0 10px 30px #0002; transform-origin: bottom left; }
+  .ruler-utilities :global(.themes-menu-option) { border-radius: 0.65rem; min-height: 44px; font-size: 0.75rem; }
+  .section-picker select { border: 1px solid var(--p-line); border-radius: 0.5rem; background: var(--p-panel); }
+  @media (prefers-reduced-motion: no-preference) { .ruler-utilities { animation: preferences-enter 0.7s 0.3s both cubic-bezier(0.16, 1, 0.3, 1); } }
+  @keyframes preferences-enter { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+  @media (min-width: 1600px) { .ruler-links a { font-size: clamp(1.5rem, 1.7vw, 2.125rem); } }
+  @media (max-width: 1439px), (max-height: 679px) { .section-picker { display: block; } .reading-ruler { width: 2.5rem; } .ruler-links { display: none; } }
   @media (max-width: 767px) {
-    .navigation-trigger { top: calc(0.75rem + env(safe-area-inset-top, 0px)); right: max(0.75rem, env(safe-area-inset-right, 0px)); height: 48px; padding-inline: 1rem; }
-    .navigation-dialog { width: 100%; }
-    .navigation-sheet { padding: max(1rem, env(safe-area-inset-top, 0px)) max(1.25rem, env(safe-area-inset-right, 0px)) max(1rem, env(safe-area-inset-bottom, 0px)) max(1.25rem, env(safe-area-inset-left, 0px)); }
-    .index-label { font-size: clamp(1.75rem, 8.5vw, 3.5rem); line-height: 1.15; }
-    .navigation-index a { gap: 0.5rem; grid-template-columns: 1rem minmax(0, 1fr) 1.5rem; }
+    .reading-ruler { display: none; }
+    .ruler-utilities { left: max(0.75rem, env(safe-area-inset-left, 0px)); bottom: calc(0.75rem + env(safe-area-inset-bottom, 0px)); }
+    .navigation-mobile-progress { display: block; position: fixed; top: 0; left: 0; right: 0; height: 2px; transform: scaleX(var(--reading-progress, 0)); transform-origin: left; background: var(--p-accent); }
   }
-  @media (prefers-reduced-motion: reduce) { .index-label { transition: none; } }
 </style>
 
 <script>
   import { gsap } from "gsap";
+  import { layoutRulerLabels, rulerLetterRotation } from "@/lib/ruler-layout";
   let cleanup: (() => void) | undefined;
   let activeHeader: HTMLElement | null = null;
-
   function initializeNavigation() {
     const header = document.getElementById("public-navigation");
     if (header === activeHeader) return;
-    cleanup?.();
-    activeHeader = header;
+    cleanup?.(); activeHeader = header;
     if (!header) return;
-    const trigger = header.querySelector<HTMLButtonElement>("#navigation-trigger")!;
-    const close = header.querySelector<HTMLButtonElement>("#navigation-close")!;
-    const dialog = header.querySelector<HTMLDialogElement>("#navigation-dialog")!;
-    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)");
-    let animation: gsap.core.Timeline | undefined;
-    let previousOverflow = "";
-    let closing = false;
-    const finishClose = () => {
-      dialog.close();
-      document.documentElement.style.overflow = previousOverflow;
-      trigger.setAttribute("aria-expanded", "false");
-    };
-    const closeMenu = (immediate = false) => {
-      if (!dialog.open || closing) return;
-      closing = true;
-      animation?.kill();
-      dialog.querySelector("#themes-menu")?.classList.remove("open");
-      dialog.querySelector("#theme-toggle-btn")?.setAttribute("aria-expanded", "false");
-      if (immediate || reduce.matches) finishClose();
-      else animation = gsap.timeline({ onComplete: finishClose }).to(dialog, { xPercent: 100, opacity: 0, duration: 0.3, ease: "power2.in" });
-    };
-    const onOpen = () => {
-      if (dialog.open) return;
-      closing = false;
-      previousOverflow = document.documentElement.style.overflow;
-      document.documentElement.style.overflow = "hidden";
-      dialog.showModal();
-      trigger.setAttribute("aria-expanded", "true");
-      gsap.set([dialog, ...dialog.querySelectorAll(".navigation-index a")], { clearProps: "transform,opacity" });
-      if (!reduce.matches) {
-        animation = gsap.timeline()
-          .fromTo(dialog, { xPercent: 100, opacity: 0 }, { xPercent: 0, opacity: 1, duration: 0.65, ease: "power4.out", clearProps: "transform,opacity" })
-          .fromTo(dialog.querySelectorAll(".navigation-index a"), { x: 42, opacity: 0 }, { x: 0, opacity: 1, stagger: 0.055, duration: 0.55, ease: "power3.out", clearProps: "transform,opacity" }, "-=0.35");
-      }
-    };
-    const onClose = () => {
-      document.documentElement.style.overflow = previousOverflow;
-      trigger.setAttribute("aria-expanded", "false");
-      closing = false;
-    };
-    const onCancel = (event: Event) => { event.preventDefault(); closeMenu(); };
-    const onKeydown = (event: KeyboardEvent) => {
-      if (event.key !== "Tab") return;
-      const targets = Array.from(dialog.querySelectorAll<HTMLElement>('a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'))
-        .filter((element) => element.getClientRects().length > 0 && getComputedStyle(element).visibility !== "hidden");
-      const first = targets[0];
-      const last = targets.at(-1);
-      if (event.shiftKey && document.activeElement === first) {
-        event.preventDefault(); last?.focus();
-      } else if (!event.shiftKey && document.activeElement === last) {
-        event.preventDefault(); first?.focus();
-      }
-    };
-    const onDialogClick = (event: MouseEvent) => {
-      if (event.target === dialog) {
-        const bounds = dialog.getBoundingClientRect();
-        if (event.clientX < bounds.left || event.clientX > bounds.right || event.clientY < bounds.top || event.clientY > bounds.bottom) closeMenu();
-      }
-    };
-    const onLink = (event: MouseEvent) => {
-      if (!(event.target instanceof Element)) return;
-      const link = event.target.closest<HTMLAnchorElement>("a[data-section-link]");
-      if (!link) return;
-      event.preventDefault();
-      closeMenu(true);
-      const target = document.getElementById(link.dataset.sectionLink || "");
-      if (!target) return;
-      history.pushState(null, "", link.hash);
-      target.scrollIntoView({ behavior: reduce.matches ? "instant" : "smooth", block: "start" });
-      const previousTabIndex = target.getAttribute("tabindex");
-      target.setAttribute("tabindex", "-1");
-      target.focus({ preventScroll: true });
-      target.addEventListener("blur", () => {
-        if (previousTabIndex === null) target.removeAttribute("tabindex");
-        else target.setAttribute("tabindex", previousTabIndex);
-      }, { once: true });
-    };
-    const updateLabels = () => {
-      const lang = localStorage.getItem("language") || "es";
-      header.querySelectorAll<HTMLElement>("[data-es][data-en]").forEach((element) => { element.textContent = element.getAttribute(`data-${lang}`) || element.getAttribute("data-es"); });
-      header.querySelectorAll<HTMLElement>("[data-es-label]").forEach((element) => { element.setAttribute("aria-label", element.getAttribute(`data-${lang}-label`) || ""); });
-    };
-    const sections = Array.from(header.querySelectorAll<HTMLAnchorElement>(".navigation-index a")).map((link) => document.getElementById(link.dataset.sectionLink || "")).filter((section): section is HTMLElement => Boolean(section));
-    let currentId = "";
-    let scrollFrame = 0;
-    const updateCurrent = () => {
-      const atBottom = scrollY + innerHeight >= document.documentElement.scrollHeight - 4;
-      const current = atBottom ? sections.find((section) => section.id === "footer-container") : sections
-        .map((section) => ({ section, top: section.getBoundingClientRect().top }))
-        .filter((item) => item.top <= innerHeight * 0.4)
-        .sort((a, b) => b.top - a.top)[0]?.section || sections[0];
-      if (currentId === current?.id) return;
-      currentId = current?.id || "";
-      header.querySelectorAll<HTMLElement>("[data-section-link]").forEach((link) => {
-        if (link.dataset.sectionLink === current?.id) link.setAttribute("aria-current", "location");
-        else link.removeAttribute("aria-current");
+    const rail = header.querySelector<HTMLElement>(".reading-ruler")!;
+    const track = header.querySelector<HTMLElement>(".ruler-track")!;
+    const value = header.querySelector<HTMLElement>("[data-ruler-value]")!;
+    const picker = header.querySelector<HTMLSelectElement>("#section-picker")!;
+    const links = Array.from(header.querySelectorAll<HTMLAnchorElement>("[data-section-link]"));
+    const sections = links.map((link) => document.getElementById(link.dataset.sectionLink || ""));
+    const reduce = matchMedia("(prefers-reduced-motion: reduce)");
+    const context = gsap.context(() => {}, header);
+    let navigationScroll: gsap.core.Tween | undefined;
+    let frame = 0;
+    let disposed = false;
+    let previousPercent = -1;
+    let current = -1;
+    let positioned = false;
+    const labelTargets: { rotation: number; scale: number }[] = [];
+    const glyphMotions = new Map<HTMLElement, {
+      state: { rotation: number; scale: number };
+      rotate: ReturnType<typeof gsap.quickTo>;
+      resize: ReturnType<typeof gsap.quickTo>;
+      render: () => void;
+    }>();
+    const movers = links.map((link) => {
+      let y!: ReturnType<typeof gsap.quickTo>;
+      context.add(() => {
+        y = gsap.quickTo(link, "y", { duration: 0.65, ease: "power3.out" });
       });
+      return { y };
+    });
+    function animateLetters(link: HTMLAnchorElement, rotation: number, scale: number, immediate: boolean) {
+      const letters = Array.from(link.querySelectorAll<HTMLElement>(".ruler-section-number, .ruler-letter"));
+      link.style.setProperty("--label-angle", `${rotation}deg`);
+      link.style.setProperty("--label-scale", String(scale));
+      // Recompute the orbit each frame so characters follow arcs, not straight chords.
+      letters.forEach((letter, index) => {
+        let motion = glyphMotions.get(letter);
+        if (!motion) {
+          const state = { rotation, scale };
+          const render = () => {
+            const dx = letter.offsetLeft + letter.offsetWidth / 2 - link.offsetWidth;
+            const dy = letter.offsetTop + letter.offsetHeight / 2 - link.offsetHeight / 2;
+            const angle = state.rotation * Math.PI / 180;
+            const cosine = Math.cos(angle) * state.scale;
+            const sine = Math.sin(angle) * state.scale;
+            gsap.set(letter, { x: (cosine - 1) * dx - sine * dy, y: sine * dx + (cosine - 1) * dy, rotation: state.rotation, scale: state.scale });
+          };
+          let rotate!: ReturnType<typeof gsap.quickTo>;
+          let resize!: ReturnType<typeof gsap.quickTo>;
+          context.add(() => {
+            const duration = 0.45 + (letters.length - index - 1) * 0.055;
+            rotate = gsap.quickTo(state, "rotation", { duration, ease: "power2.out", onUpdate: render });
+            resize = gsap.quickTo(state, "scale", { duration, ease: "power2.out", onUpdate: render });
+          });
+          motion = { state, rotate, resize, render };
+          glyphMotions.set(letter, motion);
+        }
+        const glyphRotation = rulerLetterRotation(rotation, index, letters.length);
+        if (immediate) {
+          motion.rotate.tween.pause(); motion.resize.tween.pause();
+          motion.state.rotation = glyphRotation; motion.state.scale = scale; motion.render();
+        } else { motion.rotate(glyphRotation); motion.resize(scale); }
+      });
+    }
+    const stop = () => navigationScroll?.kill();
+    function update() {
+      const range = Math.max(0, document.documentElement.scrollHeight - innerHeight);
+      const fraction = range ? Math.max(0, Math.min(1, scrollY / range)) : 0;
+      header!.style.setProperty("--reading-progress", String(fraction));
+      const percent = Math.round(fraction * 100);
+      if (percent !== previousPercent) { track.setAttribute("aria-valuenow", String(percent)); value.textContent = String(percent); previousPercent = percent; }
+      const tops = sections.map((section) => section?.getBoundingClientRect().top ?? Infinity);
+      let index = 0;
+      tops.forEach((top, i) => { if (top <= innerHeight * 0.28) index = i; });
+      if (fraction >= 0.999) index = links.length - 1;
+      const bounds = rail.getBoundingClientRect();
+      const positions = layoutRulerLabels(tops, index, bounds.top, bounds.height);
+      positions.forEach((position, i) => {
+        const link = links[i];
+        link.classList.toggle("is-passed", position.passed);
+        if (i === index) link.setAttribute("aria-current", "location"); else link.removeAttribute("aria-current");
+        const rotation = position.rotation;
+        if (!positioned || reduce.matches) {
+          gsap.set(link, { y: position.y });
+          animateLetters(link, rotation, position.scale, true);
+        }
+        else {
+          movers[i].y(position.y);
+          if (labelTargets[i]?.rotation !== rotation || labelTargets[i]?.scale !== position.scale) animateLetters(link, rotation, position.scale, false);
+        }
+        labelTargets[i] = { rotation, scale: position.scale };
+      });
+      positioned = true;
+      if (current !== index) {
+        current = index; picker.value = links[index].dataset.sectionLink || "hero";
+      }
+    }
+    const schedule = () => { if (!frame) frame = requestAnimationFrame(() => { frame = 0; if (!disposed) update(); }); };
+    function goTo(id: string) {
+      const target = document.getElementById(id);
+      if (!target) return;
+      stop(); if (location.hash !== `#${id}`) history.pushState(null, "", `#${id}`);
+      const previousTabIndex = target.getAttribute("tabindex");
+      target.setAttribute("tabindex", "-1"); target.focus({ preventScroll: true });
+      target.addEventListener("blur", () => { if (previousTabIndex === null) target.removeAttribute("tabindex"); else target.setAttribute("tabindex", previousTabIndex); }, { once: true });
+      const offset = Number.parseFloat(getComputedStyle(target).scrollMarginTop) || 0;
+      const destination = () => scrollY + target.getBoundingClientRect().top - offset;
+      if (reduce.matches) window.scrollTo({ top: destination(), behavior: "instant" });
+      else { const start = scrollY; const position = { progress: 0 }; context.add(() => {
+        navigationScroll = gsap.to(position, { progress: 1, duration: 0.85, ease: "power2.inOut", onUpdate: () => window.scrollTo({ top: start + (destination() - start) * position.progress, behavior: "instant" }) });
+      }); }
+    }
+    const onLink = (event: MouseEvent) => { const link = event.target instanceof Element ? event.target.closest<HTMLAnchorElement>("a[data-section-link]") : null; if (!link || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return; event.preventDefault(); goTo(link.dataset.sectionLink || "hero"); };
+    const onPicker = () => goTo(picker.value);
+    const animateLabelHover = (event: PointerEvent, entering: boolean) => {
+      if (reduce.matches || event.pointerType === "touch") return;
+      const link = event.target instanceof Element ? event.target.closest<HTMLAnchorElement>("[data-section-link]") : null;
+      if (!link || (event.relatedTarget instanceof Node && link.contains(event.relatedTarget))) return;
+      context.add(() => gsap.to(link.querySelectorAll(".ruler-letter"), {
+        opacity: entering ? 0.65 : 1,
+        duration: 0.4, stagger: 0.018, ease: "power3.out", overwrite: "auto",
+      }));
     };
-    const onScroll = () => {
-      if (scrollFrame) return;
-      scrollFrame = requestAnimationFrame(() => { scrollFrame = 0; updateCurrent(); });
+    const hoverIn = (event: PointerEvent) => animateLabelHover(event, true);
+    const hoverOut = (event: PointerEvent) => animateLabelHover(event, false);
+    const updateLabels = () => {
+      glyphMotions.forEach((motion) => { motion.rotate.tween.kill(); motion.resize.tween.kill(); });
+      glyphMotions.clear();
+      const lang = localStorage.getItem("language") || "es";
+      header!.querySelectorAll<HTMLElement>("[data-es][data-en]").forEach((element) => { element.textContent = element.getAttribute(`data-${lang}`) || element.getAttribute("data-es"); });
+      header!.querySelectorAll<HTMLElement>("[data-es-label]").forEach((element) => element.setAttribute("aria-label", element.getAttribute(`data-${lang}-label`) || ""));
+      links.forEach((link) => {
+        const label = link.querySelector<HTMLElement>(".ruler-label")!;
+        gsap.killTweensOf(label.children);
+        link.setAttribute("aria-label", label.textContent || "");
+        label.setAttribute("aria-hidden", "true");
+        const letters = Array.from(label.textContent || "").map((letter) => {
+          const span = document.createElement("span"); span.className = "ruler-letter"; span.textContent = letter; return span;
+        });
+        label.replaceChildren(...letters);
+      });
+      positioned = false;
+      schedule();
     };
-    const observer = new IntersectionObserver(updateCurrent, { rootMargin: "-10% 0px -50% 0px", threshold: 0 });
-    sections.forEach((section) => observer.observe(section));
-    const beforeSwap = () => { animation?.kill(); if (dialog.open) finishClose(); };
-    trigger.addEventListener("click", onOpen);
-    const onCloseClick = () => closeMenu();
-    close.addEventListener("click", onCloseClick);
-    dialog.addEventListener("cancel", onCancel);
-    dialog.addEventListener("keydown", onKeydown);
-    dialog.addEventListener("close", onClose);
-    dialog.addEventListener("click", onDialogClick);
-    header.addEventListener("click", onLink);
-    window.addEventListener("languageChanged", updateLabels);
-    window.addEventListener("scroll", onScroll, { passive: true });
-    document.addEventListener("astro:before-swap", beforeSwap);
-    updateLabels(); updateCurrent();
-    cleanup = () => {
-      beforeSwap(); observer.disconnect();
-      trigger.removeEventListener("click", onOpen);
-      close.removeEventListener("click", onCloseClick);
-      dialog.removeEventListener("cancel", onCancel);
-      dialog.removeEventListener("keydown", onKeydown);
-      dialog.removeEventListener("close", onClose);
-      dialog.removeEventListener("click", onDialogClick);
-      header.removeEventListener("click", onLink);
-      window.removeEventListener("languageChanged", updateLabels);
-      window.removeEventListener("scroll", onScroll);
-      cancelAnimationFrame(scrollFrame);
-      document.removeEventListener("astro:before-swap", beforeSwap);
-      activeHeader = null;
+    const seek = (event: PointerEvent) => { const bounds = track.getBoundingClientRect(); const fraction = Math.max(0, Math.min(1, (event.clientY - bounds.top) / bounds.height)); window.scrollTo({ top: fraction * Math.max(0, document.documentElement.scrollHeight - innerHeight), behavior: "instant" }); };
+    const down = (event: PointerEvent) => { if (event.button !== 0) return; event.preventDefault(); stop(); track.focus({ preventScroll: true }); track.setPointerCapture(event.pointerId); seek(event); };
+    const move = (event: PointerEvent) => { if (track.hasPointerCapture(event.pointerId)) seek(event); };
+    const up = (event: PointerEvent) => { if (track.hasPointerCapture(event.pointerId)) track.releasePointerCapture(event.pointerId); };
+    const onKey = (event: KeyboardEvent) => { if (["ArrowUp", "ArrowDown", "PageUp", "PageDown", "Home", "End", " ", "Escape", "Tab"].includes(event.key)) stop(); };
+    const trackKey = (event: KeyboardEvent) => { const range = Math.max(0, document.documentElement.scrollHeight - innerHeight); const positions: Record<string, number> = { ArrowDown: scrollY + range * 0.01, ArrowUp: scrollY - range * 0.01, PageDown: scrollY + innerHeight, PageUp: scrollY - innerHeight, Home: 0, End: range }; if (!(event.key in positions)) return; event.preventDefault(); stop(); window.scrollTo({ top: Math.max(0, Math.min(range, positions[event.key])), behavior: "instant" }); };
+    const observer = new ResizeObserver(schedule); observer.observe(document.body); const main = document.querySelector("main"); if (main) observer.observe(main);
+    header.addEventListener("click", onLink); picker.addEventListener("change", onPicker);
+    rail.addEventListener("pointerover", hoverIn); rail.addEventListener("pointerout", hoverOut);
+    window.addEventListener("scroll", schedule, { passive: true }); window.addEventListener("resize", schedule); window.addEventListener("languageChanged", updateLabels);
+    window.addEventListener("wheel", stop, { passive: true }); window.addEventListener("touchstart", stop, { passive: true }); window.addEventListener("keydown", onKey);
+    track.addEventListener("pointerdown", down); track.addEventListener("pointermove", move); track.addEventListener("pointerup", up); track.addEventListener("pointercancel", up); track.addEventListener("keydown", trackKey);
+    updateLabels(); update();
+    cleanup = () => { disposed = true; stop(); context.revert(); observer.disconnect(); cancelAnimationFrame(frame);
+      header.removeEventListener("click", onLink); picker.removeEventListener("change", onPicker);
+      rail.removeEventListener("pointerover", hoverIn); rail.removeEventListener("pointerout", hoverOut);
+      window.removeEventListener("scroll", schedule); window.removeEventListener("resize", schedule); window.removeEventListener("languageChanged", updateLabels);
+      window.removeEventListener("wheel", stop); window.removeEventListener("touchstart", stop); window.removeEventListener("keydown", onKey);
+      track.removeEventListener("pointerdown", down); track.removeEventListener("pointermove", move); track.removeEventListener("pointerup", up); track.removeEventListener("pointercancel", up); track.removeEventListener("keydown", trackKey); activeHeader = null;
     };
   }
-  initializeNavigation();
-  document.addEventListener("astro:page-load", initializeNavigation);
+  initializeNavigation(); document.addEventListener("astro:page-load", initializeNavigation);
+  document.addEventListener("astro:before-swap", () => { cleanup?.(); cleanup = undefined; });
 </script>

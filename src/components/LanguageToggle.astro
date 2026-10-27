@@ -5,10 +5,17 @@
   id="language-toggle"
   type="button"
   class="relative inline-flex items-center justify-center w-10 h-10 text-black transition-colors hover:bg-black hover:text-white"
-  aria-label="Change language"
+  aria-label="Cambiar a inglés"
 >
-  <span class="text-lg font-semibold">ES</span>
+  <svg data-language-flag="es" aria-hidden="true" width="22" height="16" viewBox="0 0 60 40"><rect width="60" height="40" rx="4" fill="#AA151B"/><path fill="#F1BF00" d="M0 10h60v20H0z"/></svg>
+  <svg data-language-flag="en" aria-hidden="true" width="22" height="16" viewBox="0 0 60 40"><rect width="60" height="40" rx="4" fill="#012169"/><path stroke="#fff" stroke-width="8" d="m0 0 60 40M60 0 0 40"/><path stroke="#C8102E" stroke-width="3" d="m0 0 60 40M60 0 0 40"/><path stroke="#fff" stroke-width="13" d="M30 0v40M0 20h60"/><path stroke="#C8102E" stroke-width="7" d="M30 0v40M0 20h60"/></svg>
+  <span data-language-code>ES</span>
 </button>
+
+<style>
+  [data-language-flag] { border-radius: 3px; flex-shrink: 0; }
+  [data-language-flag][hidden], [data-language-flag="en"]:not([data-active="true"]) { display: none; }
+</style>
 
 <script is:inline>
   (() => {
@@ -39,7 +46,13 @@
       const updateLanguageButton = () => {
         const currentLang = localStorage.getItem("language") || "es";
         document.documentElement.lang = currentLang;
-        toggle.textContent = currentLang.toUpperCase();
+        toggle.querySelector('[data-language-code]').textContent = currentLang.toUpperCase();
+        toggle.querySelectorAll('[data-language-flag]').forEach((flag) => {
+          flag.toggleAttribute('hidden', flag.getAttribute('data-language-flag') !== currentLang);
+          flag.setAttribute('data-active', String(flag.getAttribute('data-language-flag') === currentLang));
+        });
+        toggle.setAttribute('aria-label', currentLang === 'es' ? 'Cambiar a inglés' : 'Switch to Spanish');
+        toggle.title = currentLang === 'es' ? 'Cambiar a inglés' : 'Switch to Spanish';
       };
 
       const updateHeaderDirectly = () => {

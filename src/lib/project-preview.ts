@@ -27,6 +27,7 @@ export function renderProjectPreview(project: { id: string; image: string; title
   const format = identity?.format === "legacy" && !["/projects/bpkeepers-1200.jpg", "/projects/onosoalmanaque-1200.jpg"].includes(src)
     ? "desktop" : identity?.format || "desktop";
   return `<span class="project-preview" data-format="${format}" style="--preview-accent:${identity?.accent || "#a7bcd9"}">
+    <span class="preview-hover-light" aria-hidden="true"></span>
     <span class="preview-heading"><span class="preview-name">${escape(identity?.name || project.title.es.split(" - ")[0])}</span><span class="preview-label">${escape(identity?.label || "PROJECT")}</span></span>
     <span class="preview-media"><span class="preview-window">
       <span class="preview-toolbar" aria-hidden="true"><span></span><span></span><span></span><i></i></span>

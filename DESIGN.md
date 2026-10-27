@@ -12,9 +12,11 @@ Portfolio gráfico y animado para presentar experiencia de ingeniería y product
 - Cierre con una invitación directa a contactar.
 - Capturas de proyectos contenidas para evitar recortar las interfaces.
 - Tipografía, espaciado y colores definidos para ambos temas.
-- Navegación simple: botón «Menú» fijo arriba a la derecha y panel lateral con enlaces grandes en cursiva. Sin nombre superior ni índice lateral junto al contenido. Se adapta a la identidad azul acero del portfolio.
+- Regla superpuesta al borde derecho, sin columnas, padding lateral ni cambios al centrado del contenido. Rótulos pasados quedan pequeños y horizontales arriba; activa horizontal y grande; futuras giran -90 grados mientras recorren la regla y esperan horizontales abajo. GSAP interpola posición, escala y giro, con entrada y hover escalonados por letra; respeta movimiento reducido. Progreso numérico sin ceros iniciales ni porcentaje.
+- Preferencias en dock discreto inferior izquierdo, con tema y bandera ES/EN. Selector de sección compacto independiente arriba a la derecha. Menú de temas se abre hacia arriba, respetando safe areas.
+- Escala operable con pulsación, arrastre y teclado. En anchos reducidos o ventanas bajas, selector nativo de secciones; en móvil, progreso superior fino. Tema e idioma accesibles directamente, sin botón «Menú» ni diálogo antiguo.
 - Hero de borde limpio, sin sombra desplazada.
-- Cabecera sin nombre ni monograma, con un único botón de menú. El panel usa un diálogo modal nativo para gestionar foco y Escape; incluye controles de tema e idioma y respeta Safe Areas.
+- Cabecera sin nombre ni monograma. Controles compactos respetan Safe Areas; el selector nativo mantiene acceso a todas las secciones en pantallas estrechas.
 - Previews de proyectos con lienzo 16:10, marco compartido y acento propio. Capturas sin datos personales; portadas de arquitectura para proyectos sin captura de interfaz. El mismo renderizador sirve tarjetas estáticas, Firestore y galería animada.
 - Los estilos públicos usan `body[data-page="portfolio"]`; el CMS mantiene sus controles.
 - Las tarjetas locales y las generadas por Firestore comparten los mismos selectores.
@@ -31,10 +33,12 @@ La primera consulta propuso una dirección Swiss/minimalista. La revisión poste
 
 ## Movimiento
 
+- Hovers GSAP solo con puntero fino y sin movimiento reducido: relleno ascendente, magnetismo y respuesta elástica en botones; perspectiva, parallax y luz en las previews; acentos y desplazamiento de títulos en experiencia, formación y contacto.
+- Eventos delegados incluyen contenido nuevo del CMS sin volver a registrar listeners. Los efectos se revierten al cambiar de ruta o preferencia de movimiento. No se animan las tarjetas externas de la galería fijada: sus ventanas interiores evitan conflictos con ScrollTrigger.
 - Entrada secuenciada de identidad, título, descripción y acciones.
 - Emblema SVG decorativo con entrada y rotación vinculada al scroll.
 - Revelado de secciones y tarjetas, incluidas las añadidas por Firestore.
-- Indicador de progreso de lectura.
+- Indicador de lectura sincronizado con scroll y cambios de altura (CMS y galería con pinning), sin secuestrar desplazamiento. Animación de cursor desactivada con movimiento reducido.
 - Galería de productos con tarjetas superpuestas, perspectiva y relevos vinculados al scroll mediante una timeline con pinning. Se activa solo en escritorio con puntero preciso, altura suficiente y movimiento permitido.
 - La galería refleja los proyectos destacados visibles que carga el CMS; sus enlaces llevan a las fichas completas.
 - Scroll nativo sin secuestro de rueda; móvil y movimiento reducido usan una galería horizontal táctil sin pinning.

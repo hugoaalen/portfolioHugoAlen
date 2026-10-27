@@ -15,6 +15,7 @@ const THEMES = [
     id="theme-toggle-btn"
     type="button"
     aria-expanded="false"
+    aria-controls="themes-menu"
     class="flex p-2 text-black transition appearance-none border-none hover:bg-black hover:text-white"
   >
     <span class="sr-only i18n" data-es="Seleccionar tema" data-en="Choose theme">
@@ -54,6 +55,10 @@ const THEMES = [
 </div>
 
 <style>
+  #theme-toggle-btn { position: relative; align-items: center; justify-content: center; }
+  .theme-toggle-icon { position: absolute; pointer-events: none; }
+  #theme-toggle-btn { min-width: 40px; min-height: 40px; }
+  #themes-menu { transform-origin: top right; }
   #themes-menu.open {
     display: block;
     animation: scale-up-center 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
@@ -75,8 +80,14 @@ const THEMES = [
 <script is:inline>
   (() => {
     const cleanupsKey = "__portfolioThemeToggleCleanups";
+    const lifecycleKey = "__portfolioThemeToggleLifecycle";
+    window[lifecycleKey]?.();
+    let initializedRoot;
 
     const initializeThemeToggle = () => {
+      const root = document.getElementById("theme-toggle-root");
+      if (root && root === initializedRoot) return;
+      initializedRoot = root;
       window[cleanupsKey]?.forEach((cleanup) => cleanup());
       window[cleanupsKey] = [];
 
@@ -93,7 +104,8 @@ const THEMES = [
       if (!themesMenu || !themeButton) return;
 
       const getThemePreference = () => {
-        return localStorage.getItem("theme") ?? "system";
+        const preference = localStorage.getItem("theme");
+        return ["light", "dark", "system"].includes(preference) ? preference : "system";
       };
 
       const updateIcon = (themePreference) => {
@@ -116,6 +128,7 @@ const THEMES = [
 
         updateIcon(themePreference);
         document.documentElement.classList[isDark ? "add" : "remove"]("dark");
+        document.documentElement.style.colorScheme = isDark ? "dark" : "light";
         document.querySelector('meta[name="theme-color"]')?.setAttribute(
           "content", isDark ? "#080808" : "#ecece7",
         );
@@ -127,7 +140,17 @@ const THEMES = [
       };
 
       addManagedListener(matchMedia, "change", updateTheme);
-      addManagedListener(document, "click", closeThemesMenu);
+      addManagedListener(document, "click", (event) => {
+        if (!root.contains(event.target)) closeThemesMenu();
+      });
+      addManagedListener(document, "keydown", (event) => {
+        if (event.key === "Escape" && themesMenu.classList.contains("open")) {
+          closeThemesMenu(); themeButton.focus();
+        }
+      });
+      addManagedListener(root, "focusout", (event) => {
+        if (!root.contains(event.relatedTarget)) closeThemesMenu();
+      });
       addManagedListener(window, "hashchange", closeThemesMenu);
       addManagedListener(document, "astro:before-swap", closeThemesMenu);
 
@@ -146,6 +169,7 @@ const THEMES = [
           );
           updateTheme();
           closeThemesMenu();
+          themeButton.focus();
         });
       });
 
@@ -154,5 +178,9 @@ const THEMES = [
 
     initializeThemeToggle();
     document.addEventListener("astro:page-load", initializeThemeToggle);
+    window[lifecycleKey] = () => {
+      document.removeEventListener("astro:page-load", initializeThemeToggle);
+      window[cleanupsKey]?.forEach((cleanup) => cleanup());
+    };
   })();
 </script>

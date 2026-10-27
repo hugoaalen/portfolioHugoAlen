@@ -1,4 +1,12 @@
 /* Public portfolio only; CMS styles remain independent. */
+html:has(body[data-page="portfolio"]) {
+  scrollbar-width: none;
+}
+html:has(body[data-page="portfolio"])::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
+}
 body[data-page="portfolio"] {
   --p-ink: #1b222b;
   --p-muted: #505c6b;
@@ -128,25 +136,24 @@ body[data-page="portfolio"] #footer-container a { color: var(--p-muted); }
 body[data-page="portfolio"] #footer-container a { min-height: 44px; display: inline-flex; align-items: center; }
 body[data-page="portfolio"] #footer-container .footer-invitation { display: flex; justify-content: space-between; gap: 1rem; padding-block: 2rem; font-size: clamp(2.25rem, 7vw, 5rem); letter-spacing: -0.065em; font-weight: 800; color: var(--p-ink); border-bottom: 1px solid var(--p-line); }
 body[data-page="portfolio"] #footer-container .footer-invitation span { color: inherit; }
-.scroll-progress { position: fixed; top: 0; left: 0; right: 0; height: 3px; background: var(--p-accent); transform: scaleX(0); transform-origin: left; z-index: 30; pointer-events: none; }
 body[data-page="portfolio"] :focus-visible { outline: 3px solid var(--p-focus); outline-offset: 4px; }
 
 /* A native-scroll gallery without JS; desktop motion progressively adds pinning. */
-#project-showcase { background: #11151a; color: #f1f0e9; margin-bottom: clamp(5rem, 10vw, 8rem); }
+#project-showcase { background: var(--p-paper); color: var(--p-ink); margin-bottom: clamp(5rem, 10vw, 8rem); }
 .showcase-pin { max-width: 90rem; margin-inline: auto; padding: 6rem clamp(1.25rem, 5vw, 5rem) 3rem; }
 .showcase-heading { display: flex; justify-content: space-between; align-items: end; gap: 2rem; margin-bottom: 2rem; }
-.showcase-heading p { color: #b4bbc5; font-size: 0.8125rem; }
+.showcase-heading p { color: var(--p-muted); font-size: 0.8125rem; }
 .showcase-heading h2 { max-width: 15ch; margin-top: 0.75rem; font-size: clamp(2.25rem, 5vw, 4.5rem); font-weight: 750; letter-spacing: -0.065em; line-height: 1; }
 .showcase-hint { max-width: 12rem; text-align: right; }
 .showcase-deck { display: flex; gap: 1.5rem; overflow-x: auto; scroll-snap-type: x mandatory; padding: 0.5rem 0 1rem; }
-.showcase-panel { display: flex; flex: 0 0 85%; min-width: 0; flex-direction: column; background: #1c232c; border: 1px solid #596473; color: #f1f0e9; scroll-snap-align: center; }
+.showcase-panel { display: flex; flex: 0 0 85%; min-width: 0; flex-direction: column; background: var(--p-panel); border: 1px solid var(--p-line); color: var(--p-ink); scroll-snap-align: center; }
 .showcase-image { position: relative; display: block; aspect-ratio: 16 / 10; padding: 0; overflow: hidden; container-type: inline-size; }
-.showcase-caption { display: flex; gap: 1rem; align-items: center; padding: 1rem 1.25rem; border-top: 1px solid #596473; min-height: 72px; }
+.showcase-caption { display: flex; gap: 1rem; align-items: center; padding: 1rem 1.25rem; border-top: 1px solid var(--p-line); min-height: 72px; }
 .showcase-caption > span:last-child { margin-left: auto; font-size: 1.5rem; }
-.showcase-number { color: var(--p-accent); font-family: ui-monospace, monospace; font-size: 0.75rem; }
+.showcase-number { color: var(--p-accent-text); font-family: ui-monospace, monospace; font-size: 0.75rem; }
 .showcase-name { font-size: clamp(0.875rem, 1.5vw, 1.125rem); font-weight: 550; }
-.showcase-track { height: 2px; background: #414c5a; margin-top: 1.5rem; }
-.showcase-track span { display: block; width: 100%; height: 100%; background: var(--p-accent); transform-origin: left; }
+.showcase-track { height: 2px; background: var(--p-line); margin-top: 1.5rem; }
+.showcase-track span { display: block; width: 100%; height: 100%; background: var(--p-accent-text); transform-origin: left; }
 .showcase-enhanced .showcase-pin { height: 100svh; max-height: none; display: flex; flex-direction: column; overflow: hidden; }
 .showcase-enhanced .showcase-heading { flex-shrink: 0; }
 .showcase-enhanced .showcase-deck { position: relative; display: block; flex: 1; overflow: visible; perspective: 1200px; padding: 0; }
