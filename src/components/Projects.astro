@@ -89,7 +89,7 @@ const PROJECTS = projects.map((project) => ({
         <div class="flex flex-col flex-1 w-full p-6 border-t-2 border-black dark:border-white">
           {PRIORITY_PROJECT_IDS.has(id) && (
             <p
-              class="mb-3 w-fit bg-[#c5ff4a] px-2 py-1 text-[10px] font-black tracking-[0.14em] text-black uppercase i18n"
+              class="project-priority-badge mb-3 w-fit px-2 py-1 text-[10px] font-black tracking-[0.14em] uppercase i18n"
               data-es={featured ? "Proyecto principal" : "Producto destacado"}
               data-en={featured ? "Main project" : "Featured product"}
             >
@@ -243,7 +243,7 @@ const PROJECTS = projects.map((project) => ({
       ? { es: "Proyecto principal", en: "Main project" }
       : { es: "Producto destacado", en: "Featured product" };
     const priorityBadge = priority
-      ? `<p class="mb-3 w-fit bg-[#c5ff4a] px-2 py-1 text-[10px] font-black tracking-[0.14em] text-black uppercase i18n" data-es="${priorityLabel.es}" data-en="${priorityLabel.en}">${priorityLabel.es}</p>`
+      ? `<p class="project-priority-badge mb-3 w-fit px-2 py-1 text-[10px] font-black tracking-[0.14em] uppercase i18n" data-es="${priorityLabel.es}" data-en="${priorityLabel.en}">${priorityLabel.es}</p>`
       : "";
     const githubLink = project.github
       ? `<a href="${escapeHtml(project.github)}" role="link" class="${linkButtonClass}">

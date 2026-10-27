@@ -1,17 +1,18 @@
 # Dirección visual
 
-Portfolio gráfico y animado para presentar experiencia de ingeniería y productos personales. Conserva la identidad lima/carbón, la cuadrícula y la tipografía Onest existente.
+Portfolio gráfico y animado para presentar experiencia de ingeniería y productos personales. Identidad azul acero/grafito, cuadrícula y tipografía Onest existente.
 
 ## Decisiones
 
-- Hero sobre una superficie lima, título de gran tamaño y una acción principal hacia proyectos.
+- Hero sobre superficie neutra, título de gran tamaño y una acción principal azul hacia proyectos. Sin grandes masas de color de acento.
+- Azul acero `#A7BCD9` para botones, indicadores y detalles; tinta `#17202B` sobre azul. En tema claro, texto de acento `#405E80` para mantener contraste; en oscuro, azul acero. Superficies grafito y texto blanco cálido en oscuro.
 - Una línea de lectura clara: identidad, especialidad, propuesta y contacto.
 - Composición de cartel técnico: bordes rectos, alto contraste y secciones numeradas.
 - Experiencia en filas cronológicas y proyectos con capturas enmarcadas.
 - Cierre con una invitación directa a contactar.
 - Capturas de proyectos contenidas para evitar recortar las interfaces.
 - Tipografía, espaciado y colores definidos para ambos temas.
-- Navegación simple: botón «Menú» fijo arriba a la derecha y panel lateral con enlaces grandes en cursiva. Sin nombre superior ni índice lateral junto al contenido. Se adapta a la identidad lima del portfolio.
+- Navegación simple: botón «Menú» fijo arriba a la derecha y panel lateral con enlaces grandes en cursiva. Sin nombre superior ni índice lateral junto al contenido. Se adapta a la identidad azul acero del portfolio.
 - Hero de borde limpio, sin sombra desplazada.
 - Cabecera sin nombre ni monograma, con un único botón de menú. El panel usa un diálogo modal nativo para gestionar foco y Escape; incluye controles de tema e idioma y respeta Safe Areas.
 - Previews de proyectos con lienzo 16:10, marco compartido y acento propio. Capturas sin datos personales; portadas de arquitectura para proyectos sin captura de interfaz. El mismo renderizador sirve tarjetas estáticas, Firestore y galería animada.
@@ -24,7 +25,7 @@ Portfolio gráfico y animado para presentar experiencia de ingeniería y product
 - [Anthropic: frontend-design](https://github.com/anthropics/skills/tree/main/skills/frontend-design): dirección propia, jerarquía tipográfica, contención y revisión visual.
 - [UI UX Pro Max](https://github.com/nextlevelbuilder/ui-ux-pro-max-skill): consulta de sistema de diseño para `software engineer portfolio editorial` y guías Astro de responsive y accesibilidad.
 
-La primera consulta propuso una dirección Swiss/minimalista. La revisión posterior adopta una composición más gráfica, conservando lima y Onest.
+La primera consulta propuso una dirección Swiss/minimalista. La revisión posterior adopta una composición más gráfica. La paleta actual sustituye el lima por azul acero, conservando Onest y las animaciones.
 
 - [GSAP Skills oficiales](https://github.com/greensock/gsap-skills): guías core, timeline, ScrollTrigger y rendimiento. GSAP se incorpora como dependencia de la web pública.
 
