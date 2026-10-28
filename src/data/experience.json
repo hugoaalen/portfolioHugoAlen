@@ -38,7 +38,7 @@
   {
     "id": "addiction-tu-moda",
     "order": 30,
-    "visible": true,
+    "visible": false,
     "date": {
       "es": "Ene. 2023 - Dic. 2024",
       "en": "Jan. 2023 - Dec. 2024"

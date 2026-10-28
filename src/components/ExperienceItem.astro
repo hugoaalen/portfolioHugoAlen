@@ -1,5 +1,6 @@
 ---
 import LinkInline from "./LinkInline.astro";
+import OrganizationLogo from "./OrganizationLogo.astro";
 
 // 1. Actualizamos la interfaz para que TypeScript sepa que ahora recibimos objetos con idiomas
 interface I18nText {
@@ -21,7 +22,8 @@ const { title, company, description, link, date } = Astro.props;
 <div
   class="relative grid h-full gap-5 p-6 transition border-2 border-black bg-white shadow-[7px_7px_0_#111] hover:-translate-y-1 dark:border-white dark:bg-[#111] dark:shadow-[7px_7px_0_#c5ff4a]"
 >
-  <div class="relative">
+  <div class="organization-heading relative">
+    <OrganizationLogo company={company} />
     <div>
       <h3 
         class="text-xl font-black leading-tight text-black uppercase dark:text-[#c5ff4a] i18n"
@@ -32,7 +34,7 @@ const { title, company, description, link, date } = Astro.props;
       </h3>
       
       <h4 class="mt-2 text-lg font-bold text-gray-800 dark:text-white">
-        {company}
+        <span>{company}</span>
       </h4>
       
       <time 

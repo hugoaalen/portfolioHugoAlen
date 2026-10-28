@@ -1,5 +1,6 @@
 ---
 import LinkInline from "./LinkInline.astro";
+import OrganizationLogo from "./OrganizationLogo.astro";
 
 interface Props {
   title: I18nText;
@@ -25,7 +26,8 @@ const { title, company, link, date, variant = "primary" } = Astro.props;
       : "p-5 bg-white dark:bg-[#111] dark:shadow-[7px_7px_0_#c5ff4a]",
   ]}
 >
-  <div class="relative">
+  <div class="organization-heading relative">
+    <OrganizationLogo company={company} />
     <div>
       <h3
         class:list={[
@@ -38,7 +40,7 @@ const { title, company, link, date, variant = "primary" } = Astro.props;
         {title.es}
       </h3>
       <h4 class:list={["mt-2 font-bold", variant === "primary" ? "text-gray-800" : "text-gray-700 dark:text-gray-300"]}>
-        {company}
+        <span>{company}</span>
       </h4>
       <time
         class:list={[

@@ -1,0 +1,118 @@
+---
+interface Props { items: { id: string; es: string; en: string }[]; }
+const { items } = Astro.props;
+---
+<div class="mobile-navigation" id="mobile-navigation">
+  <button class="mobile-menu-trigger" id="mobile-menu-trigger" type="button" aria-expanded="false" aria-controls="mobile-menu-dialog" aria-haspopup="dialog">
+    <span class="mobile-menu-icon" aria-hidden="true"><i></i><i></i></span>
+    <span><span class="i18n" data-es="Menú" data-en="Menu">Menú</span><small data-mobile-current>Inicio</small></span>
+  </button>
+  <dialog id="mobile-menu-dialog" aria-labelledby="mobile-menu-title">
+    <div class="mobile-menu-heading">
+      <span id="mobile-menu-title" class="i18n" data-es="Explora el portfolio" data-en="Explore the portfolio">Explora el portfolio</span>
+      <button type="button" class="mobile-menu-close" autofocus data-es-label="Cerrar menú" data-en-label="Close menu" aria-label="Cerrar menú">×</button>
+    </div>
+    <nav aria-labelledby="mobile-menu-title">
+      {items.map((item, index) => (
+        <a href={`/#${item.id}`} data-mobile-link={item.id} aria-current={index === 0 ? "location" : undefined}>
+          <span class="mobile-link-number" aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
+          <span class="i18n" data-es={item.es} data-en={item.en}>{item.es}</span>
+          <span class="mobile-link-arrow" aria-hidden="true">↗</span>
+        </a>
+      ))}
+    </nav>
+    <div class="mobile-menu-footer"><span class="i18n" data-es="Sigue explorando" data-en="Keep exploring">Sigue explorando</span><span data-mobile-progress>0 / 100</span></div>
+  </dialog>
+</div>
+
+<style>
+  .mobile-navigation { display: none; }
+  @media (max-width: 767px) { .mobile-navigation { display: block; } }
+  .mobile-menu-trigger { position: fixed; top: calc(0.75rem + env(safe-area-inset-top, 0px)); right: max(0.75rem, env(safe-area-inset-right, 0px)); pointer-events: auto; display: flex; align-items: center; gap: 0.75rem; min-height: 52px; padding: 0.55rem 1rem; color: var(--p-ink); background: color-mix(in srgb, var(--p-panel) 94%, transparent); border: 1px solid var(--p-line); border-radius: 1rem; backdrop-filter: blur(16px); text-align: left; font-size: 0.875rem; font-weight: 650; }
+  .mobile-menu-trigger small { display: block; max-width: 9rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--p-muted); font-size: 0.6875rem; font-weight: 400; }
+  .mobile-menu-icon { display: grid; gap: 5px; width: 20px; }
+  .mobile-menu-icon i { display: block; height: 1.5px; background: currentColor; }
+  .mobile-menu-icon i:last-child { width: 70%; }
+  dialog { position: fixed; inset: calc(0.75rem + env(safe-area-inset-top, 0px)) max(0.75rem, env(safe-area-inset-right, 0px)) auto max(0.75rem, env(safe-area-inset-left, 0px)); width: auto; max-width: 32rem; max-height: calc(100dvh - 1.5rem - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px)); margin: 0 auto; padding: 1.25rem; overflow-y: auto; overscroll-behavior: contain; border: 1px solid var(--p-line); border-radius: 1.5rem; background: var(--p-panel); color: var(--p-ink); box-shadow: 0 24px 80px #0004; pointer-events: auto; }
+  dialog::backdrop { background: #080c14a6; backdrop-filter: blur(8px); }
+  .mobile-menu-heading { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding-bottom: 1rem; color: var(--p-muted); font-size: 0.75rem; }
+  .mobile-menu-close { display: grid; place-items: center; width: 44px; height: 44px; flex-shrink: 0; border: 1px solid var(--p-line); border-radius: 50%; background: transparent; color: var(--p-ink); font-size: 1.75rem; line-height: 1; }
+  nav { display: grid; }
+  nav a { display: grid; grid-template-columns: 1.5rem minmax(0, 1fr) 1.5rem; align-items: center; gap: 0.75rem; min-height: 54px; padding: 0.6rem 0.4rem; border-top: 1px solid var(--p-line); color: var(--p-muted); font-size: clamp(1.25rem, 6vw, 1.75rem); font-weight: 550; letter-spacing: -0.035em; text-decoration: none; }
+  nav a[aria-current] { color: var(--p-accent-text); }
+  nav a[aria-current] .mobile-link-number { color: var(--p-accent-ink); background: var(--p-accent); }
+  .mobile-link-number { display: grid; place-items: center; height: 24px; border-radius: 5px; font: 0.625rem/1 ui-monospace, monospace; letter-spacing: 0; }
+  .mobile-link-arrow { font-size: 1.25rem; text-align: right; }
+  nav a:hover, nav a:focus-visible { color: var(--p-ink); }
+  .mobile-menu-footer { display: flex; justify-content: space-between; gap: 1rem; padding-top: 1.25rem; color: var(--p-muted); font: 0.6875rem/1.5 ui-monospace, monospace; }
+  @media (max-height: 600px) { dialog { padding: 0.75rem 1rem; } .mobile-menu-heading { padding-bottom: 0.5rem; } nav a { min-height: 44px; font-size: 1.25rem; } }
+</style>
+
+<script>
+  import { gsap } from "gsap";
+  let dispose: (() => void) | undefined;
+  let activeRoot: HTMLElement | null = null;
+  function initializeMobileMenu() {
+    const root = document.getElementById("mobile-navigation");
+    if (root === activeRoot) return;
+    dispose?.(); activeRoot = root;
+    if (!root) return;
+    const dialog = root.querySelector<HTMLDialogElement>("dialog")!;
+    const trigger = root.querySelector<HTMLButtonElement>("#mobile-menu-trigger")!;
+    const closeButton = root.querySelector<HTMLButtonElement>(".mobile-menu-close")!;
+    const media = matchMedia("(max-width: 767px)");
+    const reduce = matchMedia("(prefers-reduced-motion: reduce)");
+    const context = gsap.context(() => {}, root);
+    let tween: gsap.core.Tween | undefined;
+    let previousOverflow = "";
+    let closing = false;
+    let returnFocus = true;
+    const finishClose = () => { if (dialog.open) dialog.close(); };
+    function close(restore = true, immediate = false) {
+      if (!dialog.open || closing) return;
+      closing = true; returnFocus = restore; tween?.kill();
+      if (immediate || reduce.matches) finishClose();
+      else context.add(() => { tween = gsap.to(dialog, { y: -10, opacity: 0, duration: 0.18, ease: "power2.in", onComplete: finishClose }); });
+    }
+    const onClose = () => {
+      document.documentElement.style.overflow = previousOverflow;
+      trigger.setAttribute("aria-expanded", "false"); closing = false;
+      if (returnFocus && media.matches) trigger.focus({ preventScroll: true });
+    };
+    const open = () => {
+      if (dialog.open || !media.matches) return;
+      returnFocus = true; previousOverflow = document.documentElement.style.overflow;
+      dialog.showModal(); document.documentElement.style.overflow = "hidden";
+      trigger.setAttribute("aria-expanded", "true");
+      if (!reduce.matches) context.add(() => {
+        tween = gsap.fromTo(dialog, { y: -16, opacity: 0 }, { y: 0, opacity: 1, duration: 0.4, ease: "power3.out" });
+        gsap.fromTo(dialog.querySelectorAll("nav a"), { y: 14, opacity: 0 }, { y: 0, opacity: 1, duration: 0.45, stagger: 0.035, ease: "power3.out", overwrite: true });
+      });
+      else gsap.set(dialog, { clearProps: "transform,opacity" });
+    };
+    const cancel = (event: Event) => { event.preventDefault(); close(); };
+    const click = (event: MouseEvent) => {
+      const link = event.target instanceof Element ? event.target.closest<HTMLAnchorElement>("[data-mobile-link]") : null;
+      if (link && !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey) {
+        event.preventDefault(); close(false, true);
+        window.dispatchEvent(new CustomEvent("portfolio:navigate", { detail: link.dataset.mobileLink }));
+      } else if (event.target === dialog) {
+        const box = dialog.getBoundingClientRect();
+        if (event.clientX < box.left || event.clientX > box.right || event.clientY < box.top || event.clientY > box.bottom) close();
+      }
+    };
+    const closeClick = () => close();
+    const resize = () => { if (!media.matches) close(false, true); };
+    trigger.addEventListener("click", open); closeButton.addEventListener("click", closeClick);
+    dialog.addEventListener("cancel", cancel); dialog.addEventListener("click", click); dialog.addEventListener("close", onClose);
+    media.addEventListener("change", resize);
+    dispose = () => {
+      tween?.kill(); if (dialog.open) { returnFocus = false; dialog.close(); document.documentElement.style.overflow = previousOverflow; }
+      context.revert(); trigger.removeEventListener("click", open); closeButton.removeEventListener("click", closeClick);
+      dialog.removeEventListener("cancel", cancel); dialog.removeEventListener("click", click); dialog.removeEventListener("close", onClose);
+      media.removeEventListener("change", resize); activeRoot = null;
+    };
+  }
+  initializeMobileMenu(); document.addEventListener("astro:page-load", initializeMobileMenu);
+  document.addEventListener("astro:before-swap", () => { dispose?.(); dispose = undefined; });
+</script>

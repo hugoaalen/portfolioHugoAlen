@@ -1,0 +1,5 @@
+---
+import { renderOrganizationLogo } from "@/lib/organization-logo";
+interface Props { company: string; }
+---
+<Fragment set:html={renderOrganizationLogo(Astro.props.company)} />

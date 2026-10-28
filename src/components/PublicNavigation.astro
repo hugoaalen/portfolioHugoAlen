@@ -1,6 +1,7 @@
 ---
 import ThemeToggle from "./ThemeToggle.astro";
 import LanguageToggle from "./LanguageToggle.astro";
+import MobileNavigation from "./MobileNavigation.astro";
 const items = [
   { id: "hero", es: "Inicio", en: "Home" },
   { id: "project-showcase", es: "Selección", en: "Selected work" },
@@ -13,6 +14,7 @@ const items = [
 ---
 
 <header class="public-navigation" id="public-navigation">
+  <MobileNavigation items={items} />
     <label class="section-picker">
       <span class="sr-only i18n" data-es="Ir a sección" data-en="Go to section">Ir a sección</span>
       <select id="section-picker">
@@ -54,22 +56,25 @@ const items = [
   .ruler-utilities :global(.themes-menu-option:hover), .ruler-utilities :global(.themes-menu-option:focus-visible), .ruler-utilities :global(.themes-menu-option[aria-pressed="true"]) { background: var(--p-accent); color: var(--p-accent-ink); }
   .section-picker { display: none; position: fixed; top: calc(1rem + env(safe-area-inset-top, 0px)); right: max(1rem, env(safe-area-inset-right, 0px)); pointer-events: auto; }
   .section-picker select { max-width: 8.25rem; min-height: 44px; padding: 0.5rem; border: 1px solid var(--p-line); color: var(--p-ink); background: var(--p-paper); font: inherit; font-size: 0.875rem; }
-  .reading-ruler { position: fixed; top: calc(5.5rem + env(safe-area-inset-top, 0px)); right: max(0.5rem, env(safe-area-inset-right, 0px)); bottom: max(1.5rem, env(safe-area-inset-bottom, 0px)); width: clamp(8.5rem, calc((100vw - 78rem) / 2), 15rem); color: var(--p-muted); pointer-events: none; }
+  .reading-ruler { position: fixed; top: max(0.75rem, env(safe-area-inset-top, 0px)); right: max(0.5rem, env(safe-area-inset-right, 0px)); bottom: max(1.5rem, env(safe-area-inset-bottom, 0px)); width: clamp(8.5rem, calc((100vw - 78rem) / 2), 15rem); color: var(--p-muted); pointer-events: none; }
   .ruler-track { position: absolute; inset: 0 0 0 auto; width: 2rem; pointer-events: auto; touch-action: none; cursor: ns-resize; }
   .ruler-track:focus-visible { outline: 2px solid var(--p-focus); outline-offset: 3px; }
   .ruler-scale { position: absolute; inset: 0 0 0 auto; width: 1.5rem; display: flex; flex-direction: column; justify-content: space-between; }
   .ruler-tick { position: relative; display: block; height: 1px; width: 0.4rem; margin-left: auto; background: var(--p-line); }
   .ruler-tick-major { width: 0.8rem; }
   .ruler-tick > span { position: absolute; right: calc(100% + 0.3rem); top: 50%; transform: translateY(-50%); font: 0.625rem/1 ui-monospace, monospace; }
-  .ruler-cursor { position: absolute; top: calc(var(--reading-progress, 0) * 100%); right: 0; display: flex; align-items: center; gap: 0.2rem; transform: translateY(-50%); color: var(--p-accent-text); }
+  .ruler-cursor { position: absolute; top: calc(var(--reading-progress, 0) * 100%); right: 0; display: flex; align-items: center; gap: 0.35rem; transform: translateY(-50%); color: var(--p-accent-text); }
   .ruler-cursor > span { padding: 0.2rem; font: 0.625rem/1 ui-monospace, monospace; font-variant-numeric: tabular-nums; }
-  .ruler-cursor > i { height: 2px; width: 1rem; background: currentColor; }
-  .ruler-links { position: absolute; inset: 0 2.5rem 0 0; }
+  .ruler-cursor > i { height: 2px; width: 1.75rem; background: currentColor; }
+  .ruler-links { position: absolute; inset: 0 3.25rem 0 0; }
   .ruler-links a { position: absolute; inset: 0 0 auto; display: flex; justify-content: flex-end; align-items: center; min-height: 32px; color: var(--p-muted); text-align: right; text-transform: uppercase; font-size: 0.6875rem; font-weight: 600; line-height: 1.15; pointer-events: auto; }
   .ruler-links a { gap: 0.25rem; transform-origin: right center; white-space: nowrap; }
-  .ruler-links a { width: max-content; left: auto; font-size: 1.5rem; }
+  .ruler-links a { width: max-content; left: auto; font-size: 1.25rem; }
   .ruler-section-number { font: 0.625rem/1 ui-monospace, monospace; font-variant-numeric: tabular-nums; }
-  .ruler-links a[aria-current] { color: var(--p-accent-text); font-weight: 750; letter-spacing: -0.025em; }
+  .ruler-links a { opacity: 0.45; transition: opacity 250ms ease, color 250ms ease; }
+  .ruler-links a[aria-current] { color: var(--p-accent-text); opacity: 1; }
+  .ruler-links a:hover, .ruler-links a:focus-visible { opacity: 1; }
+  @media (prefers-reduced-motion: reduce) { .ruler-links a { transition: none; } }
   .ruler-links a > span { padding: 0.25rem 0.35rem; background: transparent; }
   .ruler-links a { text-shadow: 0 0 4px var(--p-paper), 0 0 10px var(--p-paper); }
   .ruler-links :global(.ruler-letter) { display: inline-block; white-space: pre; transform-origin: center; pointer-events: none; }
@@ -91,9 +96,10 @@ const items = [
   .section-picker select { border: 1px solid var(--p-line); border-radius: 0.5rem; background: var(--p-panel); }
   @media (prefers-reduced-motion: no-preference) { .ruler-utilities { animation: preferences-enter 0.7s 0.3s both cubic-bezier(0.16, 1, 0.3, 1); } }
   @keyframes preferences-enter { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
-  @media (min-width: 1600px) { .ruler-links a { font-size: clamp(1.5rem, 1.7vw, 2.125rem); } }
-  @media (max-width: 1439px), (max-height: 679px) { .section-picker { display: block; } .reading-ruler { width: 2.5rem; } .ruler-links { display: none; } }
+  @media (min-width: 1600px) { .ruler-links a { font-size: clamp(1.25rem, 1.4vw, 1.75rem); } }
+  @media (max-width: 1439px), (max-height: 679px) { .section-picker { display: block; } .reading-ruler { width: 2.5rem; } .ruler-links { display: none; } .section-picker { right: max(3.25rem, env(safe-area-inset-right, 0px)); } }
   @media (max-width: 767px) {
+    .section-picker { display: none; }
     .reading-ruler { display: none; }
     .ruler-utilities { left: max(0.75rem, env(safe-area-inset-left, 0px)); bottom: calc(0.75rem + env(safe-area-inset-bottom, 0px)); }
     .navigation-mobile-progress { display: block; position: fixed; top: 0; left: 0; right: 0; height: 2px; transform: scaleX(var(--reading-progress, 0)); transform-origin: left; background: var(--p-accent); }
@@ -115,6 +121,9 @@ const items = [
     const value = header.querySelector<HTMLElement>("[data-ruler-value]")!;
     const picker = header.querySelector<HTMLSelectElement>("#section-picker")!;
     const links = Array.from(header.querySelectorAll<HTMLAnchorElement>("[data-section-link]"));
+    const mobileLinks = Array.from(header.querySelectorAll<HTMLAnchorElement>("[data-mobile-link]"));
+    const mobileCurrent = header.querySelector<HTMLElement>("[data-mobile-current]")!;
+    const mobileProgress = header.querySelector<HTMLElement>("[data-mobile-progress]")!;
     const sections = links.map((link) => document.getElementById(link.dataset.sectionLink || ""));
     const reduce = matchMedia("(prefers-reduced-motion: reduce)");
     const context = gsap.context(() => {}, header);
@@ -134,7 +143,7 @@ const items = [
     const movers = links.map((link) => {
       let y!: ReturnType<typeof gsap.quickTo>;
       context.add(() => {
-        y = gsap.quickTo(link, "y", { duration: 0.65, ease: "power3.out" });
+        y = gsap.quickTo(link, "y", { duration: 0.45, ease: "power2.out" });
       });
       return { y };
     });
@@ -158,9 +167,9 @@ const items = [
           let rotate!: ReturnType<typeof gsap.quickTo>;
           let resize!: ReturnType<typeof gsap.quickTo>;
           context.add(() => {
-            const duration = 0.45 + (letters.length - index - 1) * 0.055;
+            const duration = 0.5 + (1 - index / Math.max(1, letters.length - 1)) * 0.2;
             rotate = gsap.quickTo(state, "rotation", { duration, ease: "power2.out", onUpdate: render });
-            resize = gsap.quickTo(state, "scale", { duration, ease: "power2.out", onUpdate: render });
+            resize = gsap.quickTo(state, "scale", { duration: 0.55, ease: "power2.out", onUpdate: render });
           });
           motion = { state, rotate, resize, render };
           glyphMotions.set(letter, motion);
@@ -178,6 +187,7 @@ const items = [
       const fraction = range ? Math.max(0, Math.min(1, scrollY / range)) : 0;
       header!.style.setProperty("--reading-progress", String(fraction));
       const percent = Math.round(fraction * 100);
+      mobileProgress.textContent = `${percent} / 100`;
       if (percent !== previousPercent) { track.setAttribute("aria-valuenow", String(percent)); value.textContent = String(percent); previousPercent = percent; }
       const tops = sections.map((section) => section?.getBoundingClientRect().top ?? Infinity);
       let index = 0;
@@ -204,6 +214,8 @@ const items = [
       if (current !== index) {
         current = index; picker.value = links[index].dataset.sectionLink || "hero";
       }
+      mobileLinks.forEach((link, i) => { if (i === index) link.setAttribute("aria-current", "location"); else link.removeAttribute("aria-current"); });
+      mobileCurrent.textContent = mobileLinks[index].querySelector(".i18n")?.textContent || "";
     }
     const schedule = () => { if (!frame) frame = requestAnimationFrame(() => { frame = 0; if (!disposed) update(); }); };
     function goTo(id: string) {
@@ -222,6 +234,7 @@ const items = [
     }
     const onLink = (event: MouseEvent) => { const link = event.target instanceof Element ? event.target.closest<HTMLAnchorElement>("a[data-section-link]") : null; if (!link || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return; event.preventDefault(); goTo(link.dataset.sectionLink || "hero"); };
     const onPicker = () => goTo(picker.value);
+    const onMobileNavigate = (event: Event) => { const id = (event as CustomEvent).detail; if (typeof id === "string" && sections.some((section) => section?.id === id)) goTo(id); };
     const animateLabelHover = (event: PointerEvent, entering: boolean) => {
       if (reduce.matches || event.pointerType === "touch") return;
       const link = event.target instanceof Element ? event.target.closest<HTMLAnchorElement>("[data-section-link]") : null;
@@ -260,6 +273,7 @@ const items = [
     const trackKey = (event: KeyboardEvent) => { const range = Math.max(0, document.documentElement.scrollHeight - innerHeight); const positions: Record<string, number> = { ArrowDown: scrollY + range * 0.01, ArrowUp: scrollY - range * 0.01, PageDown: scrollY + innerHeight, PageUp: scrollY - innerHeight, Home: 0, End: range }; if (!(event.key in positions)) return; event.preventDefault(); stop(); window.scrollTo({ top: Math.max(0, Math.min(range, positions[event.key])), behavior: "instant" }); };
     const observer = new ResizeObserver(schedule); observer.observe(document.body); const main = document.querySelector("main"); if (main) observer.observe(main);
     header.addEventListener("click", onLink); picker.addEventListener("change", onPicker);
+    window.addEventListener("portfolio:navigate", onMobileNavigate);
     rail.addEventListener("pointerover", hoverIn); rail.addEventListener("pointerout", hoverOut);
     window.addEventListener("scroll", schedule, { passive: true }); window.addEventListener("resize", schedule); window.addEventListener("languageChanged", updateLabels);
     window.addEventListener("wheel", stop, { passive: true }); window.addEventListener("touchstart", stop, { passive: true }); window.addEventListener("keydown", onKey);
@@ -267,6 +281,7 @@ const items = [
     updateLabels(); update();
     cleanup = () => { disposed = true; stop(); context.revert(); observer.disconnect(); cancelAnimationFrame(frame);
       header.removeEventListener("click", onLink); picker.removeEventListener("change", onPicker);
+      window.removeEventListener("portfolio:navigate", onMobileNavigate);
       rail.removeEventListener("pointerover", hoverIn); rail.removeEventListener("pointerout", hoverOut);
       window.removeEventListener("scroll", schedule); window.removeEventListener("resize", schedule); window.removeEventListener("languageChanged", updateLabels);
       window.removeEventListener("wheel", stop); window.removeEventListener("touchstart", stop); window.removeEventListener("keydown", onKey);

@@ -5,7 +5,7 @@ import { experience } from "@/data/content";
 
 <ol class="relative grid gap-5 md:grid-cols-2" id="experience-container">
   {
-    experience.map((item) => (
+    experience.filter((item) => item.visible).map((item) => (
       <li class="">
         <ExperienceItem {...item} />
       </li>
@@ -16,6 +16,7 @@ import { experience } from "@/data/content";
 <script>
   import { collection, getDocs, query, where } from "firebase/firestore/lite";
   import { publicDb } from "@/lib/firebase-public";
+  import { renderOrganizationLogo } from "@/lib/organization-logo";
 
   function updateExperienceLanguage() {
     const lang = localStorage.getItem('language') || 'es';
@@ -57,13 +58,14 @@ import { experience } from "@/data/content";
 	    return `
 	      <li>
 	        <div class="relative grid h-full gap-5 p-6 transition border-2 border-black bg-white shadow-[7px_7px_0_#111] hover:-translate-y-1 dark:border-white dark:bg-[#111] dark:shadow-[7px_7px_0_#c5ff4a]">
-	          <div class="relative">
+	          <div class="organization-heading relative">
+                ${renderOrganizationLogo(String(item.company ?? ""))}
 	            <div>
 	              <h3 class="text-xl font-black leading-tight text-black uppercase dark:text-[#c5ff4a] i18n" data-es="${escapeHtml(item.title?.es)}" data-en="${escapeHtml(item.title?.en)}">
 	                ${escapeHtml(item.title?.es)}
 	              </h3>
 	              <h4 class="mt-2 text-lg font-bold text-gray-800 dark:text-white">
-	                ${escapeHtml(item.company)}
+	                <span>${escapeHtml(item.company)}</span>
 	              </h4>
 	              <time class="inline-block p-1 mt-3 text-xs font-black tracking-wide text-black uppercase bg-[#c5ff4a] i18n" data-es="${escapeHtml(item.date?.es)}" data-en="${escapeHtml(item.date?.en)}">
 	                ${escapeHtml(item.date?.es)}
@@ -88,7 +90,11 @@ import { experience } from "@/data/content";
 
 	      const snapshot = await getDocs(query(collection(publicDb, "experience"), where("visible", "==", true)));
 	      const items = snapshot.docs
-	        .map((item) => item.data())
+	        .map((item) => {
+              const data = item.data();
+              return { ...data, id: item.id, order: Number(data.order ?? 0) };
+            })
+	        .filter((item) => item.id !== "addiction-tu-moda")
 	        .sort((a, b) => Number(a.order ?? 0) - Number(b.order ?? 0));
 	      if (items.length === 0) return;
 

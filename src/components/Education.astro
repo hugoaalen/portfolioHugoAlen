@@ -1,16 +1,16 @@
 ---
 import EducationItem from "./EducationItem.astro";
 import { education } from "@/data/content";
+import { groupEducation } from "@/lib/education-groups";
 
-const primaryEducation = education.filter((item) => item.order < 100);
-const additionalEducation = education.filter((item) => item.order >= 100);
+const { primary: primaryEducation, additional: additionalEducation } = groupEducation(education);
 ---
 
 <div id="education-container">
   <ol class="grid gap-4 md:grid-cols-2">
     {
-      primaryEducation.map((item, index) => (
-        <li class:list={{ "md:col-span-2": index === 2 }}>
+      primaryEducation.map((item) => (
+        <li>
           <EducationItem {...item} />
         </li>
       ))
@@ -28,7 +28,7 @@ const additionalEducation = education.filter((item) => item.order >= 100);
         >
           Certificaciones y formación adicional
         </h3>
-        <ol class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <ol class="grid gap-4 sm:grid-cols-2">
           {additionalEducation.map((item) => (
             <li>
               <EducationItem {...item} variant="secondary" />
@@ -43,6 +43,8 @@ const additionalEducation = education.filter((item) => item.order >= 100);
 <script>
   import { collection, getDocs, query, where } from "firebase/firestore/lite";
   import { publicDb } from "@/lib/firebase-public";
+  import { renderOrganizationLogo } from "@/lib/organization-logo";
+  import { groupEducation } from "@/lib/education-groups";
 
   function updateEducationLanguage() {
     const lang = localStorage.getItem('language') || 'es';
@@ -69,9 +71,8 @@ const additionalEducation = education.filter((item) => item.order >= 100);
 	      .replaceAll("'", "&#039;");
 	  }
 
-	  function renderEducationItem(item: any, variant: "primary" | "secondary", index = 0) {
+	  function renderEducationItem(item: any, variant: "primary" | "secondary") {
 	    const isPrimary = variant === "primary";
-	    const itemClass = isPrimary && index === 2 ? " class=\"md:col-span-2\"" : "";
 	    const cardClass = isPrimary
 	      ? "p-6 bg-[#c5ff4a]"
 	      : "p-5 bg-white dark:bg-[#111] dark:shadow-[7px_7px_0_#c5ff4a]";
@@ -89,15 +90,16 @@ const additionalEducation = education.filter((item) => item.order >= 100);
 	      : "";
 
 	    return `
-	      <li${itemClass}>
+	      <li>
 	        <div class="relative h-full ${cardClass} transition border-2 border-black shadow-[7px_7px_0_#111] hover:-translate-y-1 dark:border-white">
-	          <div class="relative">
+	          <div class="organization-heading relative">
+                ${renderOrganizationLogo(String(item.company ?? ""))}
 	            <div>
 	              <h3 class="${titleClass} font-black leading-tight uppercase i18n" data-es="${escapeHtml(item.title?.es)}" data-en="${escapeHtml(item.title?.en)}">
 	                ${escapeHtml(item.title?.es)}
 	              </h3>
 	              <h4 class="mt-2 font-bold ${companyClass}">
-	                ${escapeHtml(item.company)}
+	                <span>${escapeHtml(item.company)}</span>
 	              </h4>
 	              <time class="inline-block p-1 mt-4 text-xs font-black tracking-wide uppercase ${dateClass} i18n" data-es="${escapeHtml(item.date?.es)}" data-en="${escapeHtml(item.date?.en)}">
 	                ${escapeHtml(item.date?.es)}
@@ -113,18 +115,17 @@ const additionalEducation = education.filter((item) => item.order >= 100);
 	  }
 
 	  function renderEducationGroups(items: any[]) {
-	    const primary = items.filter((item) => Number(item.order ?? 0) < 100);
-	    const additional = items.filter((item) => Number(item.order ?? 0) >= 100);
+	    const { primary, additional } = groupEducation(items);
 	    const additionalSection = additional.length > 0
 	      ? `<section class="mt-10" aria-labelledby="additional-education-title">
 	          <h3 id="additional-education-title" class="mb-5 text-sm font-black tracking-[0.16em] text-gray-700 uppercase dark:text-gray-300 i18n" data-es="Certificaciones y formación adicional" data-en="Certifications and additional training">Certificaciones y formación adicional</h3>
-	          <ol class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+	          <ol class="grid gap-4 sm:grid-cols-2">
 	            ${additional.map((item) => renderEducationItem(item, "secondary")).join("")}
 	          </ol>
 	        </section>`
 	      : "";
 
-	    return `<ol class="grid gap-4 md:grid-cols-2">${primary.map((item, index) => renderEducationItem(item, "primary", index)).join("")}</ol>${additionalSection}`;
+	    return `<ol class="grid gap-4 md:grid-cols-2">${primary.map((item) => renderEducationItem(item, "primary")).join("")}</ol>${additionalSection}`;
 	  }
 
 	  async function hydrateEducationFromFirestore() {
@@ -134,7 +135,7 @@ const additionalEducation = education.filter((item) => item.order >= 100);
 
 	      const snapshot = await getDocs(query(collection(publicDb, "education"), where("visible", "==", true)));
 	      const items = snapshot.docs
-	        .map((item) => item.data())
+	        .map((item) => { const data = item.data(); return { ...data, id: String(data.id ?? item.id), order: Number(data.order ?? 0) }; })
 	        .sort((a, b) => Number(a.order ?? 0) - Number(b.order ?? 0));
 	      if (items.length === 0) return;
 
