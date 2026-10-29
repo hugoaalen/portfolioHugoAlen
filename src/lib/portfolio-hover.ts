@@ -1,4 +1,5 @@
 import { gsap } from "gsap";
+import { buttonFillOrigin } from "./button-fill";
 
 const buttons = ".hero-panel > nav a, .project-card footer a";
 const surfaces = ".project-card, .showcase-panel, #experience-container > li > div, #education-container li > div, #about-container, .section-title, .footer-invitation";
@@ -8,15 +9,28 @@ export function initializePortfolioHover(root: HTMLElement) {
   const media = gsap.matchMedia();
   media.add("(hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)", () => {
     const context = gsap.context(() => {}, root);
-    const states = new Map<HTMLElement, { hover: boolean; focused: boolean; bounds: DOMRect; enter: () => void; leave: () => void; move: (event: PointerEvent) => void }>();
+    const states = new Map<HTMLElement, { hover: boolean; focused: boolean; bounds: DOMRect; enter: (event?: PointerEvent) => void; leave: () => void; move: (event: PointerEvent) => void }>();
     const create = (element: HTMLElement) => {
       const existing = states.get(element);
       if (existing) return existing;
-      const state = { hover: false, focused: false, bounds: element.getBoundingClientRect(), enter: () => {}, leave: () => {}, move: (_event: PointerEvent) => {} };
+      const state = { hover: false, focused: false, bounds: element.getBoundingClientRect(), enter: (_event?: PointerEvent) => {}, leave: () => {}, move: (_event: PointerEvent) => {} };
       context.add(() => {
+        let prepareEnter = (_event?: PointerEvent) => {};
         const timeline = gsap.timeline({ paused: true, defaults: { duration: 0.4, ease: "power3.out" } });
         if (element.matches(buttons)) {
           element.classList.add("motion-button");
+          prepareEnter = (event) => {
+            // Preserve an in-flight origin on rapid re-entry rather than snapping the fill.
+            if (timeline.progress() > 0.01) return;
+            const width = element.clientWidth;
+            const height = element.clientHeight;
+            const point = buttonFillOrigin(width, height,
+              event ? (event.clientX - state.bounds.left) / state.bounds.width * width : width / 2,
+              event ? (event.clientY - state.bounds.top) / state.bounds.height * height : height / 2);
+            element.style.setProperty("--button-origin-x", `${point.x}px`);
+            element.style.setProperty("--button-origin-y", `${point.y}px`);
+            element.style.setProperty("--button-radius", `${point.radius}px`);
+          };
           const color = getComputedStyle(element).getPropertyValue("--p-accent-ink").trim();
           const x = gsap.quickTo(element, "x", { duration: 0.55, ease: "elastic.out(1, 0.5)" });
           const y = gsap.quickTo(element, "y", { duration: 0.55, ease: "elastic.out(1, 0.5)" });
@@ -64,7 +78,7 @@ export function initializePortfolioHover(root: HTMLElement) {
           const arrow = element.matches(".footer-invitation") ? element.querySelector("[aria-hidden]") : null;
           if (arrow) timeline.to(arrow, { x: 8, y: -8, rotation: 8 }, 0);
         }
-        state.enter = () => { state.bounds = element.getBoundingClientRect(); timeline.timeScale(1).play(); };
+        state.enter = (event) => { state.bounds = element.getBoundingClientRect(); prepareEnter(event); timeline.timeScale(1).play(); };
         const leave = state.leave;
         state.leave = () => { leave(); timeline.timeScale(1.1).reverse(); };
       });
@@ -81,7 +95,7 @@ export function initializePortfolioHover(root: HTMLElement) {
       if (event.pointerType === "touch") return;
       ancestors(event).forEach((element) => {
         if (event.relatedTarget instanceof Node && element.contains(event.relatedTarget)) return;
-        const state = create(element); state.hover = true; state.enter();
+        const state = create(element); state.hover = true; state.enter(event);
       });
     };
     const out = (event: PointerEvent) => ancestors(event).forEach((element) => {
@@ -90,7 +104,7 @@ export function initializePortfolioHover(root: HTMLElement) {
     });
     const move = (event: PointerEvent) => {
       if (event.pointerType === "touch") return;
-      ancestors(event).forEach((element) => { const state = create(element); if (!state.hover) { state.hover = true; state.enter(); } state.move(event); });
+      ancestors(event).forEach((element) => { const state = create(element); if (!state.hover) { state.hover = true; state.enter(event); } state.move(event); });
     };
     const focus = (event: FocusEvent) => ancestors(event).forEach((element) => { const state = create(element); state.focused = true; state.enter(); });
     const blur = (event: FocusEvent) => ancestors(event).forEach((element) => {
@@ -103,7 +117,10 @@ export function initializePortfolioHover(root: HTMLElement) {
     return () => {
       root.removeEventListener("pointerover", over); root.removeEventListener("pointerout", out); root.removeEventListener("pointermove", move);
       root.removeEventListener("focusin", focus); root.removeEventListener("focusout", blur); window.removeEventListener("scroll", reset); window.removeEventListener("resize", reset);
-      context.revert(); states.forEach((_, element) => element.classList.remove("motion-button", "motion-section")); states.clear();
+      context.revert(); states.forEach((_, element) => {
+        element.classList.remove("motion-button", "motion-section");
+        ["--button-origin-x", "--button-origin-y", "--button-radius"].forEach((property) => element.style.removeProperty(property));
+      }); states.clear();
     };
   });
   return () => media.revert();

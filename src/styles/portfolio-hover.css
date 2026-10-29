@@ -1,5 +1,9 @@
 body[data-page="portfolio"] .motion-button { position: relative; isolation: isolate; overflow: hidden; transition: none; }
-body[data-page="portfolio"] .motion-button::before { content: ""; position: absolute; inset: 0; z-index: -1; background: var(--p-accent); transform: scaleY(var(--button-fill, 0)); transform-origin: center bottom; }
+body[data-page="portfolio"] .motion-button::before { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none; background: var(--button-hover, var(--p-accent)); clip-path: circle(calc(var(--button-fill, 0) * var(--button-radius, 0px)) at var(--button-origin-x, 50%) var(--button-origin-y, 50%)); }
+body[data-page="portfolio"] .hero-panel > nav a.motion-button:hover,
+body[data-page="portfolio"] .project-card footer a.motion-button:hover { background: transparent; }
+body[data-page="portfolio"] .hero-panel > nav .hero-project-link.motion-button { --button-hover: color-mix(in srgb, var(--p-accent), white 25%); }
+body[data-page="portfolio"] .hero-panel > nav .hero-project-link.motion-button:hover { background: var(--p-accent); }
 body[data-page="portfolio"] .motion-button > * { position: relative; }
 body[data-page="portfolio"] .motion-section { position: relative; }
 body[data-page="portfolio"] .motion-section::after { content: ""; position: absolute; left: 0; bottom: 0; width: 100%; height: 2px; background: var(--p-accent-text); transform: scaleX(var(--section-line, 0)); transform-origin: left center; pointer-events: none; }

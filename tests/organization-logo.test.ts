@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 import { existsSync, readFileSync } from "node:fs";
 import { organizationLogo, renderOrganizationLogo } from "../src/lib/organization-logo.ts";
 
-test("every institution and employer has a local WebP logo", () => {
+test("every institution and employer has a small local logo", () => {
   for (const file of ["experience", "education"]) {
     const items = JSON.parse(readFileSync(new URL(`../src/data/${file}.json`, import.meta.url), "utf8"));
     for (const item of items.filter((item: { visible: boolean }) => item.visible)) {
@@ -12,7 +12,10 @@ test("every institution and employer has a local WebP logo", () => {
       const asset = new URL(`../public${src}`, import.meta.url);
       assert.ok(existsSync(asset));
       const data = readFileSync(asset);
-      assert.equal(data.toString("ascii", 8, 12), "WEBP");
+      if (src.endsWith(".svg")) {
+        assert.match(data.toString(), /<svg[^>]+viewBox=/);
+        assert.doesNotMatch(data.toString(), /<image|data:image|<script/);
+      } else assert.equal(data.toString("ascii", 8, 12), "WEBP");
       assert.ok(data.length < 40_000);
     }
   }

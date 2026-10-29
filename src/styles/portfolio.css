@@ -41,7 +41,7 @@ body[data-page="portfolio"] {
 body[data-page="portfolio"], .dark body[data-page="portfolio"] { background-attachment: fixed; }
 body[data-page="portfolio"] .section,
 body[data-page="portfolio"] #footer-container { max-width: 78rem; padding-inline: clamp(1.25rem, 4vw, 3rem); }
-body[data-page="portfolio"] #hero { padding-top: 7.5rem; padding-bottom: clamp(5rem, 10vw, 8rem); }
+body[data-page="portfolio"] #hero { padding-top: 5.5rem; padding-bottom: clamp(5rem, 10vw, 8rem); }
 body[data-page="portfolio"] #hero-content { max-width: none; }
 body[data-page="portfolio"] .hero-panel {
   position: relative;

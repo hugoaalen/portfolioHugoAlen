@@ -13,7 +13,8 @@ const organizations: Record<string, string> = {
 export function organizationLogo(company: string): string | undefined {
   const key = company.normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim().toLowerCase();
   const name = Object.hasOwn(organizations, key) ? organizations[key] : undefined;
-  return name ? `/images/organizations/${name}.webp` : undefined;
+  const extension = name === "grupo-marsan" || name === "siscom" ? "svg" : "webp";
+  return name ? `/images/organizations/${name}.${extension}` : undefined;
 }
 
 // The company name is already adjacent, so these logos are decorative.
