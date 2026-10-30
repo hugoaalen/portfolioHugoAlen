@@ -15,12 +15,6 @@ const items = [
 
 <header class="public-navigation" id="public-navigation">
   <MobileNavigation items={items} />
-    <label class="section-picker">
-      <span class="sr-only i18n" data-es="Ir a sección" data-en="Go to section">Ir a sección</span>
-      <select id="section-picker">
-        {items.map((item) => <option value={item.id} class="i18n" data-es={item.es} data-en={item.en}>{item.es}</option>)}
-      </select>
-    </label>
   <div class="ruler-utilities" role="group" aria-label="Preferencias" data-es-label="Preferencias" data-en-label="Preferences">
     <ThemeToggle /><LanguageToggle />
   </div>
@@ -54,8 +48,6 @@ const items = [
   .ruler-utilities :global(#theme-toggle-btn:hover), .ruler-utilities :global(#language-toggle:hover) { border-color: var(--p-line); color: var(--p-accent-text); }
   .ruler-utilities :global(#themes-menu) { top: calc(100% + 0.5rem); bottom: auto; color: var(--p-ink); background: var(--p-panel); border: 1px solid var(--p-line); box-shadow: 0 8px 24px #0003; }
   .ruler-utilities :global(.themes-menu-option:hover), .ruler-utilities :global(.themes-menu-option:focus-visible), .ruler-utilities :global(.themes-menu-option[aria-pressed="true"]) { background: var(--p-accent); color: var(--p-accent-ink); }
-  .section-picker { display: none; position: fixed; top: calc(1rem + env(safe-area-inset-top, 0px)); right: max(1rem, env(safe-area-inset-right, 0px)); pointer-events: auto; }
-  .section-picker select { max-width: 8.25rem; min-height: 44px; padding: 0.5rem; border: 1px solid var(--p-line); color: var(--p-ink); background: var(--p-paper); font: inherit; font-size: 0.875rem; }
   .reading-ruler { position: fixed; top: max(0.75rem, env(safe-area-inset-top, 0px)); right: max(0.5rem, env(safe-area-inset-right, 0px)); bottom: max(1.5rem, env(safe-area-inset-bottom, 0px)); width: clamp(8.5rem, calc((100vw - 78rem) / 2), 15rem); color: var(--p-muted); pointer-events: none; }
   .ruler-track { position: absolute; inset: 0 0 0 auto; width: 2rem; pointer-events: auto; touch-action: none; cursor: ns-resize; }
   .ruler-track:focus-visible { outline: 2px solid var(--p-focus); outline-offset: 3px; }
@@ -93,17 +85,14 @@ const items = [
   .ruler-utilities :global([data-language-flag]) { width: 20px; height: 14px; }
   .ruler-utilities :global(#themes-menu) { top: auto; bottom: calc(100% + 0.75rem); left: -0.2rem; right: auto; min-width: 10rem; padding: 0.35rem; border-radius: 1rem; box-shadow: 0 10px 30px #0002; transform-origin: bottom left; }
   .ruler-utilities :global(.themes-menu-option) { border-radius: 0.65rem; min-height: 44px; font-size: 0.75rem; }
-  .section-picker select { border: 1px solid var(--p-line); border-radius: 0.5rem; background: var(--p-panel); }
   @media (prefers-reduced-motion: no-preference) { .ruler-utilities { animation: preferences-enter 0.7s 0.3s both cubic-bezier(0.16, 1, 0.3, 1); } }
   @keyframes preferences-enter { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
   @media (min-width: 1600px) { .ruler-links a { font-size: clamp(1.25rem, 1.4vw, 1.75rem); } }
-  @media (max-width: 1439px), (max-height: 679px) { .section-picker { display: block; } .reading-ruler { width: 2.5rem; } .ruler-links { display: none; } .section-picker { right: max(3.25rem, env(safe-area-inset-right, 0px)); } }
-  @media (max-width: 767px) {
-    .section-picker { display: none; }
+  @media (max-width: 1439px), (max-height: 679px), (hover: none) and (pointer: coarse) {
     .reading-ruler { display: none; }
-    .ruler-utilities { left: max(0.75rem, env(safe-area-inset-left, 0px)); bottom: calc(0.75rem + env(safe-area-inset-bottom, 0px)); }
     .navigation-mobile-progress { display: block; position: fixed; top: 0; left: 0; right: 0; height: 2px; transform: scaleX(var(--reading-progress, 0)); transform-origin: left; background: var(--p-accent); }
   }
+  @media (max-width: 767px) { .ruler-utilities { left: max(0.75rem, env(safe-area-inset-left, 0px)); bottom: calc(0.75rem + env(safe-area-inset-bottom, 0px)); } }
 </style>
 
 <script>
@@ -119,7 +108,6 @@ const items = [
     const rail = header.querySelector<HTMLElement>(".reading-ruler")!;
     const track = header.querySelector<HTMLElement>(".ruler-track")!;
     const value = header.querySelector<HTMLElement>("[data-ruler-value]")!;
-    const picker = header.querySelector<HTMLSelectElement>("#section-picker")!;
     const links = Array.from(header.querySelectorAll<HTMLAnchorElement>("[data-section-link]"));
     const mobileLinks = Array.from(header.querySelectorAll<HTMLAnchorElement>("[data-mobile-link]"));
     const mobileCurrent = header.querySelector<HTMLElement>("[data-mobile-current]")!;
@@ -131,7 +119,6 @@ const items = [
     let frame = 0;
     let disposed = false;
     let previousPercent = -1;
-    let current = -1;
     let positioned = false;
     const labelTargets: { rotation: number; scale: number }[] = [];
     const glyphMotions = new Map<HTMLElement, {
@@ -211,9 +198,6 @@ const items = [
         labelTargets[i] = { rotation, scale: position.scale };
       });
       positioned = true;
-      if (current !== index) {
-        current = index; picker.value = links[index].dataset.sectionLink || "hero";
-      }
       mobileLinks.forEach((link, i) => { if (i === index) link.setAttribute("aria-current", "location"); else link.removeAttribute("aria-current"); });
       mobileCurrent.textContent = mobileLinks[index].querySelector(".i18n")?.textContent || "";
     }
@@ -233,7 +217,6 @@ const items = [
       }); }
     }
     const onLink = (event: MouseEvent) => { const link = event.target instanceof Element ? event.target.closest<HTMLAnchorElement>("a[data-section-link]") : null; if (!link || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return; event.preventDefault(); goTo(link.dataset.sectionLink || "hero"); };
-    const onPicker = () => goTo(picker.value);
     const onMobileNavigate = (event: Event) => { const id = (event as CustomEvent).detail; if (typeof id === "string" && sections.some((section) => section?.id === id)) goTo(id); };
     const animateLabelHover = (event: PointerEvent, entering: boolean) => {
       if (reduce.matches || event.pointerType === "touch") return;
@@ -272,7 +255,7 @@ const items = [
     const onKey = (event: KeyboardEvent) => { if (["ArrowUp", "ArrowDown", "PageUp", "PageDown", "Home", "End", " ", "Escape", "Tab"].includes(event.key)) stop(); };
     const trackKey = (event: KeyboardEvent) => { const range = Math.max(0, document.documentElement.scrollHeight - innerHeight); const positions: Record<string, number> = { ArrowDown: scrollY + range * 0.01, ArrowUp: scrollY - range * 0.01, PageDown: scrollY + innerHeight, PageUp: scrollY - innerHeight, Home: 0, End: range }; if (!(event.key in positions)) return; event.preventDefault(); stop(); window.scrollTo({ top: Math.max(0, Math.min(range, positions[event.key])), behavior: "instant" }); };
     const observer = new ResizeObserver(schedule); observer.observe(document.body); const main = document.querySelector("main"); if (main) observer.observe(main);
-    header.addEventListener("click", onLink); picker.addEventListener("change", onPicker);
+    header.addEventListener("click", onLink);
     window.addEventListener("portfolio:navigate", onMobileNavigate);
     rail.addEventListener("pointerover", hoverIn); rail.addEventListener("pointerout", hoverOut);
     window.addEventListener("scroll", schedule, { passive: true }); window.addEventListener("resize", schedule); window.addEventListener("languageChanged", updateLabels);
@@ -280,7 +263,7 @@ const items = [
     track.addEventListener("pointerdown", down); track.addEventListener("pointermove", move); track.addEventListener("pointerup", up); track.addEventListener("pointercancel", up); track.addEventListener("keydown", trackKey);
     updateLabels(); update();
     cleanup = () => { disposed = true; stop(); context.revert(); observer.disconnect(); cancelAnimationFrame(frame);
-      header.removeEventListener("click", onLink); picker.removeEventListener("change", onPicker);
+      header.removeEventListener("click", onLink);
       window.removeEventListener("portfolio:navigate", onMobileNavigate);
       rail.removeEventListener("pointerover", hoverIn); rail.removeEventListener("pointerout", hoverOut);
       window.removeEventListener("scroll", schedule); window.removeEventListener("resize", schedule); window.removeEventListener("languageChanged", updateLabels);

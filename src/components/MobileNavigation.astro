@@ -27,7 +27,7 @@ const { items } = Astro.props;
 
 <style>
   .mobile-navigation { display: none; }
-  @media (max-width: 767px) { .mobile-navigation { display: block; } }
+  @media (max-width: 1439px), (max-height: 679px), (hover: none) and (pointer: coarse) { .mobile-navigation { display: block; } }
   .mobile-menu-trigger { position: fixed; top: calc(0.75rem + env(safe-area-inset-top, 0px)); right: max(0.75rem, env(safe-area-inset-right, 0px)); pointer-events: auto; display: flex; align-items: center; gap: 0.75rem; min-height: 52px; padding: 0.55rem 1rem; color: var(--p-ink); background: color-mix(in srgb, var(--p-panel) 94%, transparent); border: 1px solid var(--p-line); border-radius: 1rem; backdrop-filter: blur(16px); text-align: left; font-size: 0.875rem; font-weight: 650; }
   .mobile-menu-trigger small { display: block; max-width: 9rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--p-muted); font-size: 0.6875rem; font-weight: 400; }
   .mobile-menu-icon { display: grid; gap: 5px; width: 20px; }
@@ -60,7 +60,7 @@ const { items } = Astro.props;
     const dialog = root.querySelector<HTMLDialogElement>("dialog")!;
     const trigger = root.querySelector<HTMLButtonElement>("#mobile-menu-trigger")!;
     const closeButton = root.querySelector<HTMLButtonElement>(".mobile-menu-close")!;
-    const media = matchMedia("(max-width: 767px)");
+    const media = matchMedia("(max-width: 1439px), (max-height: 679px), (hover: none) and (pointer: coarse)");
     const reduce = matchMedia("(prefers-reduced-motion: reduce)");
     const context = gsap.context(() => {}, root);
     let tween: gsap.core.Tween | undefined;
