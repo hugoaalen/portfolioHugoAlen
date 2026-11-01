@@ -199,8 +199,13 @@ body[data-page="portfolio"] #project-showcase :focus-visible { outline-color: va
   .showcase-caption { gap: 0.65rem; padding: 0.8rem; }
   body[data-page="portfolio"] #hero-title { font-size: clamp(2.5rem, 10vw, 4.5rem); }
   body[data-page="portfolio"] .hero-panel > header { gap: 0.75rem; margin-bottom: 2rem; }
-  body[data-page="portfolio"] .hero-panel > nav .hero-project-link { flex-basis: 100%; justify-content: space-between; }
-  body[data-page="portfolio"] .hero-panel > nav a { flex-grow: 1; }
+  body[data-page="portfolio"] .hero-panel > nav { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.625rem; }
+  body[data-page="portfolio"] .hero-panel > nav a { min-width: 0; min-height: 50px; justify-content: center; gap: 0.625rem; padding: 0.875rem 0.625rem; border-radius: 0.5rem; font-size: 0.875rem; }
+  body[data-page="portfolio"] .hero-panel > nav .hero-project-link,
+  body[data-page="portfolio"] .hero-panel > nav #hero-email-link { grid-column: 1 / -1; }
+  body[data-page="portfolio"] .hero-panel > nav .hero-project-link { justify-content: space-between; padding-inline: 1rem; }
+  body[data-page="portfolio"] .hero-panel > nav #hero-email-link { background: color-mix(in srgb, var(--p-accent) 8%, var(--p-panel)); }
+  body[data-page="portfolio"] .hero-panel > nav a svg { flex-shrink: 0; width: 18px; height: 18px; }
   body[data-page="portfolio"] #hero-profile-image { width: 56px; height: 56px; }
   body[data-page="portfolio"] #hero-kicker { font-size: 0.625rem; letter-spacing: 0; }
   body[data-page="portfolio"] #experience-container > li > div { grid-template-columns: 1fr; gap: 1.25rem; }
