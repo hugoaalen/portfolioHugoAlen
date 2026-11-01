@@ -6,7 +6,7 @@ Reúne mi experiencia, proyectos personales, formación y vías de contacto. Inc
 
 **[Ver portfolio](https://hugoalen.vercel.app/)**
 
-[![Vista actual del portfolio de Hugo Alén: presentación profesional, navegación y experiencia en modo oscuro](./public/portfolio.webp)](https://hugoalen.vercel.app/)
+[![Portfolio de Hugo Alén: presentación profesional en modo oscuro con acento azul acero y navegación responsive](./public/portfolio.webp)](https://hugoalen.vercel.app/)
 
 ## Funcionalidades
 
