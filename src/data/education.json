@@ -44,7 +44,7 @@
   {
     "id": "ia-productividad-google",
     "order": 110,
-    "visible": true,
+    "visible": false,
     "date": {
       "es": "Enero 2025 (2h)",
       "en": "January 2025 (2h)"

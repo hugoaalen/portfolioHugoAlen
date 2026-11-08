@@ -65,8 +65,18 @@ const TAGS = {
 };
 const PRIORITY_PROJECT_IDS = new Set(["futpath", "zaizen", "senda"]);
 
+function getCategoryGroups(rawTags: string[] = [], category = "") {
+  const isBackend = rawTags.some((t) => ["PHP", "PYTHON", "MYSQL", "SQLSERVER", "SQLITE", "POSTGRESQL", "DOTNET", "CSHARP", "NODE", "EXPRESS", "BASH"].includes(t)) || category === "tool";
+  const isApp = rawTags.some((t) => ["REACT", "NEXT", "VITE", "ANGULAR", "ASTRO", "KOTLIN"].includes(t)) || ["app", "game", "website"].includes(category);
+  const groups: string[] = ["all"];
+  if (isBackend) groups.push("backend");
+  if (isApp) groups.push("apps");
+  return groups.join(" ");
+}
+
 const PROJECTS = projects.map((project) => ({
   ...project,
+  categoryGroups: getCategoryGroups(project.tags, project.category),
   image: getOptimizedImagePath(project.image),
   tags: project.tags
     .map((tag) => TAGS[tag as keyof typeof TAGS])
@@ -74,11 +84,39 @@ const PROJECTS = projects.map((project) => ({
 }));
 ---
 
+<div class="flex flex-wrap items-center gap-2 mb-8" id="project-filters" role="group" aria-label="Filtro de proyectos">
+  <button
+    type="button"
+    class="project-filter-btn px-4 py-2 text-xs font-bold uppercase transition border border-[var(--p-line,#929eab)] bg-[var(--p-accent,#a7bcd9)] text-[var(--p-accent-ink,#17202b)]"
+    data-filter="all"
+    aria-pressed="true"
+  >
+    <span class="i18n" data-es="Todos" data-en="All">Todos</span>
+    <span class="ml-1 opacity-75">({PROJECTS.length})</span>
+  </button>
+  <button
+    type="button"
+    class="project-filter-btn px-4 py-2 text-xs font-bold uppercase transition border border-[var(--p-line,#929eab)] bg-transparent text-[var(--p-ink,#1b222b)] dark:text-[var(--p-ink,#f1f0e9)] hover:bg-[var(--p-paper,#f4f2ed)] dark:hover:bg-[var(--p-panel,#181d23)]"
+    data-filter="backend"
+    aria-pressed="false"
+  >
+    <span class="i18n" data-es="Backend & APIs" data-en="Backend & APIs">Backend & APIs</span>
+  </button>
+  <button
+    type="button"
+    class="project-filter-btn px-4 py-2 text-xs font-bold uppercase transition border border-[var(--p-line,#929eab)] bg-transparent text-[var(--p-ink,#1b222b)] dark:text-[var(--p-ink,#f1f0e9)] hover:bg-[var(--p-paper,#f4f2ed)] dark:hover:bg-[var(--p-panel,#181d23)]"
+    data-filter="apps"
+    aria-pressed="false"
+  >
+    <span class="i18n" data-es="Apps & PWA" data-en="Apps & PWA">Apps & PWA</span>
+  </button>
+</div>
+
 <div class="grid gap-7 md:grid-cols-2" id="projects-container">
   {
-    PROJECTS.map(({ id, image, title, description, tags, link, github, featured }) => (
-      <article id={`project-${id}`} data-project-id={id} class:list={[
-        "project-card flex flex-col overflow-hidden transition duration-200 border-2 border-black bg-white shadow-[8px_8px_0_#111] group hover:-translate-y-1 hover:shadow-[12px_12px_0_#111] dark:border-white dark:bg-[#111] dark:shadow-[8px_8px_0_#c5ff4a] dark:hover:shadow-[12px_12px_0_#c5ff4a]",
+    PROJECTS.map(({ id, image, title, description, tags, link, github, featured, categoryGroups }) => (
+      <article id={`project-${id}`} data-project-id={id} data-category-groups={categoryGroups} class:list={[
+        "project-card flex flex-col overflow-hidden transition duration-200 border-2 border-black bg-white shadow-[8px_8px_0_#111] group hover:-translate-y-1 hover:shadow-[12px_12px_0_#111] dark:border-white dark:bg-[#111] dark:shadow-[8px_8px_0_var(--p-accent,#a7bcd9)] dark:hover:shadow-[12px_12px_0_var(--p-accent,#a7bcd9)]",
         { "project-card-featured": featured },
         { "project-card-priority": PRIORITY_PROJECT_IDS.has(id) },
       ]}>
@@ -199,7 +237,7 @@ const PROJECTS = projects.map((project) => ({
   };
   const projectsContainer = document.getElementById("projects-container");
   const iconLibrary = document.getElementById("project-tag-icons");
-  const linkButtonClass = "inline-flex min-w-28 items-center justify-center gap-2 px-3 py-2 text-xs font-black text-black uppercase transition border-2 border-black bg-[#c5ff4a] group hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black focus:outline-none [&>svg]:size-5 [&>svg]:shrink-0";
+  const linkButtonClass = "inline-flex min-w-28 items-center justify-center gap-2 px-3 py-2 text-xs font-black text-[var(--p-accent-ink,#17202b)] uppercase transition border-2 border-black bg-[var(--p-accent,#a7bcd9)] group hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black focus:outline-none [&>svg]:size-5 [&>svg]:shrink-0";
 
   function escapeHtml(value: unknown) {
     return String(value ?? "")
@@ -208,6 +246,15 @@ const PROJECTS = projects.map((project) => ({
       .replaceAll(">", "&gt;")
       .replaceAll('"', "&quot;")
       .replaceAll("'", "&#039;");
+  }
+
+  function getClientCategoryGroups(rawTags: string[] = [], category = "") {
+    const isBackend = rawTags.some((t) => ["PHP", "PYTHON", "MYSQL", "SQLSERVER", "SQLITE", "POSTGRESQL", "DOTNET", "CSHARP", "NODE", "EXPRESS", "BASH"].includes(t)) || category === "tool";
+    const isApp = rawTags.some((t) => ["REACT", "NEXT", "VITE", "ANGULAR", "ASTRO", "KOTLIN"].includes(t)) || ["app", "game", "website"].includes(category);
+    const groups: string[] = ["all"];
+    if (isBackend) groups.push("backend");
+    if (isApp) groups.push("apps");
+    return groups.join(" ");
   }
 
   function iconHtml(selector: string) {
@@ -239,6 +286,7 @@ const PROJECTS = projects.map((project) => ({
     const featuredClass = project.featured ? " project-card-featured" : "";
     const priority = ["futpath", "zaizen", "senda"].includes(String(project.id));
     const priorityClass = priority ? " project-card-priority" : "";
+    const categoryGroups = getClientCategoryGroups(tags, project.category);
     const priorityLabel = project.featured
       ? { es: "Proyecto principal", en: "Main project" }
       : { es: "Producto destacado", en: "Featured product" };
@@ -259,7 +307,7 @@ const PROJECTS = projects.map((project) => ({
       : "";
 
     return `
-      <article id="project-${escapeHtml(project.id)}" data-project-id="${escapeHtml(project.id)}" class="project-card flex flex-col overflow-hidden transition duration-200 border-2 border-black bg-white shadow-[8px_8px_0_#111] group hover:-translate-y-1 hover:shadow-[12px_12px_0_#111] dark:border-white dark:bg-[#111] dark:shadow-[8px_8px_0_#c5ff4a] dark:hover:shadow-[12px_12px_0_#c5ff4a]${featuredClass}${priorityClass}">
+      <article id="project-${escapeHtml(project.id)}" data-project-id="${escapeHtml(project.id)}" data-category-groups="${escapeHtml(categoryGroups)}" class="project-card flex flex-col overflow-hidden transition duration-200 border-2 border-black bg-white shadow-[8px_8px_0_#111] group hover:-translate-y-1 hover:shadow-[12px_12px_0_#111] dark:border-white dark:bg-[#111] dark:shadow-[8px_8px_0_var(--p-accent,#a7bcd9)] dark:hover:shadow-[12px_12px_0_var(--p-accent,#a7bcd9)]${featuredClass}${priorityClass}">
         <div class="w-full">
           ${renderProjectPreview({ id: String(project.id), image: project.image, title: { es: titleEs, en: titleEn } })}
         </div>
@@ -321,6 +369,39 @@ const PROJECTS = projects.map((project) => ({
     }
   }
 
+  let currentFilter = "all";
+
+  function applyFilter(filter: string) {
+    currentFilter = filter;
+    const cards = document.querySelectorAll<HTMLElement>("#projects-container .project-card");
+    cards.forEach((card) => {
+      const groups = (card.dataset.categoryGroups || "").split(" ");
+      const isVisible = filter === "all" || groups.includes(filter);
+      card.style.display = isVisible ? "" : "none";
+    });
+  }
+
+  function setupProjectFilters() {
+    const filterButtons = document.querySelectorAll<HTMLButtonElement>(".project-filter-btn");
+    filterButtons.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const filter = btn.dataset.filter || "all";
+        filterButtons.forEach((b) => {
+          const isActive = b === btn;
+          b.setAttribute("aria-pressed", String(isActive));
+          if (isActive) {
+            b.classList.add("bg-[var(--p-accent,#a7bcd9)]", "text-[var(--p-accent-ink,#17202b)]");
+            b.classList.remove("bg-transparent");
+          } else {
+            b.classList.remove("bg-[var(--p-accent,#a7bcd9)]", "text-[var(--p-accent-ink,#17202b)]");
+            b.classList.add("bg-transparent");
+          }
+        });
+        applyFilter(filter);
+      });
+    });
+  }
+
   // Script genérico: no necesita conocer los datos de los proyectos
   function updateProjectsLanguage() {
     const lang = localStorage.getItem('language') || 'es';
@@ -335,9 +416,16 @@ const PROJECTS = projects.map((project) => ({
   }
   
   // Ejecución inicial y escucha de eventos
+  setupProjectFilters();
   updateProjectsLanguage();
-  hydrateProjectsFromFirestore();
+  hydrateProjectsFromFirestore().then(() => {
+    applyFilter(currentFilter);
+  });
   window.addEventListener('languageChanged', updateProjectsLanguage);
+  document.addEventListener('astro:page-load', () => {
+    setupProjectFilters();
+    updateProjectsLanguage();
+  });
 </script>
 
 <style is:global>

@@ -3,12 +3,12 @@ import { about } from "@/data/content";
 ---
 
 <article
-  class="relative flex flex-col items-center justify-center gap-8 p-7 overflow-hidden text-gray-800 border-2 border-black bg-white shadow-[10px_10px_0_#111] dark:border-white dark:bg-[#111] dark:shadow-[10px_10px_0_#c5ff4a] dark:text-gray-200 md:flex-row md:p-12"
+  class="relative flex flex-col items-center justify-center gap-8 p-7 overflow-hidden text-gray-800 border-2 border-black bg-white shadow-[10px_10px_0_#111] dark:border-white dark:bg-[#111] dark:shadow-[10px_10px_0_var(--p-accent,#a7bcd9)] dark:text-gray-200 md:flex-row md:p-12"
   id="about-container"
 >
 	  <div
 	    id="about-content"
-	    class="relative z-10 grid gap-6 md:grid-cols-3 md:gap-8 [&>p]:leading-relaxed [&>p>strong]:bg-[#c5ff4a] [&>p>strong]:px-1 [&>p>strong]:text-black [&>p>strong]:font-black text-pretty order-2 md:order-1"
+	    class="relative z-10 grid gap-6 md:grid-cols-3 md:gap-8 [&>p]:leading-relaxed [&>p>strong]:bg-[var(--p-accent,#a7bcd9)] [&>p>strong]:px-1 [&>p>strong]:text-[var(--p-accent-ink,#17202b)] [&>p>strong]:font-black text-pretty order-2 md:order-1"
 	  >
     {
       about.map((paragraph) => (
@@ -40,13 +40,10 @@ import { about } from "@/data/content";
     });
   }
 
-  function escapeHtml(value: unknown) {
+  function escapeAttr(value: unknown) {
     return String(value ?? "")
       .replaceAll("&", "&amp;")
-      .replaceAll("<", "&lt;")
-      .replaceAll(">", "&gt;")
-      .replaceAll('"', "&quot;")
-      .replaceAll("'", "&#039;");
+      .replaceAll('"', "&quot;");
   }
 
   async function hydrateAboutFromFirestore() {
@@ -63,8 +60,8 @@ import { about } from "@/data/content";
       container.innerHTML = items.map((item) => `
         <p
           class="i18n-html"
-          data-es="${escapeHtml(item.es)}"
-          data-en="${escapeHtml(item.en)}"
+          data-es="${escapeAttr(item.es)}"
+          data-en="${escapeAttr(item.en)}"
         >${item.es ?? ""}</p>
       `).join("");
 

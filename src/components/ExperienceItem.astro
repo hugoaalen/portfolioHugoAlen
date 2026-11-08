@@ -20,13 +20,13 @@ const { title, company, description, link, date } = Astro.props;
 ---
 
 <div
-  class="relative grid h-full gap-5 p-6 transition border-2 border-black bg-white shadow-[7px_7px_0_#111] hover:-translate-y-1 dark:border-white dark:bg-[#111] dark:shadow-[7px_7px_0_#c5ff4a]"
+  class="relative grid h-full gap-5 p-6 transition border-2 border-black bg-white shadow-[7px_7px_0_#111] hover:-translate-y-1 dark:border-white dark:bg-[#111] dark:shadow-[7px_7px_0_var(--p-accent,#a7bcd9)]"
 >
   <div class="organization-heading relative">
     <OrganizationLogo company={company} />
     <div>
       <h3 
-        class="text-xl font-black leading-tight text-black uppercase dark:text-[#c5ff4a] i18n"
+        class="text-xl font-black leading-tight text-black uppercase dark:text-[var(--p-accent,#a7bcd9)] i18n"
         data-es={title.es}
         data-en={title.en}
       >
@@ -38,7 +38,7 @@ const { title, company, description, link, date } = Astro.props;
       </h4>
       
       <time 
-        class="inline-block p-1 mt-3 text-xs font-black tracking-wide text-black uppercase bg-[#c5ff4a] i18n"
+        class="inline-block p-1 mt-3 text-xs font-black tracking-wide text-[var(--p-accent-ink,#17202b)] uppercase bg-[var(--p-accent,#a7bcd9)] i18n"
         data-es={date.es}
         data-en={date.en}
       >

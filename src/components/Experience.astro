@@ -46,7 +46,7 @@ import { experience } from "@/data/content";
 
 	  function renderExperienceItem(item: any) {
 	    const link = item.link
-	      ? `<a href="${escapeHtml(item.link)}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 font-semibold underline decoration-[#c5ff4a] decoration-2 underline-offset-4 hover:text-black dark:hover:text-white">
+	      ? `<a href="${escapeHtml(item.link)}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 font-semibold underline decoration-[var(--p-accent,#a7bcd9)] decoration-2 underline-offset-4 hover:text-black dark:hover:text-white">
 	          <span class="i18n" data-es="Saber más" data-en="Learn more">Saber más</span>
 	          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 icon icon-tabler icon-tabler-chevron-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
 	            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
@@ -57,17 +57,17 @@ import { experience } from "@/data/content";
 
 	    return `
 	      <li>
-	        <div class="relative grid h-full gap-5 p-6 transition border-2 border-black bg-white shadow-[7px_7px_0_#111] hover:-translate-y-1 dark:border-white dark:bg-[#111] dark:shadow-[7px_7px_0_#c5ff4a]">
+	        <div class="relative grid h-full gap-5 p-6 transition border-2 border-black bg-white shadow-[7px_7px_0_#111] hover:-translate-y-1 dark:border-white dark:bg-[#111] dark:shadow-[7px_7px_0_var(--p-accent,#a7bcd9)]">
 	          <div class="organization-heading relative">
                 ${renderOrganizationLogo(String(item.company ?? ""))}
 	            <div>
-	              <h3 class="text-xl font-black leading-tight text-black uppercase dark:text-[#c5ff4a] i18n" data-es="${escapeHtml(item.title?.es)}" data-en="${escapeHtml(item.title?.en)}">
+	              <h3 class="text-xl font-black leading-tight text-black uppercase dark:text-[var(--p-accent,#a7bcd9)] i18n" data-es="${escapeHtml(item.title?.es)}" data-en="${escapeHtml(item.title?.en)}">
 	                ${escapeHtml(item.title?.es)}
 	              </h3>
 	              <h4 class="mt-2 text-lg font-bold text-gray-800 dark:text-white">
 	                <span>${escapeHtml(item.company)}</span>
 	              </h4>
-	              <time class="inline-block p-1 mt-3 text-xs font-black tracking-wide text-black uppercase bg-[#c5ff4a] i18n" data-es="${escapeHtml(item.date?.es)}" data-en="${escapeHtml(item.date?.en)}">
+	              <time class="inline-block p-1 mt-3 text-xs font-black tracking-wide text-[var(--p-accent-ink,#17202b)] uppercase bg-[var(--p-accent,#a7bcd9)] i18n" data-es="${escapeHtml(item.date?.es)}" data-en="${escapeHtml(item.date?.en)}">
 	                ${escapeHtml(item.date?.es)}
 	              </time>
 	            </div>

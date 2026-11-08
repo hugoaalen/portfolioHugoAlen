@@ -22,8 +22,8 @@ const { title, company, link, date, variant = "primary" } = Astro.props;
   class:list={[
     "relative h-full transition border-2 border-black shadow-[7px_7px_0_#111] hover:-translate-y-1 dark:border-white",
     variant === "primary"
-      ? "p-6 bg-[#c5ff4a]"
-      : "p-5 bg-white dark:bg-[#111] dark:shadow-[7px_7px_0_#c5ff4a]",
+      ? "p-6 bg-[var(--p-accent,#a7bcd9)] text-[var(--p-accent-ink,#17202b)]"
+      : "p-5 bg-white dark:bg-[#111] dark:shadow-[7px_7px_0_var(--p-accent,#a7bcd9)]",
   ]}
 >
   <div class="organization-heading relative">
@@ -45,7 +45,7 @@ const { title, company, link, date, variant = "primary" } = Astro.props;
       <time
         class:list={[
           "inline-block p-1 mt-4 text-xs font-black tracking-wide uppercase i18n",
-          variant === "primary" ? "text-white bg-black" : "text-black bg-[#c5ff4a]",
+          variant === "primary" ? "text-white bg-black" : "text-[var(--p-accent-ink,#17202b)] bg-[var(--p-accent,#a7bcd9)]",
         ]}
         data-es={date.es}
         data-en={date.en}

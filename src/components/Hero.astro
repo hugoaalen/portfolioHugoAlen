@@ -3,6 +3,7 @@ import Badge from "@/components/Badge.astro";
 import LinkedInIcon from "@/components/icons/LinkedIn.astro";
 import MailIcon from "@/components/icons/Mail.astro";
 import GitHub from "@/components/icons/GitHub.astro";
+import DownloadIcon from "@/components/icons/Download.astro";
 import SocialPill from "@/components/SocialPill.astro";
 import { profile } from "@/data/content";
 import { getOptimizedImagePath } from "@/lib/public-assets";
@@ -11,12 +12,12 @@ const { hero, social } = profile;
 ---
 
 <div class="relative max-w-5xl" id="hero-content">
-  <div class="hero-panel relative z-10 p-6 border-2 border-black bg-white/90 shadow-[10px_10px_0_#111] dark:border-white dark:bg-[#111] dark:shadow-[10px_10px_0_#c5ff4a] sm:p-9">
+  <div class="hero-panel relative z-10 p-6 border-2 border-black bg-white/90 shadow-[10px_10px_0_#111] dark:border-white dark:bg-[#111] dark:shadow-[10px_10px_0_var(--p-accent,#a7bcd9)] sm:p-9">
     <header class="flex flex-col gap-5 pb-6 mb-7 border-b-2 border-black dark:border-white sm:flex-row sm:items-center sm:justify-between">
       <div class="flex items-center gap-4">
         <img
           id="hero-profile-image"
-          class="object-cover border-2 border-black rounded-full shadow-[4px_4px_0_#111] size-20 dark:border-white dark:shadow-[4px_4px_0_#c5ff4a]"
+          class="object-cover border-2 border-black rounded-full shadow-[4px_4px_0_#111] size-20 dark:border-white dark:shadow-[4px_4px_0_var(--p-accent,#a7bcd9)]"
           src={getOptimizedImagePath(profile.image)}
           alt={profile.imageAlt}
           width="256"
@@ -26,7 +27,7 @@ const { hero, social } = profile;
         />
         <div>
           <p id="hero-name" class="text-lg font-black leading-none text-black dark:text-white">{profile.name}</p>
-          <p id="hero-kicker" class="mt-2 text-[10px] font-black tracking-[0.14em] text-black uppercase dark:text-[#c5ff4a] sm:text-xs sm:tracking-[0.18em]">
+          <p id="hero-kicker" class="mt-2 text-[10px] font-black tracking-[0.14em] text-black uppercase dark:text-[var(--p-accent,#a7bcd9)] sm:text-xs sm:tracking-[0.18em]">
             {profile.kicker}
           </p>
           <p id="hero-location" class="mt-1.5 text-xs font-black tracking-[0.2em] text-gray-600 uppercase dark:text-gray-400">
@@ -71,14 +72,14 @@ const { hero, social } = profile;
 
     <div class="grid gap-5 mt-8 md:grid-cols-[1.05fr_0.95fr] md:gap-10">
       <p
-        class="text-xl font-medium leading-relaxed text-gray-800 [&>strong]:bg-[#c5ff4a] [&>strong]:px-1 [&>strong]:text-black [&>strong]:font-bold dark:text-gray-200 md:text-2xl i18n-html"
+        class="text-xl font-medium leading-relaxed text-gray-800 [&>strong]:bg-[var(--p-accent,#a7bcd9)] [&>strong]:px-1 [&>strong]:text-[var(--p-accent-ink,#17202b)] [&>strong]:font-bold dark:text-gray-200 md:text-2xl i18n-html"
         id="hero-desc1"
         data-es={hero.description[0].es}
         data-en={hero.description[0].en}
         set:html={hero.description[0].es}
       />
       <p
-        class="text-base leading-relaxed text-gray-700 dark:[&>strong]:text-[#c5ff4a] [&>strong]:font-bold dark:text-gray-300 sm:text-lg i18n-html"
+        class="text-base leading-relaxed text-gray-700 dark:[&>strong]:text-[var(--p-accent,#a7bcd9)] [&>strong]:font-bold dark:text-gray-300 sm:text-lg i18n-html"
         id="hero-desc2"
         data-es={hero.description[1].es}
         data-en={hero.description[1].en}
@@ -95,6 +96,12 @@ const { hero, social } = profile;
       <MailIcon class="size-4" />
       <span class="i18n" id="btn-contact" data-es={hero.buttons.contact.es} data-en={hero.buttons.contact.en}>
         {hero.buttons.contact.es}
+      </span>
+    </SocialPill>
+    <SocialPill href="/CV-Hugo-Alen.pdf" download="CV-Hugo-Alen.pdf" id="hero-cv-link">
+      <DownloadIcon class="size-4" />
+      <span class="i18n" id="btn-cv" data-es={hero.buttons.cv.es} data-en={hero.buttons.cv.en}>
+        {hero.buttons.cv.es}
       </span>
     </SocialPill>
     <SocialPill
@@ -148,6 +155,7 @@ const { hero, social } = profile;
       const desc1 = document.getElementById("hero-desc1");
       const desc2 = document.getElementById("hero-desc2");
       const contact = document.getElementById("btn-contact");
+      const cvBtn = document.getElementById("btn-cv");
       const emailLink = document.getElementById("hero-email-link") as HTMLAnchorElement | null;
       const badgeLink = document.getElementById("hero-badge-link") as HTMLAnchorElement | null;
       const linkedInLink = document.getElementById("hero-linkedin-link") as HTMLAnchorElement | null;
@@ -174,6 +182,7 @@ const { hero, social } = profile;
         [badge, hero.badge],
         [title, hero.title],
         [contact, hero.buttons?.contact],
+        [cvBtn, hero.buttons?.cv],
       ] as const;
 
       i18nTargets.forEach(([element, value]) => {

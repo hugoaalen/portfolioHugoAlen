@@ -74,11 +74,11 @@ const { primary: primaryEducation, additional: additionalEducation } = groupEduc
 	  function renderEducationItem(item: any, variant: "primary" | "secondary") {
 	    const isPrimary = variant === "primary";
 	    const cardClass = isPrimary
-	      ? "p-6 bg-[#c5ff4a]"
-	      : "p-5 bg-white dark:bg-[#111] dark:shadow-[7px_7px_0_#c5ff4a]";
+	      ? "p-6 bg-[var(--p-accent,#a7bcd9)] text-[var(--p-accent-ink,#17202b)]"
+	      : "p-5 bg-white dark:bg-[#111] dark:shadow-[7px_7px_0_var(--p-accent,#a7bcd9)]";
 	    const titleClass = isPrimary ? "text-lg text-black" : "text-base text-black dark:text-white";
 	    const companyClass = isPrimary ? "text-gray-800" : "text-gray-700 dark:text-gray-300";
-	    const dateClass = isPrimary ? "text-white bg-black" : "text-black bg-[#c5ff4a]";
+	    const dateClass = isPrimary ? "text-white bg-black" : "text-[var(--p-accent-ink,#17202b)] bg-[var(--p-accent,#a7bcd9)]";
 	    const link = item.link
 	      ? `<a href="${escapeHtml(item.link)}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 font-semibold underline decoration-black decoration-2 underline-offset-4">
 	          <span class="i18n" data-es="Saber más" data-en="Learn more">Saber más</span>

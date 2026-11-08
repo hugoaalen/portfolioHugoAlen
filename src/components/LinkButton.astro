@@ -4,7 +4,7 @@ const { href } = Astro.props
 
 <a
   href={href}
-  class="inline-flex min-w-28 items-center justify-center gap-2 px-3 py-2 text-xs font-black text-black uppercase transition border-2 border-black bg-[#c5ff4a] group hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black focus:outline-none [&>svg]:size-5 [&>svg]:shrink-0"
+  class="inline-flex min-w-28 items-center justify-center gap-2 px-3 py-2 text-xs font-black text-[var(--p-accent-ink,#17202b)] uppercase transition border-2 border-black bg-[var(--p-accent,#a7bcd9)] group hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black focus:outline-none [&>svg]:size-5 [&>svg]:shrink-0"
 >
   <slot />
 </a>

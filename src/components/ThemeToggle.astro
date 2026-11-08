@@ -33,7 +33,7 @@ const THEMES = [
   </button>
   <div
     id="themes-menu"
-    class="absolute z-50 hidden scale-80 top-10 right-0 text-sm font-black uppercase p-2 min-w-[8rem] border-2 border-black bg-white text-black dark:bg-[#111] dark:text-white dark:border-white shadow-[5px_5px_0_#111] dark:shadow-[5px_5px_0_#c5ff4a]"
+    class="absolute z-50 hidden scale-80 top-10 right-0 text-sm font-black uppercase p-2 min-w-[8rem] border-2 border-black bg-white text-black dark:bg-[#111] dark:text-white dark:border-white shadow-[5px_5px_0_#111] dark:shadow-[5px_5px_0_var(--p-accent,#a7bcd9)]"
   >
     <ul>
       {
@@ -41,7 +41,7 @@ const THEMES = [
           <li>
             <button
               type="button"
-              class="themes-menu-option w-full px-3 py-2 text-left hover:bg-[#c5ff4a] hover:text-black focus-visible:bg-[#c5ff4a] focus-visible:text-black"
+              class="themes-menu-option w-full px-3 py-2 text-left hover:bg-[var(--p-accent,#a7bcd9)] hover:text-[var(--p-accent-ink,#17202b)] focus-visible:bg-[var(--p-accent,#a7bcd9)] focus-visible:text-[var(--p-accent-ink,#17202b)]"
               data-theme={theme.value}
               aria-pressed="false"
             >
