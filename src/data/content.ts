@@ -3,6 +3,7 @@ import educationData from "./education.json";
 import experienceData from "./experience.json";
 import profileData from "./profile.json";
 import projectsData from "./projects.json";
+import marsanProjects from "./marsan-projects.json";
 
 export const AVAILABLE_PROJECT_TAGS = [
   "NEXT",
@@ -254,7 +255,7 @@ function parseProjects(value: unknown): Project[] {
       category: category as ProjectCategory,
       title: assertI18n(raw.title, `projects[${index}].title`),
       description: assertI18n(raw.description, `projects[${index}].description`),
-      image: assertImagePath(raw.image, `projects[${index}].image`),
+      image: raw.image ? assertImagePath(raw.image, `projects[${index}].image`) : "",
       tags,
       github: assertOptionalUrl(raw.github, `projects[${index}].github`),
       link: assertOptionalUrl(raw.link, `projects[${index}].link`),
@@ -269,4 +270,5 @@ export const profile = profileData;
 export const about = parseAbout(aboutData);
 export const education = parseEducation(educationData);
 export const experience = parseExperience(experienceData);
-export const projects = parseProjects(projectsData);
+const personalOrder = ["zaizen", "mototv", "padeltime", "onosoalmanaque", "futpath", "senda", "taskflow", "sfit", "vehixhub", "impostor", "bpkeepers"];
+export const projects = parseProjects([...marsanProjects, ...projectsData.map((project) => ({ ...project, featured: false, order: 100 + personalOrder.indexOf(project.id) }))]);

@@ -30,8 +30,7 @@ import SQLite from "./icons/SQLite.astro";
 import SqlServer from "./icons/SqlServer.astro";
 import Kotlin from "./icons/Kotlin.astro";
 import { projects } from "@/data/content";
-import { getOptimizedImagePath } from "@/lib/public-assets";
-import { renderProjectPreview } from "@/lib/project-preview";
+import { renderProjectSummary } from "@/lib/project-preview";
 import "@/styles/project-preview.css";
 
 const TAGS = {
@@ -63,7 +62,7 @@ const TAGS = {
   SQLITE: { name: "SQLite", class: "bg-[#003B57] text-white", icon: SQLite, iconColor: "#003B57" },
   KOTLIN: { name: "Kotlin", class: "bg-[#7F52FF] text-white", icon: Kotlin, iconColor: "#7F52FF" },
 };
-const PRIORITY_PROJECT_IDS = new Set(["futpath", "zaizen", "senda"]);
+const PRIORITY_PROJECT_IDS = new Set(["marsan-mpms", "marsan-cotizador", "zaizen"]);
 
 function getCategoryGroups(rawTags: string[] = [], category = "") {
   const isBackend = rawTags.some((t) => ["PHP", "PYTHON", "MYSQL", "SQLSERVER", "SQLITE", "POSTGRESQL", "DOTNET", "CSHARP", "NODE", "EXPRESS", "BASH"].includes(t)) || category === "tool";
@@ -76,64 +75,26 @@ function getCategoryGroups(rawTags: string[] = [], category = "") {
 
 const PROJECTS = projects.map((project) => ({
   ...project,
-  categoryGroups: getCategoryGroups(project.tags, project.category),
-  image: getOptimizedImagePath(project.image),
+  categoryGroups: `${getCategoryGroups(project.tags, project.category)} ${project.id.startsWith("marsan-") ? "professional" : "personal"}`,
   tags: project.tags
     .map((tag) => TAGS[tag as keyof typeof TAGS])
     .filter(Boolean),
 }));
 ---
 
-<div class="flex flex-wrap items-center gap-2 mb-8" id="project-filters" role="group" aria-label="Filtro de proyectos">
-  <button
-    type="button"
-    class="project-filter-btn px-4 py-2 text-xs font-bold uppercase transition border border-[var(--p-line,#929eab)] bg-[var(--p-accent,#a7bcd9)] text-[var(--p-accent-ink,#17202b)]"
-    data-filter="all"
-    aria-pressed="true"
-  >
-    <span class="i18n" data-es="Todos" data-en="All">Todos</span>
-    <span class="ml-1 opacity-75">({PROJECTS.length})</span>
-  </button>
-  <button
-    type="button"
-    class="project-filter-btn px-4 py-2 text-xs font-bold uppercase transition border border-[var(--p-line,#929eab)] bg-transparent text-[var(--p-ink,#1b222b)] dark:text-[var(--p-ink,#f1f0e9)] hover:bg-[var(--p-paper,#f4f2ed)] dark:hover:bg-[var(--p-panel,#181d23)]"
-    data-filter="backend"
-    aria-pressed="false"
-  >
-    <span class="i18n" data-es="Backend & APIs" data-en="Backend & APIs">Backend & APIs</span>
-  </button>
-  <button
-    type="button"
-    class="project-filter-btn px-4 py-2 text-xs font-bold uppercase transition border border-[var(--p-line,#929eab)] bg-transparent text-[var(--p-ink,#1b222b)] dark:text-[var(--p-ink,#f1f0e9)] hover:bg-[var(--p-paper,#f4f2ed)] dark:hover:bg-[var(--p-panel,#181d23)]"
-    data-filter="apps"
-    aria-pressed="false"
-  >
-    <span class="i18n" data-es="Apps & PWA" data-en="Apps & PWA">Apps & PWA</span>
-  </button>
-</div>
-
 <div class="grid gap-7 md:grid-cols-2" id="projects-container">
   {
-    PROJECTS.map(({ id, image, title, description, tags, link, github, featured, categoryGroups }) => (
+    PROJECTS.map(({ id, title, description, tags, link, github, featured, categoryGroups }) => (
       <article id={`project-${id}`} data-project-id={id} data-category-groups={categoryGroups} class:list={[
         "project-card flex flex-col overflow-hidden transition duration-200 border-2 border-black bg-white shadow-[8px_8px_0_#111] group hover:-translate-y-1 hover:shadow-[12px_12px_0_#111] dark:border-white dark:bg-[#111] dark:shadow-[8px_8px_0_var(--p-accent,#a7bcd9)] dark:hover:shadow-[12px_12px_0_var(--p-accent,#a7bcd9)]",
         { "project-card-featured": featured },
         { "project-card-priority": PRIORITY_PROJECT_IDS.has(id) },
       ]}>
         <div class="w-full">
-          <Fragment set:html={renderProjectPreview({ id, image, title })} />
+          <Fragment set:html={renderProjectSummary({ id, title, description })} />
         </div>
 
         <div class="flex flex-col flex-1 w-full p-6 border-t-2 border-black dark:border-white">
-          {PRIORITY_PROJECT_IDS.has(id) && (
-            <p
-              class="project-priority-badge mb-3 w-fit px-2 py-1 text-[10px] font-black tracking-[0.14em] uppercase i18n"
-              data-es={featured ? "Proyecto principal" : "Producto destacado"}
-              data-en={featured ? "Main project" : "Featured product"}
-            >
-              {featured ? "Proyecto principal" : "Producto destacado"}
-            </p>
-          )}
           <h3 
             class="text-xl font-black leading-tight tracking-tight text-black uppercase dark:text-white i18n"
             data-es={title.es}
@@ -204,7 +165,7 @@ const PROJECTS = projects.map((project) => ({
 <script>
   import { collection, getDocs, query, where } from "firebase/firestore/lite";
   import { publicDb } from "@/lib/firebase-public";
-  import { renderProjectPreview } from "@/lib/project-preview";
+  import { renderProjectSummary } from "@/lib/project-preview";
 
   const PROJECT_TAGS = {
     NEXT: { name: "Next.js", className: "bg-black text-white", iconColor: "#000000" },
@@ -284,15 +245,10 @@ const PROJECTS = projects.map((project) => ({
     const descriptionEn = project.description?.en ?? descriptionEs;
     const tags = Array.isArray(project.tags) ? project.tags : [];
     const featuredClass = project.featured ? " project-card-featured" : "";
-    const priority = ["futpath", "zaizen", "senda"].includes(String(project.id));
+    const priority = ["marsan-mpms", "marsan-cotizador", "zaizen"].includes(String(project.id));
     const priorityClass = priority ? " project-card-priority" : "";
-    const categoryGroups = getClientCategoryGroups(tags, project.category);
-    const priorityLabel = project.featured
-      ? { es: "Proyecto principal", en: "Main project" }
-      : { es: "Producto destacado", en: "Featured product" };
-    const priorityBadge = priority
-      ? `<p class="project-priority-badge mb-3 w-fit px-2 py-1 text-[10px] font-black tracking-[0.14em] uppercase i18n" data-es="${priorityLabel.es}" data-en="${priorityLabel.en}">${priorityLabel.es}</p>`
-      : "";
+    const professional = String(project.id).startsWith("marsan-");
+    const categoryGroups = `${getClientCategoryGroups(tags, project.category)} ${professional ? "professional" : "personal"}`;
     const githubLink = project.github
       ? `<a href="${escapeHtml(project.github)}" role="link" class="${linkButtonClass}">
           ${iconHtml('[data-project-action-icon="github"]')}
@@ -309,11 +265,10 @@ const PROJECTS = projects.map((project) => ({
     return `
       <article id="project-${escapeHtml(project.id)}" data-project-id="${escapeHtml(project.id)}" data-category-groups="${escapeHtml(categoryGroups)}" class="project-card flex flex-col overflow-hidden transition duration-200 border-2 border-black bg-white shadow-[8px_8px_0_#111] group hover:-translate-y-1 hover:shadow-[12px_12px_0_#111] dark:border-white dark:bg-[#111] dark:shadow-[8px_8px_0_var(--p-accent,#a7bcd9)] dark:hover:shadow-[12px_12px_0_var(--p-accent,#a7bcd9)]${featuredClass}${priorityClass}">
         <div class="w-full">
-          ${renderProjectPreview({ id: String(project.id), image: project.image, title: { es: titleEs, en: titleEn } })}
+          ${renderProjectSummary({ id: String(project.id), title: { es: titleEs, en: titleEn }, description: { es: descriptionEs, en: descriptionEn } })}
         </div>
 
         <div class="flex flex-col flex-1 w-full p-6 border-t-2 border-black dark:border-white">
-          ${priorityBadge}
           <h3
             class="text-xl font-black leading-tight tracking-tight text-black uppercase dark:text-white i18n"
             data-es="${escapeHtml(titleEs)}"
@@ -347,6 +302,9 @@ const PROJECTS = projects.map((project) => ({
 
   async function hydrateProjectsFromFirestore() {
     if (!projectsContainer) return;
+    const localPreview = ["localhost", "127.0.0.1", "[::1]"].includes(location.hostname)
+      && new URLSearchParams(location.search).get("preview") === "local";
+    if (localPreview) return;
 
     try {
       const snapshot = await getDocs(query(
@@ -361,6 +319,7 @@ const PROJECTS = projects.map((project) => ({
       if (remoteProjects.length === 0) return;
 
       projectsContainer.innerHTML = remoteProjects.map(renderProject).join("");
+      groupProjectCards();
       projectsContainer.dataset.source = "firestore";
       updateProjectsLanguage();
       window.dispatchEvent(new Event("portfolio:projects-updated"));
@@ -369,37 +328,21 @@ const PROJECTS = projects.map((project) => ({
     }
   }
 
-  let currentFilter = "all";
-
-  function applyFilter(filter: string) {
-    currentFilter = filter;
-    const cards = document.querySelectorAll<HTMLElement>("#projects-container .project-card");
-    cards.forEach((card) => {
-      const groups = (card.dataset.categoryGroups || "").split(" ");
-      const isVisible = filter === "all" || groups.includes(filter);
-      card.style.display = isVisible ? "" : "none";
-    });
-  }
-
-  function setupProjectFilters() {
-    const filterButtons = document.querySelectorAll<HTMLButtonElement>(".project-filter-btn");
-    filterButtons.forEach((btn) => {
-      btn.addEventListener("click", () => {
-        const filter = btn.dataset.filter || "all";
-        filterButtons.forEach((b) => {
-          const isActive = b === btn;
-          b.setAttribute("aria-pressed", String(isActive));
-          if (isActive) {
-            b.classList.add("bg-[var(--p-accent,#a7bcd9)]", "text-[var(--p-accent-ink,#17202b)]");
-            b.classList.remove("bg-transparent");
-          } else {
-            b.classList.remove("bg-[var(--p-accent,#a7bcd9)]", "text-[var(--p-accent-ink,#17202b)]");
-            b.classList.add("bg-transparent");
-          }
-        });
-        applyFilter(filter);
-      });
-    });
+  function groupProjectCards() {
+    const container = document.getElementById("projects-container");
+    if (!container) return;
+    const cards = Array.from(container.querySelectorAll<HTMLElement>(".project-card"));
+    container.querySelectorAll(".project-group-heading").forEach((heading) => heading.remove());
+    for (const professional of [true, false]) {
+      const group = cards.filter((card) => (card.dataset.projectId || "").startsWith("marsan-") === professional);
+      if (!group.length) continue;
+      const heading = document.createElement("h3");
+      heading.className = "project-group-heading i18n";
+      heading.dataset.es = professional ? "Trabajo en Marsan" : "Proyectos personales";
+      heading.dataset.en = professional ? "Work at Marsan" : "Personal projects";
+      heading.textContent = heading.dataset[localStorage.getItem("language") || "es"] || heading.dataset.es;
+      container.append(heading, ...group);
+    }
   }
 
   // Script genérico: no necesita conocer los datos de los proyectos
@@ -416,14 +359,12 @@ const PROJECTS = projects.map((project) => ({
   }
   
   // Ejecución inicial y escucha de eventos
-  setupProjectFilters();
+  groupProjectCards();
   updateProjectsLanguage();
-  hydrateProjectsFromFirestore().then(() => {
-    applyFilter(currentFilter);
-  });
+  hydrateProjectsFromFirestore();
   window.addEventListener('languageChanged', updateProjectsLanguage);
   document.addEventListener('astro:page-load', () => {
-    setupProjectFilters();
+    groupProjectCards();
     updateProjectsLanguage();
   });
 </script>

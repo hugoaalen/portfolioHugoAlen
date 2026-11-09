@@ -173,6 +173,16 @@ body[data-page="portfolio"] #project-showcase :focus-visible { outline-color: va
   .showcase-enhanced .showcase-heading { margin-bottom: 1.5rem; }
   .showcase-enhanced .showcase-heading h2 { font-size: clamp(2.25rem, 6svh, 3.75rem); }
 }
+/* Editorial project cards share one layout, including private corporate work. */
+.project-group-heading { grid-column: 1 / -1; color: var(--p-accent-text); font-size: clamp(1.25rem, 2vw, 1.75rem); font-weight: 650; padding-block: 0.75rem; border-bottom: 1px solid var(--p-line); }
+.project-card + .project-group-heading { margin-top: 2rem; }
+body[data-page="portfolio"] #projects-container .project-card { display: flex; grid-template-columns: none; grid-column: auto; }
+body[data-page="portfolio"] #projects-container .project-card > div:first-child { display: none; }
+body[data-page="portfolio"] #projects-container .project-card > div:last-child { border: 0; }
+body[data-page="portfolio"] .showcase-image .project-summary { aspect-ratio: auto; height: 100%; padding: clamp(1.25rem, 4vw, 3rem); display: flex; flex-direction: column; justify-content: center; gap: 1.25rem; background: var(--p-panel); color: var(--p-ink); }
+.project-summary-context { color: var(--p-accent-text); font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; }
+.project-summary-title { font-size: clamp(1.5rem, 3vw, 3rem); font-weight: 700; line-height: 1.15; }
+.project-summary-description { max-width: 65ch; color: var(--p-muted); font-size: clamp(0.875rem, 1.25vw, 1.125rem); line-height: 1.65; }
 /* Keep the ruler outside content on laptop desktops, without shifting ultrawide layouts. */
 @media (min-width: 1440px) and (max-width: 1799px) and (min-height: 680px) {
   body[data-page="portfolio"] .section,

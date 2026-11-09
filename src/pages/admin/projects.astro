@@ -209,7 +209,7 @@ const ADMIN_PROJECT_TAGS = {
             <div class="grid gap-4 mt-5 sm:grid-cols-3">
               <label class="grid gap-2 text-sm font-black uppercase">
                 Imagen
-                <input id="project-image" class="px-3 py-2 text-black border-2 border-black" placeholder="/projects/imagen.png" required />
+                <input id="project-image" class="px-3 py-2 text-black border-2 border-black" placeholder="Opcional; el catálogo no muestra capturas" />
               </label>
               <label class="grid gap-2 text-sm font-black uppercase">
                 GitHub
@@ -341,9 +341,9 @@ const ADMIN_PROJECT_TAGS = {
     runTransaction,
     setDoc,
   } from "firebase/firestore";
-  import seedProjects from "@/data/projects.json";
   import {
     AVAILABLE_PROJECT_TAGS,
+    projects as seedProjects,
     PROJECT_CATEGORIES,
     PROJECT_STATUSES,
     type Project,
@@ -512,7 +512,7 @@ const ADMIN_PROJECT_TAGS = {
       category: "app",
       title: { es: "", en: "" },
       description: { es: "", en: "" },
-      image: "/projects/",
+      image: "",
       tags: [],
     };
   }

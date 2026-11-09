@@ -57,6 +57,10 @@ En `/admin/projects`, **Añadir proyectos que faltan** incorpora solo los identi
 
 ### Previews de proyectos
 
+El catálogo público ahora presenta fichas editoriales sin capturas, tanto para trabajo corporativo privado como para proyectos personales. La selección animada utiliza resúmenes de casos, no pantallas ficticias. `src/data/marsan-projects.json` contiene ocho casos profesionales redactados sin datos internos ni métricas no verificadas. Las imágenes antiguas se conservan como recursos, pero no se muestran en el catálogo.
+
+Después de desplegar, usar **Añadir proyectos que faltan** en `/admin/projects` para incorporar los casos de Marsan a Firestore. No se sobrescriben entradas existentes: el orden y los textos de los proyectos personales ya importados deben actualizarse desde el CMS. Firestore sigue siendo la fuente pública cuando contiene proyectos publicados; un cambio en los JSON no modifica esos documentos.
+
 Las tarjetas y la galería animada comparten `src/lib/project-preview.ts` y `src/styles/project-preview.css`: misma proporción, marco y espaciado, con acento por proyecto. Las capturas son archivos locales en `public/projects`; no se generan ni descargan en cada visita. Las rutas antiguas del CMS se resuelven en `src/lib/public-assets.ts`, sin reescribir documentos remotos ni impedir imágenes personalizadas.
 
 FutPath, ZaiZen, Senda, SFit y ¿Quién finge? usan capturas locales nuevas, sin sesiones personales. PadelTime y Moto TV usan capturas incluidas en sus repositorios. BPKeepers y oNoSoAlMaNaQuE conservan sus imágenes originales y eliminan el marco antiguo mediante presentación CSS. TaskFlow y VehixHub tienen portadas vectoriales de arquitectura, no capturas ficticias de producto.
@@ -81,6 +85,10 @@ firestore.rules Reglas de acceso a los datos
 ```
 
 ## Despliegue
+
+### Mantenimiento
+
+`src/data/maintenance.json` controla la portada pública. Con `enabled: true`, la compilación muestra únicamente una pantalla de actualización; `/admin` continúa disponible. Para recuperar el portfolio, cambia a `false` y despliega de nuevo. Ningún parámetro de URL permite saltarlo. Es un modo de presentación, no una restricción de acceso a recursos antiguos ni a documentos públicos de Firestore.
 
 En Vercel, configura las variables de `.env.example`, usa `pnpm build` como comando de compilación y `dist` como directorio de salida. Las variables públicas se incorporan al compilar: si cambian, es necesario desplegar de nuevo.
 

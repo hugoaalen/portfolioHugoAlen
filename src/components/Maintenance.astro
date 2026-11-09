@@ -1,0 +1,47 @@
+---
+import "@fontsource-variable/onest";
+---
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="robots" content="noindex, follow" />
+    <meta name="theme-color" content="#10151c" />
+    <meta name="description" content="Estoy revisando y actualizando mi portfolio. Puedes contactar conmigo por email." />
+    <title>Hugo Alén · Portfolio en actualización</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  </head>
+  <body>
+    <main>
+      <header><span>Hugo Alén</span><span class="status"><i aria-hidden="true"></i> En actualización</span></header>
+      <section aria-labelledby="maintenance-title">
+        <p class="eyebrow">Software & Systems Engineer</p>
+        <h1 id="maintenance-title">Un momento para<br /><span>afinar los detalles.</span></h1>
+        <p class="description">Estoy revisando y actualizando el contenido de mi portfolio para que refleje con precisión mi trabajo. Volverá a estar disponible cuando termine.</p>
+        <a href="mailto:hugoaalen@gmail.com">Contacta conmigo <span aria-hidden="true">↗</span></a>
+      </section>
+      <footer><span>Gracias por pasarte.</span><span>Vigo, ES</span></footer>
+    </main>
+  </body>
+</html>
+<style>
+  :global(html) { background: #10151c; color-scheme: dark; font-family: "Onest Variable", system-ui, sans-serif; }
+  :global(body) { margin: 0; color: #f1f0e9; background: radial-gradient(ellipse at 90% 10%, #a7bcd914, transparent 55%), #10151c; }
+  :global(*) { box-sizing: border-box; }
+  main { width: min(100%, 76rem); margin-inline: auto; min-height: 100vh; min-height: 100dvh; padding: max(1.5rem, env(safe-area-inset-top)) max(1.5rem, env(safe-area-inset-right)) max(1.5rem, env(safe-area-inset-bottom)) max(1.5rem, env(safe-area-inset-left)); display: flex; flex-direction: column; }
+  header, footer { display: flex; justify-content: space-between; align-items: center; gap: 1rem; font-size: 0.8125rem; }
+  header { padding-bottom: 1.5rem; border-bottom: 1px solid #a7bcd930; font-weight: 600; }
+  .status { display: inline-flex; align-items: center; gap: 0.5rem; color: #a7bcd9; font-size: 0.75rem; }
+  i { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+  section { padding-block: clamp(4rem, 12vh, 9rem); margin-block: auto; }
+  .eyebrow { color: #a7bcd9; text-transform: uppercase; letter-spacing: 0.13em; font-size: 0.6875rem; }
+  h1 { margin: 1.5rem 0; font-size: clamp(2.4rem, 6.5vw, 5.5rem); line-height: 1.05; font-weight: 650; letter-spacing: -0.065em; }
+  h1 span { color: #a7bcd9; }
+  .description { max-width: 34rem; color: #b5bdc7; line-height: 1.8; font-size: 1rem; }
+  a { display: inline-flex; align-items: center; gap: 2rem; margin-top: 1.5rem; padding: 1rem 1.25rem; border: 1px solid #a7bcd9; color: #10151c; background: #a7bcd9; text-decoration: none; font-size: 0.875rem; font-weight: 650; transition: background 180ms; }
+  a:hover { background: #c3d2e6; }
+  a:focus-visible { outline: 2px solid #f1f0e9; outline-offset: 5px; }
+  footer { border-top: 1px solid #a7bcd930; padding-top: 1.5rem; color: #b5bdc7; font-size: 0.75rem; }
+  @media (prefers-reduced-motion: reduce) { a { transition: none; } }
+</style>

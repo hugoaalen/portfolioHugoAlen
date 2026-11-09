@@ -19,7 +19,19 @@ function escape(value: unknown): string {
     .replaceAll(">", "&gt;").replaceAll('"', "&quot;").replaceAll("'", "&#039;");
 }
 
-// Shared markup keeps static cards, Firestore cards and the animated deck identical.
+export function renderProjectSummary(project: { id: string; title: { es: string; en?: string }; description?: { es: string; en?: string } }): string {
+  const professional = project.id.startsWith("marsan-");
+  const label = professional ? { es: "Grupo Marsan · Trabajo profesional", en: "Grupo Marsan · Professional work" } : { es: "Proyecto personal", en: "Personal project" };
+  const title = project.title;
+  const description = project.description;
+  return `<span class="project-preview project-summary">
+    <span class="project-summary-context i18n" data-es="${escape(label.es)}" data-en="${escape(label.en)}">${escape(label.es)}</span>
+    <span class="project-summary-title i18n" data-es="${escape(title.es)}" data-en="${escape(title.en || title.es)}">${escape(title.es)}</span>
+    ${description ? `<span class="project-summary-description i18n" data-es="${escape(description.es)}" data-en="${escape(description.en || description.es)}">${escape(description.es)}</span>` : ""}
+  </span>`;
+}
+
+// Retained for legacy asset consumers; the portfolio now uses editorial summaries.
 export function renderProjectPreview(project: { id: string; image: string; title: { es: string; en?: string } }): string {
   const identity = visualIdentity[project.id];
   const src = getOptimizedImagePath(project.image);

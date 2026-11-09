@@ -51,8 +51,8 @@
       "en": "Senda - Academic Progress Planner"
     },
     "description": {
-      "es": "Aplicación para sustituir hojas de cálculo al seguir el progreso de una carrera universitaria. Permite gestionar asignaturas y créditos, probar escenarios de matrícula y trabajar en local o sincronizar los datos entre dispositivos con Firebase.",
-      "en": "Application designed to replace spreadsheets when tracking university degree progress. It manages subjects and credits, tests enrollment scenarios, and works locally or synchronizes data across devices with Firebase."
+      "es": "Planificador académico con seguimiento de asignaturas, créditos y notas, y simulación de carga de matrícula según horas, dificultad y capacidad semanal. Almacenamiento local o sincronización privada con Firebase. Modelo actual orientado a una titulación de 240 créditos, no a cualquier universidad.",
+      "en": "Academic planner tracking subjects, credits and grades, with enrollment workload simulations based on hours, difficulty and weekly capacity. Local storage or private Firebase synchronization. The current model targets a 240-credit degree, not every university."
     },
     "github": "https://github.com/hugoaalen/Senda",
     "image": "/projects/senda-window-1200.jpg",
@@ -147,8 +147,8 @@
       "en": "Moto TV - Android TV Web Hub"
     },
     "description": {
-      "es": "Aplicación nativa para Android TV y Google TV desarrollada con Kotlin y Compose for TV. Reúne plataformas configurables, navegación WebView con mando y administración desde el móvil mediante QR en la red local. Guarda los datos en Room/SQLite, sin backend externo.",
-      "en": "Native Android TV and Google TV application built with Kotlin and Compose for TV. Combines configurable platforms, remote-controlled WebView navigation, and QR-based mobile administration over the local network. Data is stored in Room/SQLite without an external backend."
+      "es": "Aplicación nativa para Android TV con Kotlin y Compose for TV: navegación WebView con mando y administración móvil por QR en red local. Persistencia Room/SQLite y servidor HTTP integrado con autorización temporal y control de concurrencia. Pruebas documentadas en emulador; validación en televisor físico pendiente.",
+      "en": "Native Android TV application with Kotlin and Compose for TV: remote-controlled WebView navigation and QR-based mobile administration on the local network. Room/SQLite persistence and an embedded HTTP server with temporary authorization and concurrency controls. Documented emulator tests; physical TV validation remains pending."
     },
     "image": "/projects/mototv-capture.png",
     "tags": ["KOTLIN", "SQLITE"]
@@ -189,7 +189,7 @@
     },
     "github": "https://github.com/hugoaalen/TaskFlow",
     "image": "/projects/taskflow.svg",
-    "tags": ["PHP", "MYSQL"]
+    "tags": ["PHP", "SQLITE"]
   },
   {
     "id": "vehixhub",
