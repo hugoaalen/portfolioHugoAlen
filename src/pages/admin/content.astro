@@ -7,12 +7,12 @@ import Layout from "@/layouts/Layout.astro";
   description="Editor privado del contenido general del portfolio"
 >
   <main class="admin-main px-3 py-28 overflow-x-hidden text-black bg-[#f6f6ef] dark:bg-[#050505] dark:text-white sm:px-4 sm:py-32">
-    <section class="w-full max-w-6xl p-4 mx-auto overflow-hidden border-2 border-black bg-white shadow-[6px_6px_0_#111] dark:border-white dark:bg-[#111] dark:shadow-[6px_6px_0_#c5ff4a] sm:p-8">
+    <section class="w-full max-w-6xl p-4 mx-auto overflow-hidden border-2 border-black bg-white shadow-[6px_6px_0_#111] dark:border-white dark:bg-[#111] dark:shadow-[6px_6px_0_#a7bcd9] sm:p-8">
       <a href="/admin" class="text-sm font-black uppercase underline">Volver al panel</a>
 
       <div class="flex flex-col gap-5 mt-5 lg:flex-row lg:items-end lg:justify-between">
         <div>
-          <p class="inline-block px-2 py-1 text-xs font-black tracking-[0.18em] uppercase bg-[#c5ff4a] text-black">
+          <p class="inline-block px-2 py-1 text-xs font-black tracking-[0.18em] uppercase bg-[#a7bcd9] text-black">
             CMS privado
           </p>
           <h1 class="mt-4 text-4xl font-black leading-none tracking-tight uppercase break-words sm:text-5xl">
@@ -34,7 +34,7 @@ import Layout from "@/layouts/Layout.astro";
         </p>
         <button
           id="admin-login-button"
-          class="px-4 py-3 mt-4 text-sm font-black text-black uppercase transition border-2 border-black bg-[#c5ff4a] hover:bg-black hover:text-white"
+          class="px-4 py-3 mt-4 text-sm font-black text-black uppercase transition border-2 border-black bg-[#a7bcd9] hover:bg-black hover:text-white"
           type="button"
         >
           Entrar con Google
@@ -67,8 +67,8 @@ import Layout from "@/layouts/Layout.astro";
             <h2 class="text-2xl font-black uppercase">Perfil y hero</h2>
             <div class="flex flex-wrap gap-3">
               <button id="load-profile" class="px-3 py-2 text-xs font-black uppercase border-2 border-black dark:border-white" type="button">Recargar</button>
-              <button id="seed-profile" class="px-3 py-2 text-xs font-black text-black uppercase border-2 border-black bg-[#c5ff4a]" type="button">Importar JSON</button>
-              <button id="save-profile" class="px-3 py-2 text-xs font-black text-black uppercase border-2 border-black bg-[#c5ff4a]" type="button">Guardar</button>
+              <button id="seed-profile" class="px-3 py-2 text-xs font-black text-black uppercase border-2 border-black bg-[#a7bcd9]" type="button">Importar JSON</button>
+              <button id="save-profile" class="px-3 py-2 text-xs font-black text-black uppercase border-2 border-black bg-[#a7bcd9]" type="button">Guardar</button>
             </div>
           </div>
 
@@ -97,16 +97,16 @@ import Layout from "@/layouts/Layout.astro";
         <section class="grid gap-6 mt-6 lg:grid-cols-[0.85fr_1.15fr]">
           <div class="p-4 border-2 border-black dark:border-white">
             <div class="flex flex-wrap gap-2">
-              <button class="content-tab px-3 py-2 text-xs font-black uppercase border-2 border-black bg-[#c5ff4a] text-black" data-collection="about" type="button">Sobre mí</button>
+              <button class="content-tab px-3 py-2 text-xs font-black uppercase border-2 border-black bg-[#a7bcd9] text-black" data-collection="about" type="button">Sobre mí</button>
               <button class="content-tab px-3 py-2 text-xs font-black uppercase border-2 border-black dark:border-white" data-collection="experience" type="button">Experiencia</button>
               <button class="content-tab px-3 py-2 text-xs font-black uppercase border-2 border-black dark:border-white" data-collection="education" type="button">Formación</button>
             </div>
             <div class="flex items-center justify-between gap-4 mt-5">
               <h2 id="items-title" class="text-2xl font-black uppercase">Sobre mí</h2>
-              <button id="new-item" class="px-3 py-2 text-xs font-black text-black uppercase border-2 border-black bg-[#c5ff4a]" type="button">Nuevo</button>
+              <button id="new-item" class="px-3 py-2 text-xs font-black text-black uppercase border-2 border-black bg-[#a7bcd9]" type="button">Nuevo</button>
             </div>
             <div id="items-list" class="grid gap-3 mt-5"></div>
-            <button id="seed-items" class="px-3 py-2 mt-5 text-xs font-black text-black uppercase border-2 border-black bg-[#c5ff4a]" type="button">
+            <button id="seed-items" class="px-3 py-2 mt-5 text-xs font-black text-black uppercase border-2 border-black bg-[#a7bcd9]" type="button">
               Importar JSON
             </button>
           </div>
@@ -142,7 +142,7 @@ import Layout from "@/layouts/Layout.astro";
               <label class="grid gap-2 text-sm font-black uppercase">Descripción EN<textarea id="item-description-en" class="cms-input min-h-36"></textarea></label>
             </div>
             <div class="flex flex-wrap gap-3 mt-6">
-              <button class="px-4 py-3 text-sm font-black text-black uppercase border-2 border-black bg-[#c5ff4a]" type="submit">Guardar</button>
+              <button class="px-4 py-3 text-sm font-black text-black uppercase border-2 border-black bg-[#a7bcd9]" type="submit">Guardar</button>
               <button id="delete-item" class="px-4 py-3 text-sm font-black text-white uppercase bg-red-700 border-2 border-black dark:border-white" type="button">Eliminar</button>
             </div>
           </form>
@@ -166,7 +166,7 @@ import Layout from "@/layouts/Layout.astro";
   }
 
   .cms-input:focus {
-    outline: 3px solid #c5ff4a;
+    outline: 3px solid #a7bcd9;
     outline-offset: 3px;
   }
 </style>
@@ -248,9 +248,9 @@ import Layout from "@/layouts/Layout.astro";
   function setMessage(text: string, variant: "info" | "error" | "success" = "info") {
     if (!message) return;
     message.textContent = text;
-    message.classList.remove("hidden", "bg-[#c5ff4a]", "bg-red-700", "text-white", "text-black", "dark:text-white");
+    message.classList.remove("hidden", "bg-[#a7bcd9]", "bg-red-700", "text-white", "text-black", "dark:text-white");
     if (variant === "error") message.classList.add("bg-red-700", "text-white");
-    else if (variant === "success") message.classList.add("bg-[#c5ff4a]", "text-black");
+    else if (variant === "success") message.classList.add("bg-[#a7bcd9]", "text-black");
     else message.classList.add("text-black", "dark:text-white");
   }
 
@@ -413,7 +413,7 @@ import Layout from "@/layouts/Layout.astro";
     }
 
     itemsList.innerHTML = activeItems.map((item) => `
-      <button class="min-w-0 p-4 text-left transition border-2 border-black dark:border-white ${item.id === selectedItemId ? "bg-[#c5ff4a] text-black" : "hover:bg-[#c5ff4a] hover:text-black"}" data-item-id="${item.id}" type="button">
+      <button class="min-w-0 p-4 text-left transition border-2 border-black dark:border-white ${item.id === selectedItemId ? "bg-[#a7bcd9] text-black" : "hover:bg-[#a7bcd9] hover:text-black"}" data-item-id="${item.id}" type="button">
         <span class="block text-xs font-black uppercase">${item.visible ? "Visible" : "Oculto"} · orden ${item.order}</span>
         <span class="block mt-1 text-lg font-black uppercase break-words">${activeCollection === "about" ? item.id : item.title?.es}</span>
       </button>
@@ -466,7 +466,7 @@ import Layout from "@/layouts/Layout.astro";
     selectedItemId = "";
     document.querySelectorAll<HTMLButtonElement>(".content-tab").forEach((button) => {
       const isActive = button.dataset.collection === collectionName;
-      button.classList.toggle("bg-[#c5ff4a]", isActive);
+      button.classList.toggle("bg-[#a7bcd9]", isActive);
       button.classList.toggle("text-black", isActive);
     });
     loadItems();
