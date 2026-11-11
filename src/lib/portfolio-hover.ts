@@ -22,10 +22,13 @@ export function initializePortfolioHover(root: HTMLElement) {
           prepareEnter = (event) => {
             // Preserve an in-flight origin on rapid re-entry rather than snapping the fill.
             if (timeline.progress() > 0.01) return;
-            const width = element.clientWidth;
+            const label = element.querySelector<HTMLElement>(".hero-action-label");
+            // The label expands after pointer entry; cover its final width too.
+            const extraWidth = label ? Math.max(0, label.scrollWidth - label.getBoundingClientRect().width) + 10 : 0;
+            const width = element.clientWidth + extraWidth;
             const height = element.clientHeight;
             const point = buttonFillOrigin(width, height,
-              event ? (event.clientX - state.bounds.left) / state.bounds.width * width : width / 2,
+              event ? (event.clientX - state.bounds.left) / state.bounds.width * element.clientWidth : width / 2,
               event ? (event.clientY - state.bounds.top) / state.bounds.height * height : height / 2);
             element.style.setProperty("--button-origin-x", `${point.x}px`);
             element.style.setProperty("--button-origin-y", `${point.y}px`);
@@ -44,6 +47,15 @@ export function initializePortfolioHover(root: HTMLElement) {
           };
           state.leave = () => { timeline.timeScale(1.2).reverse(); x(0); y(0); };
         } else if (element.matches(".project-card, .showcase-panel")) {
+          if (element.matches(".project-card")) {
+            prepareEnter = () => {
+              const description = element.querySelector<HTMLElement>(".project-description");
+              if (description) element.style.setProperty("--description-height", `${description.scrollHeight}px`);
+            };
+            timeline.to(element, { y: -5, scale: 1.012, duration: 0.5 }, 0);
+            const emblem = element.querySelector(".project-emblem svg");
+            if (emblem) timeline.to(emblem, { rotation: -6, scale: 1.12, duration: 0.55, ease: "back.out(1.5)" }, 0);
+          }
           const window = element.querySelector<HTMLElement>(".preview-window");
           const light = element.querySelector<HTMLElement>(".preview-hover-light");
           const preview = element.querySelector<HTMLElement>(".project-preview");
@@ -106,20 +118,31 @@ export function initializePortfolioHover(root: HTMLElement) {
       if (event.pointerType === "touch") return;
       ancestors(event).forEach((element) => { const state = create(element); if (!state.hover) { state.hover = true; state.enter(event); } state.move(event); });
     };
-    const focus = (event: FocusEvent) => ancestors(event).forEach((element) => { const state = create(element); state.focused = true; state.enter(); });
+    const focus = (event: FocusEvent) => ancestors(event).forEach((element) => {
+      const state = create(element);
+      state.focused = element.matches(":focus-visible") || !!element.querySelector(":focus-visible");
+      if (state.focused) state.enter();
+      else if (!state.hover) state.leave();
+    });
+    const pointerDown = () => states.forEach((state) => {
+      state.focused = false;
+      if (!state.hover) state.leave();
+    });
     const blur = (event: FocusEvent) => ancestors(event).forEach((element) => {
       if (event.relatedTarget instanceof Node && element.contains(event.relatedTarget)) return;
       const state = states.get(element); if (!state) return; state.focused = false; if (!state.hover) state.leave();
     });
     const reset = () => states.forEach((state) => { if (!state.hover) return; state.hover = false; if (!state.focused) state.leave(); });
     root.addEventListener("pointerover", over); root.addEventListener("pointerout", out); root.addEventListener("pointermove", move);
+    root.addEventListener("pointerdown", pointerDown);
     root.addEventListener("focusin", focus); root.addEventListener("focusout", blur); window.addEventListener("scroll", reset, { passive: true }); window.addEventListener("resize", reset);
     return () => {
       root.removeEventListener("pointerover", over); root.removeEventListener("pointerout", out); root.removeEventListener("pointermove", move);
+      root.removeEventListener("pointerdown", pointerDown);
       root.removeEventListener("focusin", focus); root.removeEventListener("focusout", blur); window.removeEventListener("scroll", reset); window.removeEventListener("resize", reset);
       context.revert(); states.forEach((_, element) => {
         element.classList.remove("motion-button", "motion-section");
-        ["--button-origin-x", "--button-origin-y", "--button-radius"].forEach((property) => element.style.removeProperty(property));
+        ["--button-origin-x", "--button-origin-y", "--button-radius", "--description-height"].forEach((property) => element.style.removeProperty(property));
       }); states.clear();
     };
   });

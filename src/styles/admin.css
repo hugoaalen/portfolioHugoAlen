@@ -1,4 +1,17 @@
 /* Shared CMS presentation; auth and content state classes stay untouched. */
+body[data-page="admin"] #header-container nav { border: 1px solid var(--p-line); border-radius: 0.75rem; background: var(--p-panel); color: var(--p-ink); box-shadow: 0 6px 24px #00000014; padding: 0.25rem; text-transform: none; }
+body[data-page="admin"] #header-links { width: auto; background: transparent; border: 0; box-shadow: none; overflow: visible; }
+body[data-page="admin"] #header-container .nav-link { min-height: 44px; display: flex; align-items: center; border-radius: 0.5rem; color: var(--p-ink); }
+body[data-page="admin"] #theme-toggle-btn { width: 44px; height: 44px; color: var(--p-ink); border-radius: 0.5rem; }
+body[data-page="admin"] #header-container :is(.nav-link, #theme-toggle-btn):hover { background: color-mix(in srgb, var(--p-accent) 15%, var(--p-panel)); color: var(--p-ink); }
+body[data-page="admin"] #themes-menu { background: var(--p-panel); color: var(--p-ink); border: 1px solid var(--p-line); border-radius: 0.5rem; box-shadow: 0 8px 24px #00000020; text-transform: none; }
+body[data-page="admin"] #themes-menu button { min-height: 44px; color: var(--p-ink); border-radius: 0.25rem; }
+body[data-page="admin"] #themes-menu button:is(:hover, :focus-visible, [aria-pressed="true"]) { background: var(--p-accent); color: var(--p-accent-ink); }
+body[data-page="admin"] #header-container :is(a, button):focus-visible { outline: 2px solid var(--p-focus); outline-offset: 2px; }
+body[data-page="admin"] .admin-main .admin-dashboard-card { background: var(--p-paper); color: var(--p-ink); border-radius: 0.5rem; }
+body[data-page="admin"] .admin-main .admin-dashboard-card h2 { color: inherit; }
+body[data-page="admin"] .admin-main .admin-dashboard-card p { color: var(--p-muted); font-weight: 400; line-height: 1.65; }
+body[data-page="admin"] .admin-main .admin-dashboard-card:hover { border-color: var(--p-accent-text); }
 body[data-page="admin"] .admin-main { background: transparent; color: var(--p-ink); }
 body[data-page="admin"] .admin-main > section { border: 1px solid var(--p-line); background: var(--p-panel); color: var(--p-ink); box-shadow: none; padding: clamp(1.25rem, 3vw, 2.5rem); }
 body[data-page="admin"] .admin-main :is(h1, h2, h3) { text-transform: none; color: var(--p-ink); font-weight: 650; letter-spacing: -0.045em; }

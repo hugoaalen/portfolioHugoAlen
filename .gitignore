@@ -21,4 +21,8 @@ pnpm-debug.log*
 # macOS-specific files
 .DS_Store
 
+# Corporate screenshots before anonymization; never deploy or commit originals.
+.private/
+public/projects/PreviewsProyectosMarsan/
+
 package-lock.json

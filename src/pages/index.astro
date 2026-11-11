@@ -2,5 +2,6 @@
 import Maintenance from "@/components/Maintenance.astro";
 import PortfolioPage from "@/components/PortfolioPage.astro";
 import maintenance from "@/data/maintenance.json";
+const showMaintenance = maintenance.enabled && !import.meta.env.DEV;
 ---
-{maintenance.enabled ? <Maintenance /> : <PortfolioPage />}
+{showMaintenance ? <Maintenance /> : <PortfolioPage />}

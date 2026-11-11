@@ -94,13 +94,13 @@ const { hero, social } = profile;
     </a>
     <SocialPill href={`mailto:${profile.email}`} id="hero-email-link">
       <MailIcon class="size-4" />
-      <span class="i18n" id="btn-contact" data-es={hero.buttons.contact.es} data-en={hero.buttons.contact.en}>
+      <span class="hero-action-label i18n" id="btn-contact" data-es={hero.buttons.contact.es} data-en={hero.buttons.contact.en}>
         {hero.buttons.contact.es}
       </span>
     </SocialPill>
     <SocialPill href="/CV-Hugo-Alen.pdf" download="CV-Hugo-Alen.pdf" id="hero-cv-link">
       <DownloadIcon class="size-4" />
-      <span class="i18n" id="btn-cv" data-es={hero.buttons.cv.es} data-en={hero.buttons.cv.en}>
+      <span class="hero-action-label i18n" id="btn-cv" data-es={hero.buttons.cv.es} data-en={hero.buttons.cv.en}>
         {hero.buttons.cv.es}
       </span>
     </SocialPill>
@@ -109,11 +109,11 @@ const { hero, social } = profile;
       href={social.linkedin}
     >
       <LinkedInIcon class="size-4" />
-      LinkedIn
+      <span class="hero-action-label">LinkedIn</span>
     </SocialPill>
     <SocialPill href={social.github} id="hero-github-link">
       <GitHub class="size-4" />
-      Github
+      <span class="hero-action-label">GitHub</span>
     </SocialPill>
     </nav>
   </div>

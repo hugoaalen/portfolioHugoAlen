@@ -30,7 +30,7 @@ import SQLite from "./icons/SQLite.astro";
 import SqlServer from "./icons/SqlServer.astro";
 import Kotlin from "./icons/Kotlin.astro";
 import { projects } from "@/data/content";
-import { renderProjectSummary } from "@/lib/project-preview";
+import { renderProjectPreview } from "@/lib/project-preview";
 import "@/styles/project-preview.css";
 
 const TAGS = {
@@ -84,14 +84,14 @@ const PROJECTS = projects.map((project) => ({
 
 <div class="grid gap-7 md:grid-cols-2" id="projects-container">
   {
-    PROJECTS.map(({ id, title, description, tags, link, github, featured, categoryGroups }) => (
-      <article id={`project-${id}`} data-project-id={id} data-category-groups={categoryGroups} class:list={[
+    PROJECTS.map(({ id, image, title, description, tags, link, github, featured, categoryGroups }) => (
+      <article tabindex="0" id={`project-${id}`} data-project-id={id} data-category-groups={categoryGroups} class:list={[
         "project-card flex flex-col overflow-hidden transition duration-200 border-2 border-black bg-white shadow-[8px_8px_0_#111] group hover:-translate-y-1 hover:shadow-[12px_12px_0_#111] dark:border-white dark:bg-[#111] dark:shadow-[8px_8px_0_var(--p-accent,#a7bcd9)] dark:hover:shadow-[12px_12px_0_var(--p-accent,#a7bcd9)]",
         { "project-card-featured": featured },
         { "project-card-priority": PRIORITY_PROJECT_IDS.has(id) },
       ]}>
         <div class="w-full">
-          <Fragment set:html={renderProjectSummary({ id, title, description })} />
+          <Fragment set:html={renderProjectPreview({ id, image, title })} />
         </div>
 
         <div class="flex flex-col flex-1 w-full p-6 border-t-2 border-black dark:border-white">
@@ -118,7 +118,7 @@ const PROJECTS = projects.map((project) => ({
             </ul>
 
             <div 
-              class="mt-3 text-sm leading-relaxed text-gray-700 dark:text-gray-300 i18n"
+              class="project-description mt-3 text-sm leading-relaxed text-gray-700 dark:text-gray-300 i18n"
               data-es={description.es}
               data-en={description.en}
             >
@@ -165,7 +165,7 @@ const PROJECTS = projects.map((project) => ({
 <script>
   import { collection, getDocs, query, where } from "firebase/firestore/lite";
   import { publicDb } from "@/lib/firebase-public";
-  import { renderProjectSummary } from "@/lib/project-preview";
+  import { renderProjectPreview } from "@/lib/project-preview";
 
   const PROJECT_TAGS = {
     NEXT: { name: "Next.js", className: "bg-black text-white", iconColor: "#000000" },
@@ -265,7 +265,7 @@ const PROJECTS = projects.map((project) => ({
     return `
       <article id="project-${escapeHtml(project.id)}" data-project-id="${escapeHtml(project.id)}" data-category-groups="${escapeHtml(categoryGroups)}" class="project-card flex flex-col overflow-hidden transition duration-200 border-2 border-black bg-white shadow-[8px_8px_0_#111] group hover:-translate-y-1 hover:shadow-[12px_12px_0_#111] dark:border-white dark:bg-[#111] dark:shadow-[8px_8px_0_var(--p-accent,#a7bcd9)] dark:hover:shadow-[12px_12px_0_var(--p-accent,#a7bcd9)]${featuredClass}${priorityClass}">
         <div class="w-full">
-          ${renderProjectSummary({ id: String(project.id), title: { es: titleEs, en: titleEn }, description: { es: descriptionEs, en: descriptionEn } })}
+          ${renderProjectPreview({ id: String(project.id), image: project.image, title: { es: titleEs, en: titleEn } })}
         </div>
 
         <div class="flex flex-col flex-1 w-full p-6 border-t-2 border-black dark:border-white">
@@ -283,7 +283,7 @@ const PROJECTS = projects.map((project) => ({
             </ul>
 
             <div
-              class="mt-3 text-sm leading-relaxed text-gray-700 dark:text-gray-300 i18n"
+              class="project-description mt-3 text-sm leading-relaxed text-gray-700 dark:text-gray-300 i18n"
               data-es="${escapeHtml(descriptionEs)}"
               data-en="${escapeHtml(descriptionEn)}"
             >
@@ -313,7 +313,9 @@ const PROJECTS = projects.map((project) => ({
         where("status", "==", "published"),
       ));
       const remoteProjects = snapshot.docs
-        .map((projectDoc) => projectDoc.data())
+        .filter((projectDoc) => projectDoc.id !== "bpkeepers")
+        .map((projectDoc) => ({ ...projectDoc.data(), id: projectDoc.id, order: Number(projectDoc.data().order ?? 0) }))
+        .filter((project) => project.id !== "bpkeepers")
         .sort((a, b) => Number(a.order ?? 0) - Number(b.order ?? 0));
 
       if (remoteProjects.length === 0) return;
@@ -332,6 +334,7 @@ const PROJECTS = projects.map((project) => ({
     const container = document.getElementById("projects-container");
     if (!container) return;
     const cards = Array.from(container.querySelectorAll<HTMLElement>(".project-card"));
+    cards.forEach((card) => { card.tabIndex = 0; });
     container.querySelectorAll(".project-group-heading").forEach((heading) => heading.remove());
     for (const professional of [true, false]) {
       const group = cards.filter((card) => (card.dataset.projectId || "").startsWith("marsan-") === professional);

@@ -9,5 +9,6 @@ test("mobile hero buttons override SocialPill's intrinsic maximum width", () => 
   assert.match(buttons, /width: 100%;/);
   assert.match(buttons, /max-width: none;/);
   assert.match(buttons, /justify-self: stretch;/);
-  assert.match(mobile, /#hero-email-link \{ grid-column: 1 \/ -1;/);
+  assert.match(mobile, /\.hero-project-link \{ grid-column: 1 \/ -1;/);
+  assert.doesNotMatch(mobile, /#hero-email-link \{ grid-column:/);
 });

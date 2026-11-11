@@ -4,6 +4,7 @@ import experienceData from "./experience.json";
 import profileData from "./profile.json";
 import projectsData from "./projects.json";
 import marsanProjects from "./marsan-projects.json";
+import { marsanPreviewAssets } from "../lib/marsan-preview-assets";
 
 export const AVAILABLE_PROJECT_TAGS = [
   "NEXT",
@@ -271,4 +272,4 @@ export const about = parseAbout(aboutData);
 export const education = parseEducation(educationData);
 export const experience = parseExperience(experienceData);
 const personalOrder = ["zaizen", "mototv", "padeltime", "onosoalmanaque", "futpath", "senda", "taskflow", "sfit", "vehixhub", "impostor", "bpkeepers"];
-export const projects = parseProjects([...marsanProjects, ...projectsData.map((project) => ({ ...project, featured: false, order: 100 + personalOrder.indexOf(project.id) }))]);
+export const projects = parseProjects([...marsanProjects.map((project) => ({ ...project, image: marsanPreviewAssets[project.id] || "" })), ...projectsData.filter((project) => project.id !== "bpkeepers").map((project) => ({ ...project, featured: false, order: 100 + personalOrder.indexOf(project.id) }))]);

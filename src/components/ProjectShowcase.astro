@@ -1,65 +1,148 @@
 ---
-const cases = [
-  { id: "marsan-mpms", name: "MPMS", context: ["Industria · Grupo Marsan", "Industry · Grupo Marsan"], problem: ["Conectar la operación de planta con el ERP.", "Connecting shop-floor operations with the ERP."], contribution: ["Trazabilidad, calidad y declaraciones mediante colas persistentes y reintentos.", "Traceability, quality and production reporting through persistent queues and retries."], stack: "C# / .NET / SQL Server" },
-  { id: "marsan-cotizador", name: "Cotizador", context: ["Negocio · Grupo Marsan", "Business · Grupo Marsan"], problem: ["Convertir costes industriales en ofertas controladas.", "Turning industrial costs into controlled quotations."], contribution: ["Cálculo por proceso, simulaciones, versiones de precio y circuitos de aprobación.", "Process-based costing, simulations, price versions and approval workflows."], stack: "Blazor / .NET / SQL Server" },
-  { id: "zaizen", name: "ZaiZen", context: ["Producto · Proyecto personal", "Product · Personal project"], problem: ["Entender las finanzas sin hojas de cálculo dispersas.", "Understanding finances without scattered spreadsheets."], contribution: ["Importación bancaria, presupuestos y objetivos con datos privados por usuario.", "Bank imports, budgets and savings goals with private per-user data."], stack: "React / Supabase / PostgreSQL" },
-];
+import { projects } from "@/data/content";
+import { renderProjectPreview } from "@/lib/project-preview";
+import "@/styles/project-preview.css";
+const selection = projects.filter((project) => ["marsan-mpms", "marsan-cotizador", "zaizen"].includes(project.id));
 ---
+
 <section id="project-showcase" aria-labelledby="showcase-title">
   <div class="showcase-pin">
-    <div class="showcase-heading"><div>
-      <p class="i18n" data-es="Tres formas de resolver problemas" data-en="Three ways to solve problems">Tres formas de resolver problemas</p>
-      <h2 id="showcase-title" class="i18n" data-es="Software con propósito." data-en="Software with purpose.">Software con propósito.</h2>
-    </div></div>
-    <div class="selected-cases">
-      {cases.map((item, index) => (
-        <a class="selected-case" href={`#project-${item.id}`}>
-          <span class="case-topline"><span class="i18n" data-es={item.context[0]} data-en={item.context[1]}>{item.context[0]}</span><span class="case-number">0{index + 1}</span></span>
-          <h3>{item.name}</h3>
-          <p class="case-problem i18n" data-es={item.problem[0]} data-en={item.problem[1]}>{item.problem[0]}</p>
-          <p class="case-contribution i18n" data-es={item.contribution[0]} data-en={item.contribution[1]}>{item.contribution[0]}</p>
-          <span class="case-stack">{item.stack}</span>
-          <span class="case-link"><span class="i18n" data-es="Explorar proyecto" data-en="Explore project">Explorar proyecto</span><span aria-hidden="true">↗</span></span>
+    <div class="showcase-heading">
+      <div>
+        <p class="i18n" data-es="Una selección de mi trabajo" data-en="A selection of my work">Una selección de mi trabajo</p>
+        <h2 id="showcase-title" class="i18n" data-es="Software con propósito." data-en="Software with purpose.">Software con propósito.</h2>
+      </div>
+    </div>
+    <div class="showcase-deck">
+      {selection.map((project, index) => (
+        <a class="showcase-panel" href={`#project-${project.id}`}>
+          <span class="showcase-image" set:html={renderProjectPreview(project)} />
+          <span class="showcase-caption">
+            <span class="showcase-number">0{index + 1}</span>
+            <span class="showcase-name i18n" data-es={project.title.es} data-en={project.title.en}>{project.title.es}</span>
+            <span aria-hidden="true">↗</span>
+          </span>
         </a>
       ))}
     </div>
+    <div class="showcase-track" aria-hidden="true"><span></span></div>
   </div>
 </section>
+
 <script>
   import { gsap } from "gsap";
   import { ScrollTrigger } from "gsap/ScrollTrigger";
   gsap.registerPlugin(ScrollTrigger);
-  let cleanup: (() => void) | undefined;
-  function initialize() {
-    cleanup?.();
+  let activeSection: HTMLElement | null = null;
+  let dispose: (() => void) | undefined;
+
+  function initializeShowcase() {
     const section = document.getElementById("project-showcase");
+    if (section === activeSection) return;
+    dispose?.();
+    activeSection = section;
     if (!section) return;
-    const media = gsap.matchMedia();
-    media.add("(prefers-reduced-motion: no-preference)", () => {
-      gsap.from(section.querySelectorAll(".selected-case"), {
-        y: 28, opacity: 0, duration: 0.7, stagger: 0.1, ease: "power3.out",
-        scrollTrigger: { trigger: section, start: "top 85%", once: true }, clearProps: "transform,opacity",
+    const deck = section.querySelector<HTMLElement>(".showcase-deck")!;
+    let media = gsap.matchMedia();
+    let disposed = false;
+
+    const animate = () => {
+      media.add("(min-width: 1024px) and (min-height: 650px) and (prefers-reduced-motion: no-preference) and (pointer: fine)", () => {
+        const panels = Array.from(deck.querySelectorAll<HTMLElement>(".showcase-panel"));
+        if (panels.length < 2) return;
+        section.classList.add("showcase-enhanced");
+        gsap.set(panels, { transformPerspective: 1200, transformOrigin: "50% 100%" });
+        panels.forEach((panel, index) => {
+          gsap.set(panel, { zIndex: index + 1 });
+          if (index > 0) gsap.set(panel, { yPercent: 130, rotation: index % 2 ? 12 : -12, scale: 0.9 });
+        });
+        const timeline = gsap.timeline({
+          scrollTrigger: {
+            id: "portfolio-project-showcase",
+            trigger: section, pin: section.querySelector(".showcase-pin"),
+            start: "top top", end: () => `+=${window.innerHeight * panels.length * 0.75}`,
+            scrub: 0.75, invalidateOnRefresh: true, refreshPriority: 1,
+          },
+        });
+        timeline.from(panels[0], { scale: 0.82, rotationX: 12, duration: 0.6, ease: "none" });
+        panels.slice(1).forEach((panel, index) => {
+          timeline.to(panels[index], { scale: 0.88, yPercent: -8, rotation: index % 2 ? 4 : -4, duration: 1, ease: "none" })
+            .to(panel, { yPercent: 0, rotation: 0, scale: 1, duration: 1, ease: "power2.inOut" }, "<");
+        });
+        timeline.to({}, { duration: 0.3 });
+        gsap.fromTo(section.querySelector(".showcase-track span"), { scaleX: 0 }, {
+          scaleX: 1, ease: "none", scrollTrigger: {
+            trigger: section, start: "top top", end: () => `+=${window.innerHeight * panels.length * 0.75}`, scrub: true,
+          },
+        });
+
+        // Keyboard focus must reveal the selected card instead of leaving it under the stack.
+        const onFocus = (event: FocusEvent) => {
+          const panel = panels.find((item) => item === event.target);
+          const trigger = timeline.scrollTrigger;
+          if (!panel || !trigger) return;
+          const index = panels.indexOf(panel);
+          const progress = index === 0 ? 0.6 / timeline.duration() : (0.6 + index) / timeline.duration();
+          window.scrollTo({ top: trigger.start + (trigger.end - trigger.start) * progress, behavior: "instant" });
+        };
+        deck.addEventListener("focusin", onFocus);
+        return () => {
+          deck.removeEventListener("focusin", onFocus);
+          section.classList.remove("showcase-enhanced");
+        };
+      }, section);
+    };
+
+    const syncProjects = () => {
+      media.revert();
+      media = gsap.matchMedia();
+      const cards = document.querySelectorAll<HTMLElement>("#projects-container .project-card-priority");
+      const fragment = document.createDocumentFragment();
+      const lang = localStorage.getItem("language") || "es";
+      cards.forEach((card, index) => {
+        const image = card.querySelector(".project-preview");
+        const title = card.querySelector("h3");
+        if (!image || !title) return;
+        const panel = document.createElement("a");
+        panel.className = "showcase-panel";
+        panel.href = `#${card.id}`;
+        const frame = document.createElement("span");
+        frame.className = "showcase-image";
+        const clone = image.cloneNode(true);
+        frame.append(clone);
+        const caption = document.createElement("span");
+        caption.className = "showcase-caption";
+        const number = document.createElement("span");
+        number.className = "showcase-number";
+        number.textContent = String(index + 1).padStart(2, "0");
+        const name = document.createElement("span");
+        name.className = "showcase-name i18n";
+        ["es", "en"].forEach((language) => name.setAttribute(`data-${language}`, title.getAttribute(`data-${language}`) || title.textContent || ""));
+        name.textContent = name.getAttribute(`data-${lang}`);
+        const arrow = document.createElement("span");
+        arrow.textContent = "↗";
+        arrow.setAttribute("aria-hidden", "true");
+        caption.append(number, name, arrow);
+        panel.append(frame, caption);
+        fragment.append(panel);
       });
-    }, section);
-    cleanup = () => media.revert();
+      deck.replaceChildren(fragment);
+      section.hidden = !deck.children.length;
+      animate();
+      ScrollTrigger.refresh();
+    };
+
+    syncProjects();
+    window.addEventListener("portfolio:projects-updated", syncProjects);
+    document.fonts.ready.then(() => { if (!disposed) ScrollTrigger.refresh(); });
+    dispose = () => {
+      disposed = true;
+      window.removeEventListener("portfolio:projects-updated", syncProjects);
+      media.revert();
+      activeSection = null;
+    };
   }
-  initialize();
-  document.addEventListener("astro:page-load", initialize);
-  document.addEventListener("astro:before-swap", () => { cleanup?.(); cleanup = undefined; });
+  initializeShowcase();
+  document.addEventListener("astro:page-load", initializeShowcase);
+  document.addEventListener("astro:before-swap", () => { dispose?.(); dispose = undefined; });
 </script>
-<style>
-  .selected-cases { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.25rem; }
-  .selected-case { display: flex; flex-direction: column; min-width: 0; padding: clamp(1.25rem, 2.5vw, 2rem); border: 1px solid var(--p-line); background: var(--p-panel); color: var(--p-ink); transition: border-color 240ms, background 240ms; }
-  .case-topline { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; color: var(--p-muted); font-size: 0.6875rem; }
-  .case-number { font-family: ui-monospace, monospace; color: var(--p-accent-text); }
-  h3 { margin-top: 2rem; font-size: clamp(1.75rem, 3vw, 2.5rem); font-weight: 700; letter-spacing: -0.045em; }
-  .case-problem { margin-top: 0.75rem; font-size: 1.0625rem; line-height: 1.5; }
-  .case-contribution { margin-top: 1rem; margin-bottom: 1.75rem; font-size: 0.875rem; line-height: 1.65; color: var(--p-muted); }
-  .case-stack { margin-top: auto; font: 0.6875rem/1.5 ui-monospace, monospace; color: var(--p-accent-text); }
-  .case-link { display: flex; align-items: center; justify-content: space-between; margin-top: 1.25rem; padding-top: 1rem; border-top: 1px solid var(--p-line); font-size: 0.8125rem; }
-  .case-link > span:last-child { transition: transform 240ms; font-size: 1.25rem; }
-  .selected-case:hover, .selected-case:focus-visible { border-color: var(--p-accent); background: color-mix(in srgb, var(--p-accent) 6%, var(--p-panel)); }
-  .selected-case:hover .case-link > span:last-child, .selected-case:focus-visible .case-link > span:last-child { transform: translate(3px, -3px); }
-  @media (max-width: 63.999rem) { .selected-cases { grid-template-columns: 1fr; } h3 { margin-top: 1rem; } }
-  @media (prefers-reduced-motion: reduce) { .selected-case, .case-link > span:last-child { transition: none; } }
-</style>

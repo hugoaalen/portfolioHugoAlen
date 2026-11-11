@@ -57,11 +57,13 @@ En `/admin/projects`, **Añadir proyectos que faltan** incorpora solo los identi
 
 ### Previews de proyectos
 
-El catálogo público ahora presenta fichas editoriales sin capturas, tanto para trabajo corporativo privado como para proyectos personales. La selección animada utiliza resúmenes de casos, no pantallas ficticias. `src/data/marsan-projects.json` contiene ocho casos profesionales redactados sin datos internos ni métricas no verificadas. Las imágenes antiguas se conservan como recursos, pero no se muestran en el catálogo.
+Las previews vuelven al catálogo. Las ocho capturas corporativas exportadas están en `public/projects/marsan/`, con ocultación opaca aplicada a los píxeles y aviso incorporado. Los originales se guardan únicamente en `.private/PreviewsProyectosMarsan/`, excluidos de Git y del despliegue. `scripts/prepare-marsan-previews.py` reproduce las ocultaciones aprobadas sobre esos originales; requiere Pillow. Revisar visualmente cualquier exportación antes de publicarla. No mover originales de vuelta a `public`.
+
+El catálogo presenta capturas con un marco común; los tres casos destacados mantienen su formato editorial compacto. `src/data/marsan-projects.json` contiene ocho casos profesionales redactados sin datos internos ni métricas no verificadas. Para identificadores de Marsan, el renderizador solo utiliza los archivos saneados de `src/lib/marsan-preview-assets.ts`, aunque el CMS contenga otra ruta de imagen.
 
 Después de desplegar, usar **Añadir proyectos que faltan** en `/admin/projects` para incorporar los casos de Marsan a Firestore. No se sobrescriben entradas existentes: el orden y los textos de los proyectos personales ya importados deben actualizarse desde el CMS. Firestore sigue siendo la fuente pública cuando contiene proyectos publicados; un cambio en los JSON no modifica esos documentos.
 
-Las tarjetas y la galería animada comparten `src/lib/project-preview.ts` y `src/styles/project-preview.css`: misma proporción, marco y espaciado, con acento por proyecto. Las capturas son archivos locales en `public/projects`; no se generan ni descargan en cada visita. Las rutas antiguas del CMS se resuelven en `src/lib/public-assets.ts`, sin reescribir documentos remotos ni impedir imágenes personalizadas.
+Las tarjetas comparten `src/lib/project-preview.ts` y `src/styles/project-preview.css`: misma proporción, marco y espaciado. Las capturas son archivos locales en `public/projects`; no se generan ni descargan en cada visita. Las rutas antiguas de proyectos personales del CMS se resuelven en `src/lib/public-assets.ts`, sin reescribir documentos remotos.
 
 FutPath, ZaiZen, Senda, SFit y ¿Quién finge? usan capturas locales nuevas, sin sesiones personales. PadelTime y Moto TV usan capturas incluidas en sus repositorios. BPKeepers y oNoSoAlMaNaQuE conservan sus imágenes originales y eliminan el marco antiguo mediante presentación CSS. TaskFlow y VehixHub tienen portadas vectoriales de arquitectura, no capturas ficticias de producto.
 
