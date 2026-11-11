@@ -1,4 +1,4 @@
-import { availabilityResponse, getMaintenanceEnabled } from "./src/lib/site-availability.ts";
+import { availabilityResponse, getMaintenanceEnabled } from "./src/lib/site-availability";
 
 export const config = { matcher: ["/", "/index.html", "/maintenance", "/maintenance/"] };
 
