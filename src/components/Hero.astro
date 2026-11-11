@@ -120,9 +120,6 @@ const { hero, social } = profile;
 </div>
 
 <script>
-  import { doc, getDoc } from "firebase/firestore/lite";
-  import { publicDb } from "@/lib/firebase-public";
-  import { getOptimizedImagePath } from "@/lib/public-assets";
 
   function updateLanguage() {
     const lang = localStorage.getItem('language') || 'es';
@@ -138,73 +135,7 @@ const { hero, social } = profile;
     });
   }
 
-  async function hydrateProfileFromFirestore() {
-    try {
-      const snapshot = await getDoc(doc(publicDb, "content", "profile"));
-      if (!snapshot.exists()) return;
-
-      const profile = snapshot.data();
-      const hero = profile.hero ?? {};
-      const social = profile.social ?? {};
-      const image = document.getElementById("hero-profile-image") as HTMLImageElement | null;
-      const kicker = document.getElementById("hero-kicker");
-      const location = document.getElementById("hero-location");
-      const name = document.getElementById("hero-name");
-      const badge = document.getElementById("badge-available");
-      const title = document.getElementById("hero-title");
-      const desc1 = document.getElementById("hero-desc1");
-      const desc2 = document.getElementById("hero-desc2");
-      const contact = document.getElementById("btn-contact");
-      const cvBtn = document.getElementById("btn-cv");
-      const emailLink = document.getElementById("hero-email-link") as HTMLAnchorElement | null;
-      const badgeLink = document.getElementById("hero-badge-link") as HTMLAnchorElement | null;
-      const linkedInLink = document.getElementById("hero-linkedin-link") as HTMLAnchorElement | null;
-      const githubLink = document.getElementById("hero-github-link") as HTMLAnchorElement | null;
-
-      if (image && typeof profile.image === "string") {
-        image.src = getOptimizedImagePath(profile.image);
-      }
-      if (image && typeof profile.imageAlt === "string") image.alt = profile.imageAlt;
-      if (kicker && typeof profile.kicker === "string") kicker.textContent = profile.kicker;
-      if (location && typeof profile.location === "string") location.textContent = profile.location;
-      if (name && typeof profile.name === "string") name.textContent = profile.name;
-      if (emailLink && typeof profile.email === "string") emailLink.href = `mailto:${profile.email}`;
-      if (typeof profile.email === "string") {
-        document.querySelectorAll<HTMLAnchorElement>(".footer-invitation, #navigation-contact").forEach((link) => {
-          link.href = `mailto:${profile.email}`;
-        });
-      }
-      if (badgeLink && typeof social.linkedin === "string") badgeLink.href = social.linkedin;
-      if (linkedInLink && typeof social.linkedin === "string") linkedInLink.href = social.linkedin;
-      if (githubLink && typeof social.github === "string") githubLink.href = social.github;
-
-      const i18nTargets = [
-        [badge, hero.badge],
-        [title, hero.title],
-        [contact, hero.buttons?.contact],
-        [cvBtn, hero.buttons?.cv],
-      ] as const;
-
-      i18nTargets.forEach(([element, value]) => {
-        if (!element || !value?.es || !value?.en) return;
-        element.setAttribute("data-es", value.es);
-        element.setAttribute("data-en", value.en);
-      });
-
-      [desc1, desc2].forEach((element, index) => {
-        const value = hero.description?.[index];
-        if (!element || !value?.es || !value?.en) return;
-        element.setAttribute("data-es", value.es);
-        element.setAttribute("data-en", value.en);
-      });
-
-      updateLanguage();
-    } catch (error) {
-      console.error("No se pudo cargar el perfil desde Firestore.", error);
-    }
-  }
 
   updateLanguage();
-  hydrateProfileFromFirestore();
   window.addEventListener('languageChanged', updateLanguage);
 </script>

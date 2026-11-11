@@ -92,19 +92,12 @@ pnpm run build
 
 4. Si el build pasa, el portfolio está listo para desplegar.
 
-## CMS con Firebase
+## Administración sencilla
 
-La primera pantalla editable vive en `/admin/projects`.
+`/admin` solo controla mantenimiento, con acceso mediante Google y escrituras protegidas por las reglas de Firestore. No permite editar textos ni importar JSON.
 
-- El acceso se hace con Google Auth.
-- Solo `hugoaalen@gmail.com` debe poder escribir en Firestore.
-- Los proyectos se guardan en la colección `projects`.
-- El botón `Importar JSON` copia el contenido actual de `src/data/projects.json` a Firestore como semilla inicial.
+Todos los contenidos se construyen desde estos archivos. Los proyectos profesionales se mantienen en `src/data/marsan-projects.json`; los personales en `src/data/projects.json`. Tras cambiar un JSON, hay que desplegar para actualizar producción.
 
-Antes de usar el CMS hay que publicar las reglas de Firestore:
+Firebase conserva únicamente el ajuste de disponibilidad utilizado por la aplicación: `maintenanceEnabled` en `content/profile`, por compatibilidad con las reglas ya publicadas. Los documentos antiguos del CMS no se borran, pero ya no reemplazan contenido.
 
-```bash
-firebase deploy --only firestore:rules --project portfolio-hugo-alen
-```
-
-Si prefieres hacerlo desde la consola de Firebase, pega el contenido de `firestore.rules` en Firestore Database > Reglas y publícalo.
+El control se aplica en el Routing Middleware de Vercel y en desarrollo local. Cambiarlo desde local también afecta al estado compartido de producción. No oculta ni elimina recursos públicos antiguos.

@@ -24,8 +24,6 @@ import { about } from "@/data/content";
 </article>
 
 <script>
-  import { collection, getDocs, query, where } from "firebase/firestore/lite";
-  import { publicDb } from "@/lib/firebase-public";
 
   function updateAboutLanguage() {
     const lang = localStorage.getItem('language') || 'es';
@@ -40,38 +38,7 @@ import { about } from "@/data/content";
     });
   }
 
-  function escapeAttr(value: unknown) {
-    return String(value ?? "")
-      .replaceAll("&", "&amp;")
-      .replaceAll('"', "&quot;");
-  }
-
-  async function hydrateAboutFromFirestore() {
-    try {
-      const container = document.getElementById("about-content");
-      if (!container) return;
-
-      const snapshot = await getDocs(query(collection(publicDb, "about"), where("visible", "==", true)));
-      const items = snapshot.docs
-        .map((item) => item.data())
-        .sort((a, b) => Number(a.order ?? 0) - Number(b.order ?? 0));
-      if (items.length === 0) return;
-
-      container.innerHTML = items.map((item) => `
-        <p
-          class="i18n-html"
-          data-es="${escapeAttr(item.es)}"
-          data-en="${escapeAttr(item.en)}"
-        >${item.es ?? ""}</p>
-      `).join("");
-
-      updateAboutLanguage();
-    } catch (error) {
-      console.error("No se pudo cargar Sobre mí desde Firestore.", error);
-    }
-  }
 
   updateAboutLanguage();
-  hydrateAboutFromFirestore();
   window.addEventListener('languageChanged', updateAboutLanguage);
 </script>
