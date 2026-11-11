@@ -11,8 +11,8 @@
       "en": "FutPath - Football Career Tracker"
     },
     "description": {
-      "es": "Aplicación para registrar y analizar la carrera deportiva de futbolistas mediante temporadas, competiciones, partidos y estadísticas adaptadas por posición. Incluye autenticación, exportación de datos y experiencia PWA con soporte offline, construida con Next.js, TypeScript y Firebase.",
-      "en": "Application for recording and analyzing a footballer's career through seasons, competitions, matches, and position-specific statistics. It includes authentication, data export, and an offline-capable PWA experience built with Next.js, TypeScript, and Firebase."
+      "es": "Aplicación que reúne la trayectoria de un futbolista en un solo lugar para consultar y analizar su evolución deportiva. Organiza temporadas, competiciones y partidos con estadísticas adaptadas a cada posición, además de exportación de datos y acceso sin conexión.",
+      "en": "An application bringing a footballer's career together in one place to review and analyze sporting progress. It organizes seasons, competitions and matches with position-specific statistics, along with data exports and offline access."
     },
     "link": "https://futpath.vercel.app",
     "github": "https://github.com/hugoaalen/FutPath",
@@ -31,8 +31,8 @@
       "en": "ZaiZen - Expense Tracking and Personal Finance Management"
     },
     "description": {
-      "es": "Aplicación instalable para entender ingresos, gastos y objetivos de ahorro desde una visión mensual y anual. Permite gestionar presupuestos, movimientos recurrentes e importaciones bancarias, con autenticación, exportación y sincronización mediante Supabase.",
-      "en": "Installable application for understanding income, expenses, and savings goals through monthly and annual views. It manages budgets, recurring transactions, and bank imports, with authentication, exports, and Supabase synchronization."
+      "es": "Aplicación de finanzas personales que ayuda a entender en qué se gasta el dinero y a organizar objetivos de ahorro sin depender de hojas de cálculo. Reúne ingresos, gastos, presupuestos y movimientos recurrentes en vistas mensuales y anuales, con importación bancaria, exportación y sincronización entre dispositivos.",
+      "en": "A personal finance application that helps users understand their spending and organize savings goals without relying on spreadsheets. It brings income, expenses, budgets and recurring transactions into monthly and annual views, with bank imports, data exports and synchronization across devices."
     },
     "link": "https://zaizen.vercel.app",
     "github": "https://github.com/hugoaalen/zaizen",
@@ -51,8 +51,8 @@
       "en": "Senda - Academic Progress Planner"
     },
     "description": {
-      "es": "Planificador académico con seguimiento de asignaturas, créditos y notas, y simulación de carga de matrícula según horas, dificultad y capacidad semanal. Almacenamiento local o sincronización privada con Firebase. Modelo actual orientado a una titulación de 240 créditos, no a cualquier universidad.",
-      "en": "Academic planner tracking subjects, credits and grades, with enrollment workload simulations based on hours, difficulty and weekly capacity. Local storage or private Firebase synchronization. The current model targets a 240-credit degree, not every university."
+      "es": "Planificador académico que reúne asignaturas, créditos y notas para seguir el progreso de una titulación. Permite simular la carga de matrícula según horas, dificultad y disponibilidad semanal, ayudando a organizar el estudio con datos guardados en local o sincronizados de forma privada.",
+      "en": "An academic planner bringing subjects, credits and grades together to track degree progress. It simulates enrollment workload based on study hours, difficulty and weekly availability, helping users plan their studies with locally stored or privately synchronized data."
     },
     "github": "https://github.com/hugoaalen/Senda",
     "image": "/projects/senda-window-1200.jpg",
@@ -70,8 +70,8 @@
       "en": "oNoSoAlMaNaQuE - Collaborative Vacation Planner"
     },
     "description": {
-      "es": "Calendario colaborativo para que grupos de amigos encuentren fechas compatibles para sus vacaciones. Combina disponibilidad por rangos, propuestas y votaciones, recomendaciones de mejores ventanas y exportación a calendario, con acceso seguro mediante enlaces y Supabase.",
-      "en": "Collaborative calendar that helps groups of friends find compatible vacation dates. It combines range-based availability, proposals and voting, best-window recommendations, and calendar export, with secure link-based access and Supabase."
+      "es": "Calendario colaborativo que ayuda a grupos de amigos a encontrar fechas compatibles para sus vacaciones sin cruzar mensajes y hojas de cálculo. Reúne disponibilidad por rangos, propuestas y votaciones, sugiere ventanas comunes y permite exportar las fechas al calendario.",
+      "en": "A collaborative calendar helping groups of friends find compatible vacation dates without juggling messages and spreadsheets. It combines date-range availability, proposals and voting, suggests shared windows and lets users export dates to their calendars."
     },
     "link": "https://onosoalmanaque.vercel.app",
     "github": "https://github.com/hugoaalen/onosoalmanaque",
@@ -90,8 +90,8 @@
       "en": "Who is Faking? - Local Impostor Game"
     },
     "description": {
-      "es": "Juego local para grupos pensado para jugar desde un solo móvil. Permite configurar jugadores e impostores, elegir categorías, revelar roles por turnos, usar pistas o palabra señuelo y evitar repeticiones entre rondas.",
-      "en": "Local party game designed to be played from a single phone. It lets users configure players and impostors, choose categories, reveal roles turn by turn, use hints or decoy words, and avoid repeated words between rounds."
+      "es": "Juego de deducción social para jugar en grupo desde un solo móvil, sin que cada persona tenga que instalar una app. Permite configurar jugadores e impostores, elegir categorías y revelar los roles por turnos, con pistas, palabras señuelo y control de repeticiones entre rondas.",
+      "en": "A social deduction game for groups to play on a single phone, without requiring everyone to install an app. It supports player and impostor setup, categories and turn-by-turn role reveals, with hints, decoy words and controls to avoid repeated words between rounds."
     },
     "github": "https://github.com/hugoaalen/Impostor",
     "image": "/projects/impostor-window-1200.jpg",
@@ -109,8 +109,8 @@
       "en": "SFit - Workout Tracker"
     },
     "description": {
-      "es": "PWA en desarrollo para registrar entrenamientos y series, reutilizar plantillas y consultar el progreso. Construida con Next.js, TypeScript y Firebase, con acceso mediante Google y datos privados por usuario en Firestore.",
-      "en": "PWA in development for logging workouts and sets, reusing templates, and reviewing progress. Built with Next.js, TypeScript, and Firebase, with Google sign-in and private per-user Firestore data."
+      "es": "Aplicación que permite registrar entrenamientos y series para consultar el progreso y organizar las sesiones en un solo lugar. Las plantillas reutilizables evitan introducir la misma rutina cada vez, mientras el acceso con Google mantiene los registros vinculados a una cuenta privada.",
+      "en": "An application for logging workouts and sets to review progress and organize training sessions in one place. Reusable templates avoid entering the same routine each time, while Google sign-in keeps records linked to a private account."
     },
     "github": "https://github.com/hugoaalen/SFit",
     "image": "/projects/sfit-capture.jpg",
@@ -128,8 +128,8 @@
       "en": "PadelTime - Padel Tournament Companion"
     },
     "description": {
-      "es": "Prototipo mobile-first para consultar torneos, partidos y jugadores favoritos. Combina React y TypeScript con una API Python/FastAPI. Incluye modo demo y un recolector experimental de resultados públicos con información de origen y antigüedad; no es un servicio de resultados en directo en producción.",
-      "en": "Mobile-first prototype for browsing tournaments, matches, and favorite players. It combines React and TypeScript with a Python/FastAPI API. Includes demo mode and an experimental public-results collector with source and freshness labels; it is not a production live-score service."
+      "es": "Aplicación pensada para consultar torneos y partidos de pádel y seguir a los jugadores favoritos desde el móvil. Reúne resultados públicos con información sobre su origen y actualización, facilitando la consulta sin tener que recorrer distintas fuentes.",
+      "en": "A mobile-focused application for browsing padel tournaments and matches and following favorite players. It brings together public results with source and update information, making them easier to consult without searching across multiple sources."
     },
     "github": "https://github.com/hugoaalen/PadelTime",
     "image": "/projects/padeltime-capture.png",
@@ -147,8 +147,8 @@
       "en": "Moto TV - Android TV Web Hub"
     },
     "description": {
-      "es": "Aplicación nativa para Android TV con Kotlin y Compose for TV: navegación WebView con mando y administración móvil por QR en red local. Persistencia Room/SQLite y servidor HTTP integrado con autorización temporal y control de concurrencia. Pruebas documentadas en emulador; validación en televisor físico pendiente.",
-      "en": "Native Android TV application with Kotlin and Compose for TV: remote-controlled WebView navigation and QR-based mobile administration on the local network. Room/SQLite persistence and an embedded HTTP server with temporary authorization and concurrency controls. Documented emulator tests; physical TV validation remains pending."
+      "es": "Aplicación para Android TV que reúne plataformas web configurables y permite navegar por ellas con el mando del televisor. La configuración se gestiona desde el móvil mediante un código QR en la red local, evitando introducir direcciones con el mando y guardando las plataformas en el propio dispositivo.",
+      "en": "An Android TV application that brings configurable web platforms together and lets users browse them with the TV remote. Configuration is managed from a phone through a QR code on the local network, avoiding URL entry with the remote and storing platforms on the device itself."
     },
     "image": "/projects/mototv-capture.png",
     "tags": ["KOTLIN", "SQLITE"]
@@ -184,8 +184,8 @@
       "en": "TaskFlow - Task Management REST API"
     },
     "description": {
-      "es": "API REST para gestionar tareas con una base backend mantenible y desacoplada. Implementa PHP 8.1 con tipado estricto, PDO, migraciones SQL, pruebas de integración y una arquitectura por capas inspirada en principios hexagonales.",
-      "en": "REST API for task management with a maintainable, decoupled backend foundation. It uses strictly typed PHP 8.1, PDO, SQL migrations, integration tests, and a layered architecture inspired by hexagonal principles."
+      "es": "API REST que centraliza la gestión de tareas para que otras aplicaciones puedan trabajar con ellas desde un mismo backend. Separa la lógica de negocio del acceso a datos mediante una arquitectura por capas, facilitando el mantenimiento y la evolución del servicio.",
+      "en": "A REST API centralizing task management so other applications can work with tasks through a shared backend. Its layered architecture separates business logic from data access, making the service easier to maintain and extend."
     },
     "github": "https://github.com/hugoaalen/TaskFlow",
     "image": "/projects/taskflow.svg",
@@ -203,8 +203,8 @@
       "en": "VehixHub - Vehicle Inventory Dashboard"
     },
     "description": {
-      "es": "MVP para consultar y filtrar un inventario de vehículos desde un panel web. Conecta una interfaz Angular con formularios reactivos a una API PHP 8 y MySQL que valida filtros y ejecuta consultas PDO preparadas.",
-      "en": "MVP for browsing and filtering a vehicle inventory from a web dashboard. It connects an Angular interface with reactive forms to a PHP 8 and MySQL API that validates filters and runs prepared PDO queries."
+      "es": "Panel web que permite consultar y filtrar un inventario de vehículos para encontrar la información relevante sin revisar todo el catálogo. Conecta formularios de búsqueda con una API que valida los filtros y consulta la base de datos mediante consultas preparadas.",
+      "en": "A web dashboard for browsing and filtering vehicle inventory to find relevant information without reviewing the entire catalog. It connects search forms to an API that validates filters and queries the database using prepared statements."
     },
     "github": "https://github.com/hugoaalen/VehixHub",
     "image": "/projects/vehixhub.svg",
