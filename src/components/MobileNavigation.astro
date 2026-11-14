@@ -21,6 +21,23 @@ const { items } = Astro.props;
         </a>
       ))}
     </nav>
+    <div class="mobile-menu-preferences">
+      <div class="mobile-pref-row">
+        <span class="mobile-pref-label i18n" data-es="Tema" data-en="Theme">Tema</span>
+        <div class="mobile-pref-group" role="group" aria-label="Tema" data-es-label="Tema" data-en-label="Theme">
+          <button type="button" class="mobile-pref-btn i18n" data-mobile-theme="light" data-es="Claro" data-en="Light" aria-pressed="false">Claro</button>
+          <button type="button" class="mobile-pref-btn i18n" data-mobile-theme="dark" data-es="Oscuro" data-en="Dark" aria-pressed="false">Oscuro</button>
+          <button type="button" class="mobile-pref-btn i18n" data-mobile-theme="system" data-es="Sistema" data-en="System" aria-pressed="false">Sistema</button>
+        </div>
+      </div>
+      <div class="mobile-pref-row">
+        <span class="mobile-pref-label i18n" data-es="Idioma" data-en="Language">Idioma</span>
+        <div class="mobile-pref-group" role="group" aria-label="Idioma" data-es-label="Idioma" data-en-label="Language">
+          <button type="button" class="mobile-pref-btn" data-mobile-lang="es" aria-pressed="true">ES</button>
+          <button type="button" class="mobile-pref-btn" data-mobile-lang="en" aria-pressed="false">EN</button>
+        </div>
+      </div>
+    </div>
     <div class="mobile-menu-footer"><span class="i18n" data-es="Sigue explorando" data-en="Keep exploring">Sigue explorando</span><span data-mobile-progress>0 / 100</span></div>
   </dialog>
 </div>
@@ -44,6 +61,12 @@ const { items } = Astro.props;
   .mobile-link-number { display: grid; place-items: center; height: 24px; border-radius: 5px; font: 0.625rem/1 ui-monospace, monospace; letter-spacing: 0; }
   .mobile-link-arrow { font-size: 1.25rem; text-align: right; }
   nav a:hover, nav a:focus-visible { color: var(--p-ink); }
+  .mobile-menu-preferences { display: grid; gap: 0.75rem; margin-top: 0.75rem; padding-top: 1rem; border-top: 1px solid var(--p-line); }
+  .mobile-pref-row { display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; }
+  .mobile-pref-label { font-size: 0.75rem; font-weight: 600; color: var(--p-muted); text-transform: uppercase; letter-spacing: 0.06em; }
+  .mobile-pref-group { display: inline-flex; padding: 0.2rem; border-radius: 9999px; border: 1px solid var(--p-line); background: var(--p-paper); gap: 0.15rem; }
+  .mobile-pref-btn { min-height: 32px; padding: 0.25rem 0.75rem; border-radius: 9999px; border: 0; background: transparent; color: var(--p-muted); font-size: 0.75rem; font-weight: 600; cursor: pointer; transition: background-color 150ms ease, color 150ms ease; }
+  .mobile-pref-btn[aria-pressed="true"] { background: var(--p-accent); color: var(--p-accent-ink); }
   .mobile-menu-footer { display: flex; justify-content: space-between; gap: 1rem; padding-top: 1.25rem; color: var(--p-muted); font: 0.6875rem/1.5 ui-monospace, monospace; }
   @media (max-height: 600px) { dialog { padding: 0.75rem 1rem; } .mobile-menu-heading { padding-bottom: 0.5rem; } nav a { min-height: 44px; font-size: 1.25rem; } }
 </style>
@@ -90,12 +113,71 @@ const { items } = Astro.props;
       });
       else gsap.set(dialog, { clearProps: "transform,opacity" });
     };
+    const syncPreferences = () => {
+      const theme = localStorage.getItem("theme") || "system";
+      dialog.querySelectorAll<HTMLButtonElement>("[data-mobile-theme]").forEach((btn) => {
+        btn.setAttribute("aria-pressed", String(btn.dataset.mobileTheme === theme));
+      });
+      const lang = localStorage.getItem("language") || "es";
+      dialog.querySelectorAll<HTMLButtonElement>("[data-mobile-lang]").forEach((btn) => {
+        btn.setAttribute("aria-pressed", String(btn.dataset.mobileLang === lang));
+      });
+      dialog.querySelectorAll<HTMLElement>("[data-es-label]").forEach((el) => {
+        const label = el.getAttribute(`data-${lang}-label`);
+        if (label) el.setAttribute("aria-label", label);
+      });
+    };
+
+    const syncScrollState = () => {
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = docHeight > 0 ? Math.min(100, Math.max(0, Math.round((window.scrollY / docHeight) * 100))) : 0;
+      const progressEl = dialog.querySelector("[data-mobile-progress]");
+      if (progressEl) progressEl.textContent = `${progress} / 100`;
+
+      const links = Array.from(dialog.querySelectorAll<HTMLAnchorElement>("[data-mobile-link]"));
+      const threshold = window.innerHeight * 0.35;
+      let activeLink = links[0];
+      for (const link of links) {
+        const section = document.getElementById(link.dataset.mobileLink || "");
+        if (section && section.getBoundingClientRect().top <= threshold) {
+          activeLink = link;
+        }
+      }
+      links.forEach((link) => {
+        if (link === activeLink) link.setAttribute("aria-current", "location");
+        else link.removeAttribute("aria-current");
+      });
+      const currentLabel = root.querySelector("[data-mobile-current]");
+      const activeText = activeLink?.querySelector(".i18n")?.textContent;
+      if (currentLabel && activeText) currentLabel.textContent = activeText;
+    };
+
     const cancel = (event: Event) => { event.preventDefault(); close(); };
     const click = (event: MouseEvent) => {
-      const link = event.target instanceof Element ? event.target.closest<HTMLAnchorElement>("[data-mobile-link]") : null;
+      const target = event.target instanceof Element ? event.target : null;
+      const themeBtn = target?.closest<HTMLButtonElement>("[data-mobile-theme]");
+      if (themeBtn?.dataset.mobileTheme) {
+        localStorage.setItem("theme", themeBtn.dataset.mobileTheme);
+        window.dispatchEvent(new Event("themeChanged"));
+        syncPreferences();
+        return;
+      }
+      const langBtn = target?.closest<HTMLButtonElement>("[data-mobile-lang]");
+      if (langBtn?.dataset.mobileLang) {
+        localStorage.setItem("language", langBtn.dataset.mobileLang);
+        window.dispatchEvent(new CustomEvent("languageChanged"));
+        syncPreferences();
+        syncScrollState();
+        return;
+      }
+      const link = target?.closest<HTMLAnchorElement>("[data-mobile-link]");
       if (link && !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey) {
         event.preventDefault(); close(false, true);
-        window.dispatchEvent(new CustomEvent("portfolio:navigate", { detail: link.dataset.mobileLink }));
+        const sectionId = link.dataset.mobileLink;
+        if (sectionId) {
+          document.getElementById(sectionId)?.scrollIntoView({ behavior: reduce.matches ? "auto" : "smooth" });
+          window.dispatchEvent(new CustomEvent("portfolio:navigate", { detail: sectionId }));
+        }
       } else if (event.target === dialog) {
         const box = dialog.getBoundingClientRect();
         if (event.clientX < box.left || event.clientX > box.right || event.clientY < box.top || event.clientY > box.bottom) close();
@@ -103,14 +185,25 @@ const { items } = Astro.props;
     };
     const closeClick = () => close();
     const resize = () => { if (!media.matches) close(false, true); };
+    syncPreferences();
+    syncScrollState();
     trigger.addEventListener("click", open); closeButton.addEventListener("click", closeClick);
     dialog.addEventListener("cancel", cancel); dialog.addEventListener("click", click); dialog.addEventListener("close", onClose);
     media.addEventListener("change", resize);
+    window.addEventListener("scroll", syncScrollState, { passive: true });
+    window.addEventListener("languageChanged", syncPreferences);
+    window.addEventListener("languageChanged", syncScrollState);
+    window.addEventListener("themeChanged", syncPreferences);
     dispose = () => {
       tween?.kill(); if (dialog.open) { returnFocus = false; dialog.close(); document.documentElement.style.overflow = previousOverflow; }
       context.revert(); trigger.removeEventListener("click", open); closeButton.removeEventListener("click", closeClick);
       dialog.removeEventListener("cancel", cancel); dialog.removeEventListener("click", click); dialog.removeEventListener("close", onClose);
-      media.removeEventListener("change", resize); activeRoot = null;
+      media.removeEventListener("change", resize);
+      window.removeEventListener("scroll", syncScrollState);
+      window.removeEventListener("languageChanged", syncPreferences);
+      window.removeEventListener("languageChanged", syncScrollState);
+      window.removeEventListener("themeChanged", syncPreferences);
+      activeRoot = null;
     };
   }
   initializeMobileMenu(); document.addEventListener("astro:page-load", initializeMobileMenu);

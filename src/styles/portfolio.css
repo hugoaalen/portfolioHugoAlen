@@ -8,40 +8,38 @@ html:has(body[data-page="portfolio"])::-webkit-scrollbar {
   height: 0;
 }
 body[data-page="portfolio"], body[data-page="admin"] {
-  --p-ink: #1b222b;
-  --p-muted: #505c6b;
-  --p-paper: #f4f2ed;
-  --p-panel: #fffef9;
-  --p-line: #929eab;
+  --p-ink: #111111;
+  --p-muted: #525252;
+  --p-paper: #f0f0ef;
+  --p-panel: #ffffff;
+  --p-line: rgba(0, 0, 0, 0.12);
   --p-accent: #a7bcd9;
   --p-accent-ink: #17202b;
-  --p-accent-text: #405e80;
-  --p-focus: #46688c;
+  --p-accent-text: #3b5e85;
+  --p-focus: #3b5e85;
   --accent: 167 188 217;
   background:
-    radial-gradient(circle at 88% 8%, rgb(var(--accent) / 0.18), transparent 24rem),
-    linear-gradient(135deg, transparent 0 72%, rgb(255 255 255 / 0.7) 72% 100%),
-    #ecece7;
+    radial-gradient(ellipse 65% 50% at 50% 0%, rgb(var(--accent) / 0.16), transparent 70%),
+    #fafafa;
   color: var(--p-ink);
   counter-reset: portfolio-section;
 }
 .dark body[data-page="portfolio"], .dark body[data-page="admin"] {
-  --p-ink: #f1f0e9;
-  --p-muted: #b4bbc5;
-  --p-paper: #11151a;
-  --p-panel: #181d23;
-  --p-line: #596473;
+  --p-ink: #f5f5f4;
+  --p-muted: #a8a8a3;
+  --p-paper: #141414;
+  --p-panel: #121214;
+  --p-line: rgba(255, 255, 255, 0.11);
   --p-accent-text: var(--p-accent);
   --p-focus: var(--p-accent);
   background:
-    radial-gradient(circle at 88% 8%, rgb(var(--accent) / 0.09), transparent 26rem),
-    linear-gradient(135deg, transparent 0 72%, rgb(255 255 255 / 0.025) 72% 100%),
-    #080808;
+    radial-gradient(ellipse 65% 50% at 50% 0%, rgb(var(--accent) / 0.11), transparent 70%),
+    #0a0a0a;
 }
 body[data-page="portfolio"], .dark body[data-page="portfolio"] { background-attachment: fixed; }
 body[data-page="portfolio"] .section,
 body[data-page="portfolio"] #footer-container { max-width: 78rem; padding-inline: clamp(1.25rem, 4vw, 3rem); }
-body[data-page="portfolio"] #hero { padding-top: 5.5rem; padding-bottom: clamp(5rem, 10vw, 8rem); }
+body[data-page="portfolio"] #hero { padding-top: 6.5rem; padding-bottom: clamp(5rem, 10vw, 8rem); }
 body[data-page="portfolio"] #hero-content { max-width: none; }
 body[data-page="portfolio"] .hero-panel {
   position: relative;
@@ -62,20 +60,77 @@ body[data-page="portfolio"] #hero-badge-link .cursor-pointer { background: color
 body[data-page="portfolio"] #hero-title {
   position: relative;
   z-index: 1;
-  max-width: 17ch;
-  font-size: clamp(2.8rem, 7.7vw, 6.75rem);
-  line-height: 0.94;
-  font-weight: 900;
-  letter-spacing: -0.075em;
-  text-transform: uppercase;
+  max-width: 15ch;
+  font-size: clamp(2.6rem, 6.4vw, 5rem);
+  line-height: 1.1;
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  text-transform: none;
   color: var(--p-ink);
   text-wrap: balance;
+  perspective: 800px;
+}
+body[data-page="portfolio"] #hero-title .hero-word-mask {
+  display: inline-block;
+  overflow: visible;
+  vertical-align: bottom;
+  padding: 0.14em 0.1em 0.26em;
+  margin: -0.14em -0.1em -0.26em;
+}
+body[data-page="portfolio"] #hero-title .hero-word {
+  display: inline-block;
+  padding: 0.14em 0.1em 0.26em;
+  margin: -0.14em -0.1em -0.26em;
+  transform-origin: 50% 100%;
+  will-change: transform, opacity;
+}
+body[data-page="portfolio"] #hero-title .hero-word-accent {
+  background: linear-gradient(135deg, var(--p-ink) 10%, var(--p-accent-text) 90%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 .hero-symbol { position: absolute; right: -5rem; top: 8rem; width: 28rem; height: 28rem; opacity: 0.12; color: var(--p-accent-text); pointer-events: none; }
-body[data-page="portfolio"] #hero-desc1,
-body[data-page="portfolio"] #hero-desc2 { position: relative; z-index: 1; color: var(--p-muted); font-size: clamp(0.9375rem, 1.5vw, 1.125rem); line-height: 1.65; font-weight: 400; }
-body[data-page="portfolio"] #hero-desc1 strong,
-body[data-page="portfolio"] #hero-desc2 strong { background: transparent; color: var(--p-accent-text); padding: 0; font-weight: 700; }
+body[data-page="portfolio"] #hero-desc1 {
+  position: relative;
+  z-index: 1;
+  color: var(--p-muted);
+  font-size: clamp(1rem, 1.5vw, 1.15rem);
+  line-height: 1.65;
+  font-weight: 400;
+}
+body[data-page="portfolio"] #hero-desc2 {
+  position: relative;
+  z-index: 1;
+  color: var(--p-muted);
+  font-size: clamp(0.95rem, 1.3vw, 1.0625rem);
+  line-height: 1.65;
+  font-weight: 400;
+}
+body[data-page="portfolio"] #hero-desc1 strong {
+  color: var(--p-ink);
+  background: linear-gradient(
+    110deg,
+    color-mix(in srgb, var(--p-accent) 16%, transparent) 0%,
+    color-mix(in srgb, var(--p-accent) 16%, transparent) 38%,
+    color-mix(in srgb, var(--p-accent) 38%, transparent) 50%,
+    color-mix(in srgb, var(--p-accent) 16%, transparent) 62%,
+    color-mix(in srgb, var(--p-accent) 16%, transparent) 100%
+  );
+  background-size: 250% 100%;
+  background-position: 100% 0%;
+  padding: 0.08em 0.35em;
+  border-radius: 6px;
+  font-weight: 600;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+body[data-page="portfolio"] #hero-desc2 strong {
+  background: transparent;
+  color: var(--p-accent-text);
+  padding: 0;
+  font-weight: 700;
+}
 body[data-page="portfolio"] .hero-panel > nav { position: relative; z-index: 1; gap: 0.75rem; }
 body[data-page="portfolio"] .hero-panel > nav a { min-height: 48px; padding: 0.75rem 1rem; border: 1px solid var(--p-line); border-radius: 0; background: transparent; color: var(--p-ink); box-shadow: none; transform: none; text-transform: none; font-size: 0.8125rem; font-weight: 650; transition: background 180ms ease, color 180ms ease; }
 body[data-page="portfolio"] .hero-panel > nav a:hover { background: color-mix(in srgb, var(--p-accent) 15%, var(--p-panel)); color: var(--p-ink); }
@@ -211,16 +266,6 @@ body[data-page="portfolio"] .showcase-image .project-summary { aspect-ratio: aut
 .project-summary-context { color: var(--p-accent-text); font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; }
 .project-summary-title { font-size: clamp(1.5rem, 3vw, 3rem); font-weight: 700; line-height: 1.15; }
 .project-summary-description { max-width: 65ch; color: var(--p-muted); font-size: clamp(0.875rem, 1.25vw, 1.125rem); line-height: 1.65; }
-/* Keep the ruler outside content on laptop desktops, without shifting ultrawide layouts. */
-@media (min-width: 1440px) and (max-width: 1799px) and (min-height: 680px) {
-  body[data-page="portfolio"] .section,
-  body[data-page="portfolio"] #footer-container,
-  body[data-page="portfolio"] .showcase-pin {
-    max-width: 78rem;
-    width: calc(100% - 24rem);
-    margin-inline: auto;
-  }
-}
 @media (min-width: 48rem) {
   body[data-page="portfolio"] .project-card-featured { grid-template-columns: 1.15fr 0.85fr; }
   body[data-page="portfolio"] .project-card-featured > div:first-child { display: flex; align-items: center; }
@@ -235,7 +280,7 @@ body[data-page="portfolio"] .showcase-image .project-summary { aspect-ratio: aut
   .showcase-panel { flex-basis: 95%; }
   .showcase-track { display: none; }
   .showcase-caption { gap: 0.65rem; padding: 0.8rem; }
-  body[data-page="portfolio"] #hero-title { font-size: clamp(2.5rem, 10vw, 4.5rem); }
+  body[data-page="portfolio"] #hero-title { font-size: clamp(2.15rem, 9vw, 3.5rem); }
   body[data-page="portfolio"] .hero-panel > header { gap: 0.75rem; margin-bottom: 2rem; }
   body[data-page="portfolio"] .hero-panel > nav { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.625rem; }
   body[data-page="portfolio"] .hero-panel > nav a { width: 100%; max-width: none; min-width: 0; min-height: 50px; justify-self: stretch; justify-content: center; gap: 0.625rem; padding: 0.875rem 0.625rem; border-radius: 0.5rem; font-size: 0.875rem; }

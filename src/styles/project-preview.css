@@ -1,5 +1,5 @@
 .project-preview {
-  --preview-accent: #a7bcd9;
+  --preview-accent: var(--p-accent, #a7bcd9);
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -8,15 +8,21 @@
   aspect-ratio: 16 / 10;
   padding: clamp(0.75rem, 2cqi, 1.5rem);
   overflow: hidden;
+  color: var(--p-ink, #111111);
+  background: radial-gradient(ellipse at 90% 0%, color-mix(in srgb, var(--preview-accent) 18%, transparent), transparent 65%), var(--p-paper, #f0f0ef);
+}
+.dark .project-preview {
   color: #f4f2e9;
   background: radial-gradient(ellipse at 90% 0%, color-mix(in srgb, var(--preview-accent) 20%, transparent), transparent 65%), #141814;
 }
 .preview-heading { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; margin-bottom: 0.65rem; }
 .preview-name { font-size: clamp(1rem, 3cqi, 1.8rem); font-weight: 650; letter-spacing: -0.045em; line-height: 1.1; }
-.preview-label { max-width: 50%; font: 500 clamp(0.45rem, 1.2cqi, 0.65rem)/1.4 ui-monospace, monospace; letter-spacing: 0.09em; text-align: right; color: var(--preview-accent); }
+.preview-label { max-width: 50%; font: 500 clamp(0.45rem, 1.2cqi, 0.65rem)/1.4 ui-monospace, monospace; letter-spacing: 0.09em; text-align: right; color: var(--p-accent-text, var(--preview-accent)); }
 .preview-media { display: flex; flex: 1; min-height: 0; justify-content: center; align-items: center; }
-.preview-window { display: flex; flex-direction: column; width: 100%; max-height: 100%; overflow: hidden; border: 1px solid #ffffff25; border-radius: 8px; background: #0b0f0b; box-shadow: 0 12px 32px #0004; }
-.preview-toolbar { display: flex; gap: 4px; align-items: center; height: 20px; flex-shrink: 0; padding-inline: 8px; border-bottom: 1px solid #ffffff12; background: #20251f; }
+.preview-window { display: flex; flex-direction: column; width: 100%; max-height: 100%; overflow: hidden; border: 1px solid var(--p-line, rgba(0, 0, 0, 0.12)); border-radius: 8px; background: var(--p-panel, #ffffff); box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08); }
+.dark .preview-window { border-color: #ffffff25; background: #0b0f0b; box-shadow: 0 12px 32px #0004; }
+.preview-toolbar { display: flex; gap: 4px; align-items: center; height: 20px; flex-shrink: 0; padding-inline: 8px; border-bottom: 1px solid var(--p-line, rgba(0, 0, 0, 0.08)); background: var(--p-paper, #f0f0ef); }
+.dark .preview-toolbar { border-bottom-color: #ffffff12; background: #20251f; }
 .preview-toolbar > span { width: 4px; height: 4px; border-radius: 50%; background: #8e9686; }
 .preview-toolbar i { width: 28%; height: 4px; margin-inline: auto; border-radius: 4px; background: #ffffff15; }
 .preview-screen { display: block; position: relative; aspect-ratio: 16 / 10; overflow: hidden; min-height: 0; }

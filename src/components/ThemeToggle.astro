@@ -16,12 +16,12 @@ const THEMES = [
     type="button"
     aria-expanded="false"
     aria-controls="themes-menu"
-    class="flex p-2 text-black transition appearance-none border-none hover:bg-black hover:text-white"
+    class="relative flex items-center justify-center p-2 text-black transition appearance-none border-none hover:bg-black hover:text-white"
   >
     <span class="sr-only i18n" data-es="Seleccionar tema" data-en="Choose theme">
       Seleccionar tema
     </span>
-    <SunIcon id="light" class="theme-toggle-icon size-5 transition-all" />
+    <SunIcon id="light" class="theme-toggle-icon absolute size-5 transition-all" />
     <MoonIcon
       id="dark"
       class="theme-toggle-icon absolute size-5 transition-all"
@@ -130,7 +130,7 @@ const THEMES = [
         document.documentElement.classList[isDark ? "add" : "remove"]("dark");
         document.documentElement.style.colorScheme = isDark ? "dark" : "light";
         document.querySelector('meta[name="theme-color"]')?.setAttribute(
-          "content", isDark ? "#080808" : "#ecece7",
+          "content", isDark ? "#0a0a0a" : "#fafafa",
         );
       };
 
@@ -140,6 +140,7 @@ const THEMES = [
       };
 
       addManagedListener(matchMedia, "change", updateTheme);
+      addManagedListener(window, "themeChanged", updateTheme);
       addManagedListener(document, "click", (event) => {
         if (!root.contains(event.target)) closeThemesMenu();
       });

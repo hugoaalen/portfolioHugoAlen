@@ -10,6 +10,6 @@ test("compact menu uses the same tablet breakpoint in CSS, JS and desktop naviga
   assert.ok(query.includes("(max-width: 1439px)"));
   assert.ok(query.includes("(hover: none) and (pointer: coarse)"));
   assert.ok(mobile.includes(`@media ${query} { .mobile-navigation { display: block; } }`));
-  assert.ok(desktop.includes(`@media ${query} {\n    .reading-ruler { display: none; }`));
+  assert.ok(desktop.includes(`@media ${query} {\n    .floating-nav-wrap { display: none; }`));
   assert.ok(!desktop.includes("section-picker"));
 });

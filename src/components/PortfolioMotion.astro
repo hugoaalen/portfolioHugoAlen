@@ -21,13 +21,43 @@
       let disposed = false;
       let refreshFrame = 0;
       const seen = new WeakSet<Element>();
+      const heroWords = Array.from(root.querySelectorAll<HTMLElement>("#hero-title .hero-word"));
+      const animateSheen = (delay = 0.6) => {
+        gsap.killTweensOf("#hero-desc1 strong");
+        gsap.fromTo("#hero-desc1 strong", { backgroundPosition: "100% 0%" }, {
+          backgroundPosition: "0% 0%",
+          duration: 2.2,
+          ease: "sine.inOut",
+          repeat: -1,
+          repeatDelay: 1.8,
+          delay,
+        });
+      };
       const context = gsap.context(() => {
-        gsap.timeline({ defaults: { duration: 0.75, ease: "power3.out" } })
-          .from(".hero-panel > header", { y: 16, autoAlpha: 0, clearProps: "transform,opacity,visibility" })
-          .from("#hero-title", { y: 50, clipPath: "inset(0% 0% 100% 0%)", duration: 1, clearProps: "transform,clipPath" }, "-=0.45")
-          .from(["#hero-desc1", "#hero-desc2", ".hero-panel > nav"], {
-            y: 20, autoAlpha: 0, stagger: 0.08, clearProps: "transform,opacity,visibility",
+        const tl = gsap.timeline({ defaults: { duration: 0.75, ease: "power3.out" } })
+          .from(".hero-panel > header", { y: 16, autoAlpha: 0, clearProps: "transform,opacity,visibility" });
+
+        if (heroWords.length > 0) {
+          gsap.set("#hero-title .hero-word-mask", { overflow: "hidden" });
+          tl.from(heroWords, {
+            yPercent: 115,
+            rotateX: -22,
+            autoAlpha: 0,
+            duration: 0.85,
+            stagger: 0.08,
+            ease: "power4.out",
+            clearProps: "transform,opacity,visibility",
+            onComplete: () => { gsap.set("#hero-title .hero-word-mask", { clearProps: "overflow" }); },
           }, "-=0.45");
+        } else {
+          tl.from("#hero-title", { y: 40, autoAlpha: 0, duration: 0.85, clearProps: "transform,opacity,visibility" }, "-=0.45");
+        }
+
+        tl.from(["#hero-desc1", "#hero-desc2", ".hero-panel > nav"], {
+          y: 20, autoAlpha: 0, stagger: 0.1, clearProps: "transform,opacity,visibility",
+        }, "-=0.5");
+
+        animateSheen(0.6);
 
         gsap.from(".hero-symbol-orbit", {
           rotation: -60, transformOrigin: "50% 50%", duration: 1.6, ease: "power2.out",
@@ -37,6 +67,14 @@
           scrollTrigger: { trigger: "#hero", start: "top top", end: "bottom top", scrub: 0.8 },
         });
       }, root);
+
+      const onLanguageChange = () => {
+        requestAnimationFrame(() => {
+          if (!disposed) {
+            context.add(() => animateSheen(0.4));
+          }
+        });
+      };
 
       const refresh = () => {
         cancelAnimationFrame(refreshFrame);
@@ -67,6 +105,7 @@
       const content = root.querySelector("#main-sections");
       if (content) observer.observe(content, { childList: true, subtree: true });
       root.addEventListener("load", refresh, true);
+      window.addEventListener("languageChanged", onLanguageChange);
       document.fonts.ready.then(() => { if (!disposed) refresh(); });
 
       return () => {
@@ -74,6 +113,7 @@
         cancelAnimationFrame(refreshFrame);
         observer.disconnect();
         root.removeEventListener("load", refresh, true);
+        window.removeEventListener("languageChanged", onLanguageChange);
         context.revert();
       };
     });

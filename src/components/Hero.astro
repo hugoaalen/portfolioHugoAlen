@@ -62,18 +62,27 @@ const { hero, social } = profile;
     </svg>
 
     <h1
-      class="max-w-4xl text-[2.6rem] font-black leading-[0.9] tracking-[-0.055em] text-black uppercase sm:text-6xl md:text-[4.8rem] dark:text-white i18n"
+      class="max-w-4xl text-[2.6rem] font-black leading-[0.9] tracking-[-0.055em] text-black uppercase sm:text-6xl md:text-[4.8rem] dark:text-white"
       id="hero-title"
+      aria-label={hero.title.es}
       data-es={hero.title.es}
       data-en={hero.title.en}
     >
-      {hero.title.es}
+      {hero.title.es.trim().split(/\s+/).map((word, index, all) => (
+        <>
+          {index > 0 && " "}
+          <span class="hero-word-mask" aria-hidden="true">
+            <span class={index >= all.length - 2 ? "hero-word hero-word-accent" : "hero-word"}>{word}</span>
+          </span>
+        </>
+      ))}
     </h1>
 
-    <div class="grid gap-5 mt-8 md:grid-cols-[1.05fr_0.95fr] md:gap-10">
+    <div class="flex flex-col gap-3.5 mt-6 max-w-2xl">
       <p
         class="text-xl font-medium leading-relaxed text-gray-800 [&>strong]:bg-[var(--p-accent,#a7bcd9)] [&>strong]:px-1 [&>strong]:text-[var(--p-accent-ink,#17202b)] [&>strong]:font-bold dark:text-gray-200 md:text-2xl i18n-html"
         id="hero-desc1"
+        data-active-lang="es"
         data-es={hero.description[0].es}
         data-en={hero.description[0].en}
         set:html={hero.description[0].es}
@@ -121,21 +130,50 @@ const { hero, social } = profile;
 
 <script>
 
+  function renderHeroTitle(titleEl: HTMLElement, text: string) {
+    const words = text.trim().split(/\s+/).filter(Boolean);
+    titleEl.setAttribute("aria-label", text);
+    titleEl.replaceChildren();
+    words.forEach((word, index) => {
+      if (index > 0) titleEl.appendChild(document.createTextNode(" "));
+      const mask = document.createElement("span");
+      mask.className = "hero-word-mask";
+      mask.setAttribute("aria-hidden", "true");
+      const span = document.createElement("span");
+      span.className = index >= words.length - 2 ? "hero-word hero-word-accent" : "hero-word";
+      span.textContent = word;
+      mask.appendChild(span);
+      titleEl.appendChild(mask);
+    });
+  }
+
   function updateLanguage() {
     const lang = localStorage.getItem('language') || 'es';
+
+    const titleEl = document.getElementById('hero-title');
+    if (titleEl) {
+      const translation = titleEl.getAttribute(`data-${lang}`);
+      if (translation && titleEl.getAttribute("aria-label") !== translation) {
+        renderHeroTitle(titleEl, translation);
+      }
+    }
 
     document.querySelectorAll('.i18n').forEach((el) => {
       const translation = el.getAttribute(`data-${lang}`);
       if (translation) el.textContent = translation;
     });
 
-    document.querySelectorAll('.i18n-html').forEach((el) => {
+    document.querySelectorAll<HTMLElement>('.i18n-html').forEach((el) => {
+      if (el.dataset.activeLang === lang) return;
       const translation = el.getAttribute(`data-${lang}`);
-      if (translation) el.innerHTML = translation;
+      if (translation) {
+        el.innerHTML = translation;
+        el.dataset.activeLang = lang;
+      }
     });
   }
 
-
   updateLanguage();
   window.addEventListener('languageChanged', updateLanguage);
+  document.addEventListener('astro:page-load', updateLanguage);
 </script>

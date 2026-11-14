@@ -1,5 +1,4 @@
 ---
-import "@fontsource-variable/onest";
 import "@/styles/global.css";
 import "@/styles/portfolio.css";
 import "@/styles/admin.css";
@@ -28,7 +27,7 @@ const robots = isAdminRoute ? "noindex, nofollow" : "index, follow";
     <meta name="description" content={description} id="meta-description" />
     <meta name="robots" content={robots} />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <meta name="theme-color" content="#ecece7" />
+    <meta name="theme-color" content="#fafafa" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="apple-mobile-web-app-title" content="Hugo Alén" />
@@ -60,7 +59,7 @@ const robots = isAdminRoute ? "noindex, nofollow" : "index, follow";
           (preference === "system" && window.matchMedia("(prefers-color-scheme: dark)").matches);
         document.documentElement.classList.toggle("dark", isDark);
         document.querySelector('meta[name="theme-color"]')?.setAttribute(
-          "content", isDark ? "#080808" : "#ecece7",
+          "content", isDark ? "#0a0a0a" : "#fafafa",
         );
       })();
     </script>
@@ -80,9 +79,11 @@ const robots = isAdminRoute ? "noindex, nofollow" : "index, follow";
       }
 
       html {
-        font-family: "Onest Variable", system-ui, sans-serif;
+        font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Inter", system-ui, sans-serif;
+        font-feature-settings: "cv02", "cv03", "cv04", "cv11", "ss01";
+        -webkit-font-smoothing: antialiased;
         scroll-behavior: smooth;
-        background: #ecece7;
+        background: #fafafa;
       }
 
       body {
@@ -94,9 +95,8 @@ const robots = isAdminRoute ? "noindex, nofollow" : "index, follow";
         isolation: isolate;
         /* Paint the page canvas itself so Safari can extend its background. */
         background:
-          radial-gradient(circle at 88% 8%, rgb(var(--accent) / 0.18), transparent 24rem),
-          linear-gradient(135deg, transparent 0 72%, rgb(255 255 255 / 0.7) 72% 100%),
-          #ecece7;
+          radial-gradient(ellipse 65% 50% at 50% 0%, rgb(var(--accent) / 0.14), transparent 70%),
+          #fafafa;
         background-attachment: fixed;
       }
 
