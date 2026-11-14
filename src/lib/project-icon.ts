@@ -22,7 +22,7 @@ export const projectLogos: Record<string, { file: string; format?: "svg"; monoch
   futpath: { file: "futpath" },
   padeltime: { file: "padeltime" },
   mototv: { file: "mototv" },
-  onosoalmanaque: { file: "onosoalmanaque" },
+  onosoalmanaque: { file: "onosoalmanaque", format: "svg" },
   senda: { file: "senda", format: "svg" },
   sfit: { file: "sfit", format: "svg" },
   impostor: { file: "impostor", format: "svg" },
