@@ -73,6 +73,7 @@ const { items } = Astro.props;
 
 <script>
   import { gsap } from "gsap";
+  import { scrollToSection } from "@/lib/section-scroll";
   let dispose: (() => void) | undefined;
   let activeRoot: HTMLElement | null = null;
   function initializeMobileMenu() {
@@ -175,7 +176,7 @@ const { items } = Astro.props;
         event.preventDefault(); close(false, true);
         const sectionId = link.dataset.mobileLink;
         if (sectionId) {
-          document.getElementById(sectionId)?.scrollIntoView({ behavior: reduce.matches ? "auto" : "smooth" });
+          scrollToSection(sectionId, 72);
           window.dispatchEvent(new CustomEvent("portfolio:navigate", { detail: sectionId }));
         }
       } else if (event.target === dialog) {

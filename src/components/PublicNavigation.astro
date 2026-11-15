@@ -256,6 +256,7 @@ const pillItems = items.filter((item) => item.id !== "hero" && item.id !== "proj
 </style>
 
 <script>
+  import { scrollToSection } from "@/lib/section-scroll";
   let cleanupNav: (() => void) | undefined;
 
   function setupFloatingNav() {
@@ -300,6 +301,20 @@ const pillItems = items.filter((item) => item.id !== "hero" && item.id !== "proj
       });
     };
 
+    const onNavClick = (event: MouseEvent) => {
+      if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || event.button !== 0) return;
+      const anchor = (event.target as Element | null)?.closest<HTMLAnchorElement>(".floating-nav a[href^='/#']");
+      if (!anchor) return;
+      const sectionId = anchor.getAttribute("href")?.slice(2) || "";
+      if (!sectionId || !document.getElementById(sectionId)) return;
+      event.preventDefault();
+      if (window.location.hash !== `#${sectionId}`) {
+        history.pushState(null, "", `#${sectionId}`);
+      }
+      scrollToSection(sectionId, 88);
+    };
+
+    header.addEventListener("click", onNavClick);
     window.addEventListener("scroll", updateProgressAndActive, { passive: true });
     window.addEventListener("resize", updateProgressAndActive, { passive: true });
     window.addEventListener("languageChanged", updateLang);
@@ -307,6 +322,7 @@ const pillItems = items.filter((item) => item.id !== "hero" && item.id !== "proj
     updateLang();
 
     cleanupNav = () => {
+      header.removeEventListener("click", onNavClick);
       window.removeEventListener("scroll", updateProgressAndActive);
       window.removeEventListener("resize", updateProgressAndActive);
       window.removeEventListener("languageChanged", updateLang);
