@@ -12,7 +12,7 @@ const visualIdentity: Record<string, { name: string; label: string; accent: stri
   taskflow: { name: "TaskFlow", label: "BACKEND / REST API", accent: "#b4aff1" },
   vehixhub: { name: "VehixHub", label: "VEHICLE INVENTORY / MVP", accent: "#b6c9de" },
   sfit: { name: "SFit", label: "WORKOUT TRACKER / PWA", accent: "#d0fa69" },
-  padeltime: { name: "PadelTime", label: "PADEL / PROTOTYPE", accent: "#d5db8b", format: "phone" },
+  padeltime: { name: "ServeOnPoint", label: "PADEL / PROTOTYPE", accent: "#d5db8b", format: "phone" },
   mototv: { name: "Moto TV", label: "ANDROID TV / NATIVE", accent: "#88dddb", format: "tv" },
 };
 

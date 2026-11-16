@@ -124,8 +124,8 @@
     "status": "published",
     "category": "app",
     "title": {
-      "es": "PadelTime - Seguimiento de torneos de pádel",
-      "en": "PadelTime - Padel Tournament Companion"
+      "es": "ServeOnPoint - Seguimiento de torneos de pádel",
+      "en": "ServeOnPoint - Padel Tournament Companion"
     },
     "description": {
       "es": "Aplicación pensada para consultar torneos y partidos de pádel y seguir a los jugadores favoritos desde el móvil. Reúne resultados públicos con información sobre su origen y actualización, facilitando la consulta sin tener que recorrer distintas fuentes.",
