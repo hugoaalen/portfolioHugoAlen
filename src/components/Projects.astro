@@ -1,13 +1,10 @@
 ---
-import GitHub from "./icons/GitHub.astro";
 import NextJS from "./icons/NextJS.astro";
 import Tailwind from "./icons/Tailwind.astro";
 import HTML from "./icons/Html.astro";
 import CSS from "./icons/Css.astro";
 import VanillaJS from "./icons/VanillaJS.astro";
 import Bootstrap from "./icons/Bootstrap.astro";
-import Link from "./icons/Link.astro";
-import LinkButton from "./LinkButton.astro";
 import React from "./icons/React.astro";
 import Supabase from "./icons/Supabase.astro";
 import AstroIcon from "./icons/LogoAstro.astro";
@@ -84,7 +81,7 @@ const PROJECTS = projects.map((project) => ({
 
 <div class="grid gap-7 md:grid-cols-2" id="projects-container">
   {
-    PROJECTS.map(({ id, image, title, description, tags, link, github, featured, categoryGroups }) => (
+    PROJECTS.map(({ id, image, title, description, tags, featured, categoryGroups }) => (
       <article tabindex="0" id={`project-${id}`} data-project-id={id} data-category-groups={categoryGroups} class:list={[
         "project-card flex flex-col overflow-hidden transition duration-200 border-2 border-black bg-white shadow-[8px_8px_0_#111] group hover:-translate-y-1 hover:shadow-[12px_12px_0_#111] dark:border-white dark:bg-[#111] dark:shadow-[8px_8px_0_var(--p-accent,#a7bcd9)] dark:hover:shadow-[12px_12px_0_var(--p-accent,#a7bcd9)]",
         { "project-card-featured": featured },
@@ -124,21 +121,6 @@ const PROJECTS = projects.map((project) => ({
             >
               {description.es}
             </div>
-
-            <footer class="flex items-end justify-start mt-6 gap-x-3">
-              {github && (
-                <LinkButton href={github}>
-                  <GitHub class="size-6" />
-                  <span class="i18n" data-es="Código" data-en="Code">Código</span>
-                </LinkButton>
-              )}
-              {link && (
-                <LinkButton href={link}>
-                  <Link class="size-4" />
-                  <span class="i18n" data-es="Enlace" data-en="Link">Enlace</span>
-                </LinkButton>
-              )}
-            </footer>
           </div>
         </div>
       </article>
